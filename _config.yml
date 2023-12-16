@@ -8,6 +8,7 @@ aux_links:
 # plugins
 plugins:
   - jekyll-email-protect
+  - jekyll-sitemap
 
 # Color scheme supports "light" (default) and "dark"
 color_scheme: light
