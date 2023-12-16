@@ -11,7 +11,7 @@ permalink: /profile
 
 ## Contact
 
-* mkparqq@gmail.com
+* <a href="mailto:{{ "mkparkqq@gmail.com" | encode_email }}" title="Contact me">email</a>
 
 <hr>
 

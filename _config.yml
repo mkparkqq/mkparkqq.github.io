@@ -1,11 +1,13 @@
 title: qqDocs
 description: Docs for programming, problem solving, etc.
 theme: just-the-docs
-
 url: https://mkparkqq.github.io
-
 aux_links:
   Template Repository: https://github.com/just-the-docs/just-the-docs-template
+
+# plugins
+gems:
+  - jekyll-email-protect
 
 # Color scheme supports "light" (default) and "dark"
 color_scheme: light
