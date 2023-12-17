@@ -49,3 +49,18 @@
 </nav>
 
 {%- endif -%}
+
+<nav aria-label="Breadcrumb" class="breadcrumb-nav">
+  <ol class="breadcrumb-nav-list">
+    {%- if page.date -%}
+    <li class="breadcrumb-nav-list-item">
+      <span>Created on: {{ page.date | date: "%Y-%m-%d %H:%M" }}</span>
+    </li>
+    {%- endif -%}
+    {%- if page.last_modified_at -%}
+    <li class="breadcrumb-nav-list-item">
+      <span>Last modified: {{ page.last_modified_at | date: "%Y-%m-%d %H:%M" }}</span>
+    </li>
+    {%- endif -%}
+  </ol>
+</nav>
