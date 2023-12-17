@@ -1,4 +1,9 @@
-// The basic two column layout
+#utteranc-area-division {
+    margin: 1% !important;
+}
+#utteranc-area {
+    margin-bottom: 10%;
+}
 
 .side-bar {
   z-index: 0;
@@ -38,7 +43,8 @@
     // stylelint-enable function-name-case
   }
 
-  height: 100vh !important;
+  display: flex;
+  flex-direction: column;
 }
 
 .main-content-wrap {
@@ -90,7 +96,8 @@
 
 .site-nav,
 .site-header,
-.site-footer {
+.site-footer,
+#hit-counter-img {
   width: 100%;
 
   @include mq(lg) {

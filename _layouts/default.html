@@ -38,13 +38,16 @@ layout: table_wrappers
   {% endif %}
 </body>
 
-  {% if page.utterance == true %}
-  <script src="https://utteranc.es/client.js"
-    repo="mkparkqq/qqDocs-comment"
-    issue-term="pathname"
-    theme="github-light"
-    crossorigin="anonymous"
-    async>
-  </script>
+  {% if page.utteranc == true %}
+  <hr id="utteranc-area-division">
+  <div id="utteranc-area">
+      <script src="https://utteranc.es/client.js"
+        repo="mkparkqq/qqDocs-comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+      </script>
+  </div>
   {% endif %}
 </html>
