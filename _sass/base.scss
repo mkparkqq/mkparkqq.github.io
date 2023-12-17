@@ -63,6 +63,13 @@ nav.breadcrumb-nav {
     color: $metadata-color;
 }
 
+.metadata {
+    @include fs-2;
+    color: $metadata-color;
+    margin: 0 1em;
+
+}
+
 // custom
 .nav-list-item a {
     color: $sidebar-link-color;

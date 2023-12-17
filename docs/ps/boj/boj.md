@@ -7,9 +7,20 @@ permalink: /docs/ps/boj
 date: 2023-12-17 15:00 +0900
 ---
 
-# BOJ
+{% assign boj_pages = site.pages | where: "categories", "BOJ" %}
+{% assign boj_pages_count = boj_pages | size %}
+
+# BOJ ({{boj_pages_count}})
 
 <hr>
 
-[2108 통계학]({{ site.url }}/docs/ps/boj/2108)
-{: .fs-5}
+<ul class="category-item">
+    {% for post in site.pages %}
+        {% if post.categories contains 'BOJ' %}
+            <li>
+                <a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
+                <span class="metadata">{{ post.date | date: "%Y-%m-%d" }}</span>
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>

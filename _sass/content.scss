@@ -80,6 +80,17 @@
     }
   }
 
+  ul.category-item {
+      font-size: 1.2em;
+      padding-left: 0 !important;
+      > li {
+          margin: 0.5em 0 !important;
+          &::before {
+            content: none !important;
+          }
+      }
+  }
+
   .task-list-item {
     &::before {
       content: "";
