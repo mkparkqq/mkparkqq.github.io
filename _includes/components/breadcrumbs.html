@@ -62,5 +62,14 @@
       <span>Last modified: {{ page.last_modified_at | date: "%Y-%m-%d %H:%M" }}</span>
     </li>
     {%- endif -%}
+    {%- if page.hit_count -%}
+    <li class="breadcrumb-nav-list-item">
+        <span>
+            <a href="http://hits.dwyl.com/qqdocs/{{ page.url | remove_first: '/' | replace: '/', '-'}}.svg?style=flat-square" target="_blank">
+              <img src="http://hits.dwyl.com/qqdocs/{{ page.url | remove_first: '/' | replace: '/', '-'}}.svg?style=flat-square" alt="HitCount" />
+            </a>
+        </span>
+    </li>
+    {%- endif -%}
   </ol>
 </nav>
