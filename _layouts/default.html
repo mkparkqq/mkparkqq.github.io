@@ -37,4 +37,14 @@ layout: table_wrappers
     {% include components/mermaid.html %}
   {% endif %}
 </body>
+
+  {% if page.utterance == true %}
+  <script src="https://utteranc.es/client.js"
+    repo="mkparkqq/qqDocs-comment"
+    issue-term="pathname"
+    theme="github-light"
+    crossorigin="anonymous"
+    async>
+  </script>
+  {% endif %}
 </html>
