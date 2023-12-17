@@ -17,6 +17,14 @@ color_scheme: light
 # logo: "/assets/logo/logo.svg"
 favicon_ico: "/assets/favicon/favicon.ico"
 
+# callouts
+callouts: 
+  warning:
+      title: Warning
+      color: red
+  info:
+      color: blue
+
 # Enable or disable the site search
 # Supports true (default) or false
 search_enabled: true
