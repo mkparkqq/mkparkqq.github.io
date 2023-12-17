@@ -9,7 +9,7 @@
   z-index: 0;
   display: flex;
   flex-wrap: wrap;
-  background-color: $sidebar-color;
+  background-color: $grey-lt-300;
 
   @include mq(md) {
     flex-flow: column nowrap;
@@ -27,6 +27,11 @@
 }
 
 .main {
+  background-color: white;
+  display: block;
+  height: 100%;
+  overflow-y: auto;
+
   @include mq(md) {
     position: relative;
     max-width: $content-width;
@@ -43,8 +48,9 @@
     // stylelint-enable function-name-case
   }
 
-  display: flex;
-  flex-direction: column;
+  // display: flex;
+  // flex-direction: column;
+  // flex: 1 1 auto;
 }
 
 .main-content-wrap {
@@ -65,7 +71,6 @@
     flex-direction: column;
     justify-content: space-between;
     padding-top: $header-height;
-    height: 100%;
 }
 
 .main-header {
@@ -103,6 +108,8 @@
   @include mq(lg) {
     width: $nav-width;
   }
+
+  background-color: $sidebar-color;
 }
 
 .site-nav {
@@ -197,12 +204,13 @@
 body {
   position: relative;
   padding-bottom: $sp-10;
-  overflow-y: scroll;
+  height: 100vh;
 
   @include mq(md) {
     position: static;
     padding-bottom: 0;
   }
+  background-color: $grey-lt-300;
 }
 
 // stylelint-enable selector-max-type
