@@ -112,6 +112,13 @@
   background-color: $sidebar-color;
 }
 
+#hit-counter-img {
+    display: none !important;
+    @include mq(md) {
+        display: block !important;
+    }
+}
+
 .site-nav {
   display: none;
 
