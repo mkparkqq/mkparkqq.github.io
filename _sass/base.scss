@@ -58,6 +58,16 @@ p {
   margin-bottom: 1em;
 }
 
+// custom
+nav.breadcrumb-nav {
+    color: $metadata-color;
+}
+
+// custom
+.nav-list-item a {
+    color: $sidebar-link-color;
+}
+
 a {
   color: $link-color;
   text-decoration: none;
@@ -97,7 +107,7 @@ hr {
   height: 1px;
   padding: 0;
   margin: $sp-6 0;
-  background-color: $border-color;
+  background-color: $hr-color;
   border: 0;
 }
 

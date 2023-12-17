@@ -42,6 +42,7 @@ $font-size-10-sm: 3rem !default;
 
 // Colors
 
+$black: #000 !default;
 $white: #fff !default;
 $grey-dk-000: #959396 !default;
 $grey-dk-100: #5c5962 !default;
@@ -72,6 +73,8 @@ $red-000: #f77e7e !default;
 $red-100: #f96e65 !default;
 $red-200: #e94c4c !default;
 $red-300: #dd2e2e !default;
+$custom-blue-000: #8ed1f8 !default;
+$custom-blue-100: #0011ff !default;
 
 // Spacing
 
@@ -106,6 +109,8 @@ $sp-10: map-get($spacers, sp-10) !default; // 4  rem == 64px
 $border: 1px solid !default;
 $border-radius: 4px !default;
 $border-color: $grey-lt-100 !default;
+$hr-color: $grey-lt-300 !default;
+$side-bar-border-color: $black !default;
 
 // Grid system
 
