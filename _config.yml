@@ -5,6 +5,10 @@ url: https://mkparkqq.github.io
 aux_links:
   Template Repository: https://github.com/just-the-docs/just-the-docs-template
 
+# template 파일 무시
+exclude:
+  - '**/template'
+
 # plugins
 plugins:
   - jekyll-email-protect
