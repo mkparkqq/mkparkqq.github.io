@@ -224,6 +224,7 @@ body {
   position: relative;
   padding-bottom: $sp-10;
   height: 100vh;
+  overflow: hidden;
 
   @include mq(md) {
     position: static;
@@ -235,6 +236,7 @@ body {
 // stylelint-enable selector-max-type
 
 .site-footer {
+    display: none;
     z-index: 1;
   @include container;
 
@@ -247,6 +249,7 @@ body {
   @include fs-2;
 
   @include mq(md) {
+    display: block;
     position: static;
     justify-self: end;
   }
