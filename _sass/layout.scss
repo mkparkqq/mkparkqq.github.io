@@ -72,7 +72,9 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding-top: $header-height;
+    @include mq(md) {
+        padding-top: $header-height;
+    }
 }
 
 .main-header {
