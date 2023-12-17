@@ -1,28 +1,24 @@
 <hr id="utteranc-area-division">
 <div id="utteranc-area">
-    <h3><pre><br>   loading comments...</pre></h3>
+    <h3><pre><br>   loading comments... </pre></h3>
     <script src="https://utteranc.es/client.js"
         repo="mkparkqq/qqDocs-comment"
         issue-term="pathname"
         theme="github-light"
         crossorigin="anonymous"
-        >
+        async>
     </script>
     <script>
-        let count = 0;
-        while (count < 30) {
-            let utteranc = document.querySelector('div.utterances');
-            if (utteranc != null) {
+        const scrollArea = document.querySelector('div.main#top');
+        const scrollMaxRange = scrollArea.scrollHeight - scrollArea.clientHeight;
+        scrollArea.addEventListener('scroll', function(e) {
+            if (scrollArea.scrollTop >= scrollMaxRange) {
+                console.log('hit');
                 setTimeout(() => {
-                    document.querySelector('#utteranc-area>h3').innerHTML = '';
-                }, 1500);
-                break;
-            } else {
-                setTimeout(() => {  }, 100);
-                count++;
+                    document.querySelector('div#utteranc-area>h3').innerHTML = '';
+                }, 1000);
             }
-        }
-        console.log("네이버 가고싶다...");
+        });
     </script>
 </div>
 
