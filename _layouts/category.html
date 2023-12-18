@@ -1,0 +1,57 @@
+---
+layout: table_wrappers
+---
+
+<!DOCTYPE html>
+
+<html lang="{{ site.lang | default: 'en-US' }}">
+{% include head.html %}
+<body>
+  <a class="skip-to-main" href="#main-content">Skip to main content</a>
+  {% include icons/icons.html %}
+  {% include components/sidebar.html %}
+  <div class="main" id="top">
+      {% include components/header.html %}
+      <div class="article">
+        <div class="main-content-wrap">
+          {% include components/breadcrumbs.html %}
+          <div id="main-content" class="main-content">
+            <main>
+              {% if page.has_children == true and page.has_toc != false %}
+                {% include components/children_nav.html %}
+              {% endif %}
+
+            {% assign posts = site.pages | where: "categories", page.category_name %}
+            {% assign post_count = posts | size %}
+            <h1> {{ page.category_name }} ({{ post_count }}) </h1>
+            <hr>
+              {% if site.heading_anchors != false %}
+                {% include vendor/anchor_headings.html html=content beforeHeading="true" anchorBody="<svg viewBox=\"0 0 16 16\" aria-hidden=\"true\"><use xlink:href=\"#svg-link\"></use></svg>" anchorClass="anchor-heading" anchorAttrs="aria-labelledby=\"%html_id%\"" %}
+              {% else %}
+                {{ content }}
+              {% endif %}
+            {% assign sorted_pages = site.pages | sort: "date" %}
+            <ul class="category-item">
+                {% for post in sorted_pages %}
+                    {% if post.categories contains page.category_name %}
+                        <li>
+                            <a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
+                            <span class="metadata">{{ post.date | date: "%Y-%m-%d" }}</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+
+            </main>
+          </div>
+        </div>
+        {% if site.search_enabled != false %}
+          {% include components/search_footer.html %}
+        {% endif %}
+      </div>
+  {% if site.mermaid %}
+    {% include components/mermaid.html %}
+  {% endif %}
+</body>
+
+</html>
