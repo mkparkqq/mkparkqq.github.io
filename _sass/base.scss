@@ -24,6 +24,14 @@ body {
   overflow-wrap: break-word;
 }
 
+footer {
+    background-color: $grey-dk-000;
+    height: 5em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 ol,
 ul,
 dl,

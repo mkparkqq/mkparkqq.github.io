@@ -51,15 +51,15 @@
 }
 @font-face {
     font-family: 'Valentine-Cute';
-    src: url('fonts/Valentine-Cute') format('truetype');
+    src: url('fonts/Valentine-Cute.ttf') format('truetype');
 }
 @font-face {
     font-family: 'typewritter';
-    src: url('fonts/typewritter.ttf') format('truetype');
+    src: url('fonts/typewritter.TTF') format('truetype');
 }
 @font-face {
     font-family: 'typewritter-bold';
-    src: url('fonts/typewritter-bold.ttf') format('truetype');
+    src: url('fonts/typewritter-bold.TTF') format('truetype');
 }
 @font-face {
     font-family: 'topgun';
@@ -114,4 +114,7 @@
 }
 .font-rakoon{
     font-family: 'rakoon' !important;
+}
+.font-PLANK{
+    font-family: 'PLANK' !important;
 }
