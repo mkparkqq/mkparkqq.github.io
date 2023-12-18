@@ -36,7 +36,7 @@ layout: table_wrappers
                     {% if post.categories contains page.category_name %}
                         <li>
                             <a href="{{ site.url }}{{ post.url }}">{{ post.title }}</a>
-                            <span class="metadata">{{ post.date | date: "%Y-%m-%d" }}</span>
+                            <span class="metadata float-right">{{ post.date | date: "%Y-%m-%d" }}</span>
                         </li>
                     {% endif %}
                 {% endfor %}

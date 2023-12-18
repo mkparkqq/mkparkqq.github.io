@@ -67,7 +67,10 @@ nav.breadcrumb-nav {
     @include fs-2;
     color: $metadata-color;
     margin: 0 1em;
+}
 
+.flat-right {
+    float: right;
 }
 
 // custom
