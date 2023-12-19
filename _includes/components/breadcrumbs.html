@@ -15,7 +15,7 @@
 
   {%- for node in pages_list -%}
   
-    {%- if node.has_children and page.grand_parent -%}
+    {%- if page.grand_parent -%}
 
       {%- if node.title == page.parent and node.parent == page.grand_parent -%}
         {%- assign parent_page = node -%}
@@ -27,7 +27,7 @@
         {%- break -%}
       {%- endif -%}
 
-    {%- elsif node.has_children and node.title == page.parent and node.parent == nil -%}
+    {%- elsif node.title == page.parent and node.parent == nil -%}
 
       {%- assign parent_page = node -%}
       {%- break -%}
