@@ -118,8 +118,8 @@
 }
 
 #hit-counter-img {
-    // display: none !important;
-    // @include mq(md) {
+    padding: 1% 2%;
+    @include mq(md) {
         display: block !important;
         min-height: $nav-list-item-height;
         line-height: #{$nav-list-item-height - 2 * $sp-1};
@@ -131,7 +131,7 @@
           padding-left: $nav-list-item-height;
         }
         padding-top: 5%;
-    // }
+    }
 }
 
 .site-nav {
@@ -143,7 +143,7 @@
 
   @include mq(md) {
     display: block;
-    padding-top: $sp-8;
+    padding-top: $sp-1; // default: $sp-8
     padding-bottom: $gutter-spacing-sm;
     overflow-y: auto;
     flex: 1 1 auto;
