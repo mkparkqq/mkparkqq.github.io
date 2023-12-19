@@ -3,7 +3,6 @@ layout: default
 title: Lorem Ipsum
 date: 2023-12-16 22:45 +0900
 last_modified_at: 2023-12-18 20:25 +0900
-nav_order: 4
 permalink: /loremipsum
 ---
 
