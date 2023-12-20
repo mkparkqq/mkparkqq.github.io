@@ -41,7 +41,7 @@ function fastForward() {
       clearInterval(ffIntervalId);
     }
   }, T);
-  setTimeout(() => {clearInterval(ffIntervalId);}, deadLine * T);
+  setTimeout(() => {clearInterval(ffIntervalId);}, deadLine * 10 * T);
 }
 
 function pause() {
