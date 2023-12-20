@@ -1,12 +1,12 @@
 ---
 layout: minimal
-title: Tower of Hanoi simulator
+title: Tower of Hanoi
 permalink: /minigames/hanoi-tower-simulator
 footer: false
 date: 2023-12-20 23:00 +0900
 ---
 
-# 하노이 탑 시뮬레이션
+# 하노이 탑
 
 <script defer src="./hanoi-tower-simulator/main.js"></script>
 <script defer src="./hanoi-tower-simulator/simulator.js"></script>
@@ -49,7 +49,7 @@ date: 2023-12-20 23:00 +0900
 
 
 <div class="row-direction-list-division">
-    <a href="https://mkparkqq.github.io/docs/ps/boj/11729">하노이 탑 이동 알고리즘</a>
+    <a href="https://mkparkqq.github.io/docs/ps/boj/11729">하노이 탑 알고리즘</a>
     |
     <a href="https://mkparkqq.github.io/docs/ps/boj/11729">개발 과정</a>
 </div>
