@@ -22,7 +22,9 @@ layout: table_wrappers
         {% include components/children_nav.html %}
       {% endif %}
 
-      {% include components/footer.html %}
+      {% if page.footer != false %}
+          {% include components/footer.html %}
+      {% endif %}
 
     </div>
   </div>
