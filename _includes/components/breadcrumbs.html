@@ -44,7 +44,7 @@
   {%- endif %}
     <li class="breadcrumb-nav-list-item"><a href="{{ parent_page.url | relative_url }}">{{ page.parent }}</a></li>
   {% endif -%}
-    <li class="breadcrumb-nav-list-item"><span>{{ page.title }}</span></li>
+    <li class="breadcrumb-nav-list-item"><span>{{ page.title | remove: '\'}}</span></li>
   </ol>
 </nav>
 
