@@ -79,10 +79,15 @@ nav.breadcrumb-nav {
     @include fs-2;
     color: $metadata-color;
     margin: 0 1em;
+    @media screen and (min-width: 600px) {
+        width: 10rem;
+    }
+    vertical-align: middle;
 }
 
 .flat-right {
     float: right;
+    text-align: left;
 }
 
 // custom
