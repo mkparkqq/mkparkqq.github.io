@@ -1,15 +1,15 @@
 ---
 layout: default
-title: 2108 통계학 C++
-parent: BOJ
-grand_parent: Problem Solving
+title: \[BOJ\]
 nav_order: 
 date: 2023-12-16 00:00 +0900
 last_modified_at: 2024-01-01 00:00 +0900
-permalink: /docs/ps/boj/XXXX
 hit_count: false
 utteranc: true
+permalink: /docs/ps/xxx-xxxx
+parent: Problem Solving
 categories:
+  - Problem Solving
   - BOJ
 ---
 

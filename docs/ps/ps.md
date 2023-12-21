@@ -1,16 +1,9 @@
 ---
-layout: default
+layout: category
 title: Problem Solving
 nav_order: 3
-has_children: true
-has_toc: false
+permalink: /docs/ps
+date: 2023-12-17 15:00 +0900
+category_name: Problem Solving
 ---
 
-# Algorithm Problem Solving
-
-코딩테스트 대비 알고리즘 문제 풀이
-
-<hr>
-
-[BOJ](/docs/ps/boj)
-{: .fs-5}
