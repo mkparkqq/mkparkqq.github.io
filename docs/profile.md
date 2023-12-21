@@ -13,14 +13,6 @@ permalink: /profile
 
 * <a href="mailto:{{ "mkparkqq@gmail.com" | encode_email }}" title="Contact me">email</a>
 * [github](https://github.com/mkparkqq)
-* [blog](https://mingeun2154.github.io)
-
-<hr>
-
-## Education
-
-* 광운대학교 학사 (2018.3 ~ 2024.02)
-    * 소프트웨어학과 - 시스템소프트웨어
 
 <hr>
 
