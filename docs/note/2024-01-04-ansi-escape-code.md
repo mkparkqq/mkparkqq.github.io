@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: minimal
 title: ANSI escape code
 date: 2024-01-06 15:47 +0900
 # last_modified_at: 2024-01-01 00:00 +0900
@@ -173,6 +173,9 @@ int main() {
 | `ESC[s`                                            | save cursor position (SCO)                               |
 | `ESC[u`                                            | restores the cursor to the last saved position (SCO)     |
 
+<hr>
+
 ## references
 * [Wikipedia](https://en.wikipedia.org/wiki/ANSI_escape_code)
 * [fnky/ANSI-Escape Sequences](https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797#ansi-escape-sequences)
+<hr>
