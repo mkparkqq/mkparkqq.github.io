@@ -8,6 +8,7 @@ aux_links:
 # template 파일 무시
 exclude:
   - '**/template'
+  - '**/template.md'
 
 # plugins
 plugins:
