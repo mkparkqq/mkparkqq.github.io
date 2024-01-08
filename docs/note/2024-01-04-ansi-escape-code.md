@@ -1,7 +1,7 @@
 ---
 layout: default
 title: ANSI escape code
-date: 2024-01-16 15:47 +0900
+date: 2024-01-06 15:47 +0900
 # last_modified_at: 2024-01-01 00:00 +0900
 parent: Note
 # permalink: /docs/note/XXX/XXXX
