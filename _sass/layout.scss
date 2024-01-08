@@ -236,6 +236,11 @@ body {
   background-color: $grey-lt-300;
 }
 
+body.scrollable {
+    overflow: auto;
+    background-color: white;
+}
+
 // stylelint-enable selector-max-type
 
 .site-footer {
