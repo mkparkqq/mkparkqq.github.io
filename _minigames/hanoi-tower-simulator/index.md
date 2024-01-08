@@ -1,5 +1,5 @@
 ---
-layout: minimal
+layout: minigame
 title: Tower of Hanoi
 permalink: /minigames/hanoi-tower-simulator
 footer: false
