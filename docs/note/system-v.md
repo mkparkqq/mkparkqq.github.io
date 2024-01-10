@@ -23,8 +23,15 @@ categories:
 
 <hr>
 
+Unix System V(five)를 줄여서 System V라고 한다.
+
+[Unix 운영체제](/docs/note/unix.html)의 첫 상용(commercial) 버전이다. 이전의 유닉스 운영체제는 주로 연구 목적으로 사용되었다.
+
+<hr>
+
 ## references
 
 * [Computer Systems: A Programmer's Perspective	](https://www.amazon.com/Computer-Systems-Programmers-Perspective-3rd/dp/013409266X)
+* [Wikipedia](https://en.wikipedia.org/wiki/Unix)
 <hr>
 
