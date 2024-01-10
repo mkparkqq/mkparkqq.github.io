@@ -1,6 +1,6 @@
 ---
 layout: minimal
-title: Pipe
+title: pipe
 date: 2024-01-08 16:40 +0900
 # last_modified_at: 2024-01-01 00:00 +0900
 parent: Note
@@ -10,7 +10,7 @@ categories:
   - Note
 ---
 
-# Pipe
+# pipe
 {: .no_toc }
 <details open markdown="block">
   <summary>
@@ -26,6 +26,8 @@ categories:
 Unix System의 가장 오래된 IPC 매커니즘이다.    
 
 Child parent 사이의 프로세스 사이의 통신만 가능하다.
+
+named pipe(FIFO)와 구별하기 위해 unnamed pipe라고도 한다.
 
 단방향 통신만 가능하다.
 

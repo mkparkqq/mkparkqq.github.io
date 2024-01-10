@@ -1,7 +1,7 @@
 ---
 layout: minimal
-title: 
-date: 2024-01-16 00:00 +0900
+title: System V
+date: 2024-01-10 22:27 +0900
 # last_modified_at: 2024-01-01 00:00 +0900
 parent: Note
 # permalink: /docs/note/XXX/XXXX
@@ -10,7 +10,7 @@ categories:
   - Note
 ---
 
-# title
+# System V
 {: .no_toc }
 <details open markdown="block">
   <summary>
