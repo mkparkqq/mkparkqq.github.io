@@ -33,7 +33,7 @@ Child parent 사이의 프로세스 사이의 통신만 가능하다.
 
 <hr>
 
-## System call
+## system call
 
 ```c
 #include <unistd.h>
@@ -41,14 +41,14 @@ Child parent 사이의 프로세스 사이의 통신만 가능하다.
 int pipe(int fd[2]);
 ```
 
-* 커널에 의해 `fd`에 두 개의 file descriptor가 주입된다.
+* [커널](/docs/note/kernel.html)에 의해 `fd`에 두 개의 file descriptor가 주입된다.
 * `fd[0]`는 읽기, `fd[1]`는 쓰기에 사용된다.
 
 <hr>
 
-## Example code
+## example code
 
-[`fork` 함수](https://mkparkqq.github.io/docs/note/fork.html)는 자식 프로세스를 생성하며 부모 프로세스에게는 자식 프로세스의 `pid`, 자식 프로세스에게는 `0`을 반환한다.
+[`fork` 함수](/docs/note/fork.html)는 자식 프로세스를 생성하며 부모 프로세스에게는 자식 프로세스의 `pid`, 자식 프로세스에게는 `0`을 반환한다.
 
 ```c
 #include <unistd.h>
@@ -91,4 +91,5 @@ Child
 
 ## references
 * [Computer Systems: A Programmer's Perspective	](https://www.amazon.com/Computer-Systems-Programmers-Perspective-3rd/dp/013409266X)
+
 <hr>

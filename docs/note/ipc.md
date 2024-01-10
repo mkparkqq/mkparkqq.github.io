@@ -29,9 +29,9 @@ categories:
 
 * Message system - 공유된 변수를 사용하지 않고 통신한다.
     * [pipe](/docs/note/pipe.html)
-    * FIFO
+    * [FIFO(Named pipe)](/docs/note/named-pipe.html)
     * message queue
-* Shared memory - 프로세스들이 동일한 메모리 공간을 참조하여 통신한다. 
+* Shared memory - 프로세스들이 동일한 메모리 공간을 직접(변수를 통해) 참조하여 통신한다. 
 
 일반적으로 message queue 방식이 사용된다. 
 
