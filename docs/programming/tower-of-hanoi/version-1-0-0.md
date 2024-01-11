@@ -13,14 +13,15 @@ categories:
 ---
 
 # \[Tower of Hanoi\] version 1.0.0 개발
-{: .no_toc }
-<details open markdown="block">
-  <summary>
-    Table of contents
-  </summary>
-  {: .text-delta }
-- TOC
-{:toc}
-</details>
 
 <hr>
+
+[하노이 탑 문제](https://www.acmicpc.net/problem/1914)의 정답을 보여주는 프로그램
+
+* [소스 코드](https://github.com/mkparkqq/mkparkqq.github.io/tree/main/_minigames/hanoi-tower-simulator)
+* 스택
+    * vanila javascript
+        * canvas
+    * HTML
+    * CSS
+

@@ -41,4 +41,4 @@ permalink: /profile
 * [바이러스 연구소 게임](https://mingeun2154.github.io/virusLAB/)
 <span class="metadata float-right">2023.2.13 ~ 2023.2.14</span>
 * [Tower of Hanoi simulator](https://mkparkqq.github.io/minigames/hanoi-tower-simulator)
-<span class="metadata float-right">2023.12.20 ~ </span>
+<span class="metadata float-right">2023.12.20</span>
