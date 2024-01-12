@@ -22,10 +22,14 @@ layout: table_wrappers
         {% include components/children_nav.html %}
       {% endif %}
 
-      {% include components/footer.html %}
 
     </div>
   </div>
+  {% if page.utteranc != false %}
+    {% include components/utteranc.html %}
+  {% endif %}
+
+  {% include components/footer.html %}
 
   {% if site.mermaid %}
     {% include components/mermaid.html %}
