@@ -67,6 +67,14 @@
   }
 }
 
+#minimal-top {
+    background-color: white;
+    @include mq(lg) {
+        margin-left: 20%;
+        margin-right: 20%;
+    }
+}
+
 // custom for fixed search bar
 .article {
     min-height: 100vh;
@@ -238,7 +246,8 @@ body {
 
 body.scrollable {
     overflow: auto;
-    background-color: white;
+    // background-color: white;
+    background-color: $custom-blue-000;
 }
 
 // stylelint-enable selector-max-type

@@ -4,20 +4,20 @@ layout: table_wrappers
 
 <!DOCTYPE html>
 
-<html lang="{{ site.lang | default: 'en-US' }}">
-{% include head.html %}
-
 <style>
-    .main-content-wrap {
-        margin-left: 2em;
-        margin-right: 2em;
+    footer {
+        margin-left: 20%;
+        margin-right: 20%;
     }
 </style>
+
+<html lang="{{ site.lang | default: 'en-US' }}">
+{% include head.html %}
 
 <body class="scrollable">
   <a class="skip-to-main" href="#main-content">Skip to main content</a>
   {% include icons/icons.html %}
-  <div class="main-content-wrap" id="top">
+  <div class="main-content-wrap" id="minimal-top">
     {% include components/breadcrumbs.html %}
     <div id="main-content" class="main-content" role="main">
       {% if site.heading_anchors != false %}
@@ -32,10 +32,11 @@ layout: table_wrappers
 
 
     </div>
-  </div>
   {% if page.utteranc != false %}
     {% include components/utteranc.html %}
   {% endif %}
+
+  </div>
 
   {% include components/footer.html %}
 
