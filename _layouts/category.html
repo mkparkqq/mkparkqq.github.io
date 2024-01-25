@@ -30,7 +30,7 @@ layout: table_wrappers
               {% else %}
                 {{ content }}
               {% endif %}
-            {% assign sorted_pages = site.pages | sort: "date" %}
+            {% assign sorted_pages = site.pages | sort: "date" | reverse %}
             <ul class="category-item">
                 {% for post in sorted_pages %}
                     {% if post.categories contains page.category_name %}
