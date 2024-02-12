@@ -9,6 +9,13 @@ permalink: /profile
 
 <hr>
 
+## Career
+
+* **AhnLab** 네트워크개발실 DPX 개발팀
+<span class="metadata float-right">2024.02 ~ </span>
+
+<hr>
+
 ## Contact
 
 * <a href="mailto:{{ "mkparkqq@gmail.com" | encode_email }}" title="Contact me">email</a>
@@ -16,6 +23,7 @@ permalink: /profile
 
 <hr>
 
+<!--
 ## Skills
 
 * Java, C/C++, TypeScript, Python
@@ -24,6 +32,7 @@ permalink: /profile
 * AWS, Docker
 
 <hr>
+-->
 
 ## Experiences
 
