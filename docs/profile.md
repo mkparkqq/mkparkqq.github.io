@@ -11,7 +11,7 @@ permalink: /profile
 
 ## Career
 
-* **AhnLab** 네트워크개발실 DPX 개발팀
+* **AhnLab** DPX개발팀
 <span class="metadata float-right">2024.02 ~ </span>
 
 <hr>
@@ -23,16 +23,13 @@ permalink: /profile
 
 <hr>
 
-<!--
 ## Skills
 
-* Java, C/C++, TypeScript, Python
-* Spring Boot, React
+* C/C++
 * MySQL
-* AWS, Docker
+* Linux
 
 <hr>
--->
 
 ## Experiences
 
