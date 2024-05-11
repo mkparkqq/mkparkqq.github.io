@@ -138,8 +138,6 @@ categories:
 `Switch(config-if)#switchport mode access` (생략 가능)   
 `Switch(config-if)#switchport access vlan 10`    
 
-<hr>
-
 ### 라우터 온 어 스틱
 
 하나의 라우터 인터페이스가 여러 VLAN의 디폴트 게이트웨이가 되어야 하는 경우 사용하는 솔루션이다.     
@@ -218,6 +216,30 @@ categories:
 	`Switch(config-if)#switchport access vlan 10`   
 
 <hr>
+
+## STP
+
+* Spanning Tree Protocol
+* 스위치를 이중화 하는 과정에서 형성된 loop에 의해 broadcast storm이 발생하는데 이를 해결한다.
+	* 브로드캐스팅된 프레임이 매우 빠르게 순환하여 네트워크가 다운된다.
+* STP는 BPDU 프레임을 교환하여 브로드캐스트 순환을 막는다.
+
+### BPDU
+
+* Bridge Protocol Data Unit
+* 아래의 인자들을 비교하여 포트를 블로킹한다. BPDU에 포함된 값이다.
+	* 루트 스위치 ID
+	* path cost
+	* BPDU가 방금 통화한 스위치 ID
+	* BPDU가 방금 통과한 스위치의 포트 ID 
+
+### 동작 방식
+
+1. root switch 결정 : switch id가 가장 낮은 스위치
+2. 나머지 스위치들의 root port 결정 : root switch까지 **best route**로 연결된 포트
+	* path cost
+	* BPDU가 방금 통과한 스위치 ID
+	* BPDU가 방금 통과한 스위치의 포트 ID
 
 ## references
 * [단기 완성 합격 보장 CCNA R&S의 정석](https://www.cyber.co.kr/book/item/5659)
