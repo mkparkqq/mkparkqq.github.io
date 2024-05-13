@@ -66,6 +66,16 @@ a:visited code {
 // the spacing are only in the second level for case 1, 3 and in the third level for case 2
 // in AsciiDoc, there is a parent container that contains optionally a title and the content.
 
+div.cli {
+	background: black;
+	color: white;
+}
+
+pre.cli {
+	background: black;
+	color: white;
+}
+
 // select top level container
 div.highlighter-rouge,
 div.listingblock > div.content,
