@@ -1,0 +1,26 @@
+---
+layout: minimal
+title: Title
+date: 2024-XX-XX HH:MM +0900
+# last_modified_at: 2024-01-01 00:00 +0900
+parent: kernel
+# permalink: /docs/note/XXX/XXXX
+hit_count: false
+categories:
+  - kernel
+  - open source
+---
+
+# Title 
+{: .no_toc }
+<details open markdown="block">
+  <summary>
+    Table of contents
+  </summary>
+  {: .text-delta }
+- TOC
+{:toc}
+</details>
+
+## references
+* [디버깅을 통해 배우는 리눅스 커널의 구조와 원리](https://m.yes24.com/Goods/Detail/102079803)
