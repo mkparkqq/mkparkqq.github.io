@@ -103,6 +103,46 @@ core i5 10세대 ram 16G 환경에서 15분정도 걸렸다.
 
 <hr>
 
+## 모듈 설치
+
+아래의 스크립트를 실행하여 커널 모듈을 `MOD_PATH` 에 설치
+
+```bash
+
+#!/bin/bash
+
+function G {
+	echo -e "\033[32m$1\033[0m"
+}
+
+KERNEL=kernel8
+KERNEL_TOP_PATH="$(cd "$(dirname "$0")"; pwd -P)"
+MOD_PATH="$KERNEL_TOP_PATH/modules"
+OUTPUT="$KERNEL_TOP_PATH/out"
+
+echo -n "Configure kernel module install path : "
+G $MOD_PATH
+
+cd linux
+
+echo -e "\nInstall the kernel modules" 
+make -j$(nproc) ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- \
+	O=$OUTPUT \
+	INSTALL_MOD_PATH=$MOD_PATH \
+	modules_install
+
+MOD_FILE="$(ls $MOD_PATH/lib/modules)"
+
+echo -en "\nExtract "
+G "$MOD_FILE"
+
+mv $MOD_PATH/lib/modules/$MOD_FILE $KERNEL_TOP_PATH
+rm -rf $MOD_PATH
+
+```
+
+<hr>
+
 ## 커널을 tar.gz 파일로 압축한 뒤 전송
 
 1\. 커널 압축
