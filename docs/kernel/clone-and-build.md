@@ -1,11 +1,12 @@
 ---
-layout: minimal
+layout: default
 title: Raspberry Pi kernel cross-compile
 date: 2024-05-12 16:55 +0900
 # last_modified_at: 2024-01-01 00:00 +0900
 parent: kernel
 # permalink: /docs/note/XXX/XXXX
 hit_count: false
+utteranc: true
 categories:
   - kernel
   - open source
@@ -98,8 +99,12 @@ core i5 10세대 ram 16G 환경에서 15분정도 걸렸다.
 
 가상환경 (Docker)에서 진행.
 
-빌드 스크립트를 `linux` 디렉토리와 같은 위치에 생성
+<pre class="cli">
+root@879dedf92453:/# uname -a
+Linux 879dedf92453 6.6.26-linuxkit #1 SMP Sat Apr 27 04:13:19 UTC 2024 aarch64 aarch64 aarch64 GNU/Linux
+</pre>
 
+빌드 스크립트를 `linux` 디렉토리와 같은 위치에 생성. 빌드 스크립트는 x_86_64 환경에서와 동일하다.
 
 <hr>
 
