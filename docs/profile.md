@@ -11,8 +11,10 @@ permalink: /profile
 
 ## Career
 
-* **AhnLab** DPX개발팀
-<span class="metadata float-right">2024.02 ~ </span>
+* **TimaxTibero** <span class="metadata float-right">2024.06 ~ </span>
+	* DBMS Engine 연구원
+* **AhnLab** <span class="metadata float-right">2024.02 ~ 2024.06</span>
+	* DPX개발팀
 
 <hr>
 
