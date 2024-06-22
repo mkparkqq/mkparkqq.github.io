@@ -11,7 +11,7 @@ permalink: /profile
 
 ## Career
 
-* **TimaxTibero** <span class="metadata float-right">2024.06 ~ </span>
+* **TmaxTibero** <span class="metadata float-right">2024.06 ~ </span>
 	* DBMS Engine 연구원
 * **AhnLab** <span class="metadata float-right">2024.02 ~ 2024.06</span>
 	* DPX개발팀
@@ -27,9 +27,9 @@ permalink: /profile
 
 ## Skills
 
-* C/C++
-* MySQL
+* C
 * Linux
+* HTML/CSS/JavaScript
 
 <hr>
 
