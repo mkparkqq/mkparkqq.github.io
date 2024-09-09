@@ -35,6 +35,7 @@ tags:
 
 * SQL parser, optimizer, executor, storage engine 통합 등의 코드 포함
 * SQL executor의 파싱 및 처리, 쿼리 계획 수립, 실행
+* 서버 데몬의 entry point인 `main.cc`와 `mysqld.cc` 포함
 
 ## storage
 
