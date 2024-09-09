@@ -2,6 +2,7 @@
 layout: default
 title: 인덱싱
 parent: Note
+utteranc: true
 #grand_parent: 
 #nav_order: 
 date: 2024-05-26 20:46 +0900
@@ -9,7 +10,6 @@ date: 2024-05-26 20:46 +0900
 #permalink: /docs/ps/XXX/XXXX
 hit_count: false
 categories:
-  - Note
   - DBMS
 ---
 
