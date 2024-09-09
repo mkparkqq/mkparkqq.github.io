@@ -19,11 +19,11 @@ tags:
 
 터미널에서 아래의 명령어 실행
 
-<div class="cli">
+<pre class="cli">
 git clone https://github.com/mkparkqq/mkparkqq.github.io
 sudo apt-get update && apt-get install -y build-essential
 sudo apt update && sudo apt install ruby-dev
 bundle install
 bundle exec jekyll serve
-</div>
+</pre>
 
