@@ -1,7 +1,7 @@
 ---
 layout: default
 title: \[MariaDB\] 디렉토리 구조
-parent: Note
+parent: DBMS
 utteranc: true
 #grand_parent: 
 #nav_order: 
@@ -51,8 +51,6 @@ tags:
 
 * 시스템 호출과 유틸리티 함수
 * MariaDB의 내부에서 공통적으로 사용하는 시스템 레벨 함수
-
-## plugin
 
 ## scripts
 
