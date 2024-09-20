@@ -1,5 +1,5 @@
 ---
-layout: minimal
+layout: default
 title: process.cc example
 date: 2024-01-19 22:20 +0900
 # last_modified_at: 2024-01-01 00:00 +0900
