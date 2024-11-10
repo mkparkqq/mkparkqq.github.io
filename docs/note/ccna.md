@@ -1,5 +1,5 @@
 ---
-layout: minimal
+layout: default
 title: CCNA 준비
 date: 2024-04-22 20:20 +0900
 # last_modified_at: 2024-01-01 00:00 +0900
