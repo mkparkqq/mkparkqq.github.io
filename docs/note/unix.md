@@ -1,6 +1,6 @@
 ---
-layout: minimal
-title: Unix OS
+layout: default
+title: \[UNIX\] 유닉스란?
 date: 2024-01-10 22:45 +0900
 # last_modified_at: 2024-01-01 00:00 +0900
 parent: Note
@@ -8,6 +8,8 @@ parent: Note
 hit_count: false
 categories:
   - Note
+tags:
+  - UNIX
 ---
 
 # Unix OS
