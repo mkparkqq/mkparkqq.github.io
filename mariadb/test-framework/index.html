@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Minkeun Park">
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>테스트 프레임워크 - freema</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <link href="../../estyle.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">freema</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">UNIX</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../unix/process-relation/" class="dropdown-item">세션</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">MariaDB</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">테스트 프레임워크</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../../unix/process-relation/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#mariadb" class="nav-link">[MariaDB] 테스트 프레임워크</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">빌드</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">테스트 실행</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_3" class="nav-link">테스트 프레임워크</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_4" class="nav-link">실습</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_5" class="nav-link">출처</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="mariadb">[MariaDB] 테스트 프레임워크</h1>
+<p>mariadb 프로젝트의 테스트 코드가 실행되는 과정 분석</p>
+<hr />
+<h2 id="_1">빌드</h2>
+<ul>
+<li><code>mkdir build &amp;&amp; cd build &amp;&amp; cmake .. &amp;&amp; cmake --build . --parallel 5</code><ul>
+<li>빌드 결과가 저장될 디렉토리 <code>build</code> 생성&amp;이동</li>
+<li>따로 옵션을 명시하지 않아도 단위 테스트들이 기본적으로 빌드된다</li>
+</ul>
+</li>
+</ul>
+<h2 id="_2">테스트 실행</h2>
+<ul>
+<li>모든 테스트 실행<ul>
+<li><code>build</code> 디렉토리에서 <code>cmake</code> 명령어 실행</li>
+</ul>
+</li>
+<li>특정 테스트 실행 <ul>
+<li><code>build/unittest/mysys/my_malloc-t</code> 실행</li>
+</ul>
+</li>
+</ul>
+<h2 id="_3">테스트 프레임워크</h2>
+<ul>
+<li>MariaDB의 테스트 프레임워크는 ctest, cmake를 감싸는 cmake 매크로와 함수로 구현되어 있다</li>
+<li><code>MY_ADD_TESTS(dynarray LINK_LIBRARYS mysys)</code><ul>
+<li><code>cmake/ctest.cmake</code>에 정의된 cmake 매크로</li>
+<li><code>dynarray-t.c</code>파일에 mytap 라이브러리를 링크하여 <code>dynarray-t</code> 실행파일을 만드는 규칙을 생성한다</li>
+</ul>
+</li>
+<li>mytap : MariaDB에서 사용하는 테스트 라이브러리<ul>
+<li>테스트 작성에 반복적으로 사용되는 함수들을 제공</li>
+<li><code>unittest/examples/simple-t.c</code>에서 사용법을 익힐 수 있다</li>
+<li><code>plan</code>함수 : 이 파일에서 몇 개의 테스트를 진행할지 미리 선언한다</li>
+<li><code>ok</code>함수 : 첫 번째 인자로 0이 전달되면 테스트 실패를 의미한다</li>
+</ul>
+</li>
+</ul>
+<h2 id="_4">실습</h2>
+<ul>
+<li>cmake에게 테스트 빌드 방법 전달<ul>
+<li><code>unittest/mysys/CMakeLists.txt</code> 파일 편집</li>
+<li><code>MY_ADD_TESTS</code> 매크로에 <code>dynarray</code> 추가</li>
+</ul>
+</li>
+<li><code>unittest/mysys/dynarray-t.c</code> 파일 생성</li>
+</ul>
+<pre><code class="language-c">#include &lt;tap.h&gt;
+#include &lt;my_global.h&gt;
+#include &lt;my_sys.h&gt;
+#include &lt;stdio.h&gt;
+
+struct _foo {
+  int num;
+  char str[64];
+};
+
+static unsigned int test_dynamic_increase(int size)
+{
+  /* @given
+   * 초기 크기가 size이고 element32개만큼의 공간이 늘어나는 동적 배열 생성
+   */
+  unsigned int inc = 32;
+  DYNAMIC_ARRAY array;
+  // my_init_dynamic_array 함수는 항상 FALSE를 반환한다
+  my_init_dynamic_array(PSI_NOT_INSTRUMENTED, &amp;array, sizeof(struct _foo), 
+      size, inc, MYF(0));
+  /* @when
+   * size + 1개의 원소를 배열에 추가
+   */
+  unsigned int i;
+  struct _foo foo;
+  for (i = 0; i &lt;= size; ++i)
+  {
+    foo.num = i;
+    snprintf(foo.str, 64, &quot;sample string-%u&quot;, i);
+    /* @then
+     * 원소 추가에 성공
+     */
+    if (insert_dynamic(&amp;array, (const void *)&amp;foo)) {
+      diag(&quot;insert_dynamic failed&quot;);
+      return TRUE;
+    }
+  }
+  /* @then
+   * capacity가 size에서 inc만큼 증가함
+   */
+  if (size + array.alloc_increment != array.max_element) {
+    diag(&quot;actual: %u expected: %u&quot;, array.max_element, 
+        size+array.alloc_increment);
+    return TRUE;
+  }
+
+  /*
+   * C/C++ 프로그래밍에서 함수가 성공할 경우 0을 반환하는 관례를 따름
+   */
+  return FALSE;
+}
+
+int main() {
+  unsigned int a,b;
+  unsigned int failed;
+  plan(1);
+  diag(&quot;Testing DYNAMIC_ARRAY&quot;);
+  failed = 0;
+  for (a = 1 ; a &lt; 200 ; ++a)
+    if (test_dynamic_increase(a)) {
+      ++failed;
+      diag(&quot;Failed for test_dynamic_increase(%3u)&quot;, a);
+    }
+  ok(failed == 0, &quot;test_dynamic_increase&quot;);
+  return exit_status();
+}
+</code></pre>
+<ul>
+<li>빌드한 뒤 전체 실행 또는 <code>build/unittest/mysys/dynarray-t</code> 실행</li>
+</ul>
+<h2 id="_5">출처</h2>
+<ul>
+<li><a href="https://mariadb.org/get-involved/getting-started-for-developers/get-code-build-test/#testing-the-server">Get the code, build it, test it</a></li>
+<li><a href="https://mariadb.org/get-involved/getting-started-for-developers/writing-good-test-cases-mariadb-server/">Writing Good Test Cases for MariaDB Server</a></li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
