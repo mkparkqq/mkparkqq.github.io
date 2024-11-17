@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Minkeun Park">
-        <link rel="canonical" href="https://mkparkqq.github.io/unix/process-relation/">
+        <link rel="canonical" href="https://mkparkqq.github.io/unix/process-relationships/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
         <title>세션 - freema</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
@@ -95,11 +95,19 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">세션</a>
+            <li class="nav-item" data-bs-level="2"><a href="#_3" class="nav-link">세션</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_3" class="nav-link">출처</a>
+            <li class="nav-item" data-bs-level="2"><a href="#_4" class="nav-link">제어 터미널</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_5" class="nav-link">실습</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_6" class="nav-link">출처</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -111,11 +119,161 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="unix-session">[UNIX] session</h1>
-<p>POSIX 1.1에서 도입된 세션(session)이라는 개념에 대한 소개</p>
+<p>POSIX 1.1에서 도입한 세션(session)이라는 개념에 대한 소개</p>
 <hr />
+<p><img src="/img/process-relationships-01.png" alt="process-relationship diagram" width="80%"/></p>
 <h2 id="_1">프로세스 그룹</h2>
-<h2 id="_2">세션</h2>
-<h2 id="_3">출처</h2>
+<ul>
+<li>모든 프로세스는 pid를 가지며 하나의 프로세스 그룹에 속한다</li>
+<li>프로세스 그룹은 한 개 이상의 프로세스로 구성된 집합이고 pgid를 가진다</li>
+<li>프로세스 그룹은 주로 같은 <strong>작업</strong>을 하는 프로세스들의 집합이고 같은 터미널로부터 <strong>신호</strong>를 받는다</li>
+<li>shell pipeline(<code>|</code>)을 통해 프로세스 그룹을 만들 수 있다<ul>
+<li><code>proc1 | proc2 &amp; proc3 | proc4 | proc5</code></li>
+<li>proc1, proc2가 하나의 프로세스 그룹을 형성하고 proc3, proc4, proc5가 하나의 프로세스 그룹을 형성한다</li>
+<li>&amp; 기호는 proc1, proc2를 background process group으로 지정한다</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+
+/**
+  * pid가 0이면 호출한 프로세스의 pgid를 반환한다
+  * 실패할 경우 -1을 반환한다
+  */
+pid_t getpgid(pid_t pid)
+</code></pre>
+<h3 id="_2">그룹 리더</h3>
+<ul>
+<li>프로세스 그룹에는 그룹 리더가 존재하는데 pid값이 pgid와 동일한 프로세스가 그룹 리더이다</li>
+<li>그룹 리더는 프로세스 그룹을 생성한 프로세스이고 그룹 안에 프로세스들을 생성할 수 있다</li>
+<li>프로세스 그룹 리더가 종료되어도 프로세스 그룹은 여전히 존재할 수 있다<ul>
+<li>프로세스 그룹 내의 모든 프로세스가 종료되어야 그룹이 사라진다</li>
+<li>프로세스는 자신의 그룹을 변경할 수 있다</li>
+</ul>
+</li>
+</ul>
+<h2 id="_3">세션</h2>
+<ul>
+<li>세션은 하나 이상의 프로세스 그룹의 집합이다</li>
+</ul>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+
+/**
+  * 호출한 프로세스가 프로세스 리더이면 실패(-1 반환)
+  * 그렇지 않은 경우 새 세션을 생성하고 pgid 반환
+  */
+pid_t setsid(void);
+</code></pre>
+<ul>
+<li>위의 함수는 새로운 세션을 생성한다</li>
+<li><code>setsid</code> 호출에 성공한 프로세스는 새로운 세션의 리더인 동시에 새로운 프로세스 그룹의 리더가 된다</li>
+<li>함수 호출에 성공한 시점에 새로운 세션에는 프로세스 그룹이 한 개 있고 그 그룹에 프로세스는 호출 프로세스 한개이다</li>
+<li>호출 프로세스가 함수 호출 전에 제어 터미널에 연결되어 있었다면 그 제어 터미널과의 <em>연결 관계</em>가 끊어진다<ul>
+<li><em>open한게 자동으로 닫힌다는 뜻인가?</em></li>
+</ul>
+</li>
+<li>프로세스가 그룹 리더가 아님을 보장하는 방법은 fork를 호출한 뒤 부모는 종료하고 자식은 계속 실행하는 것이다</li>
+</ul>
+<h2 id="_4">제어 터미널</h2>
+<ul>
+<li>세션에는 하나의 제어 터미널이 연결될 수 있다(없을 수도 있다)</li>
+<li>제어 터미널과 <em>연결</em>을 확립한 세션 리더를 제어 프로세스라고 한다</li>
+<li>세션의 프로세스 그룹은 background group, foreground group으로 분류할 수 있다<ul>
+<li>foreground 그룹은 한 개, background group은 하나 이상 있을 수 있다</li>
+</ul>
+</li>
+<li>세션에 제어 터미널이 있으면 그 세션에는 반드시 하나의 foreground process 그룹이 있다</li>
+<li>터미널에서 interrupt key(e.g. ctrl-c)를 입력하면 foreground group의 모든 프로세스에게 signal이 전달된다</li>
+</ul>
+<h3 id="devtty">/dev/tty</h3>
+<ul>
+<li>표준 입출력 리다이렉션 여부에 관계없이 입출력 대상이 터미널이 되도록 보장하는 방법은 <code>/dev/tty</code> device file을 open하는 것이다<ul>
+<li>커널은 이 파일을 제어 터미널로 인식한다</li>
+</ul>
+</li>
+<li>제어 터미널이 없는 프로세스가 <code>/dev/tty</code>를 open하려고 시도하면 실패한다</li>
+</ul>
+<h2 id="_5">실습</h2>
+<h3 id="procinfoc">procinfo.c</h3>
+<ul>
+<li>cli 인자로 전달받은 프로세스의 그룹 아이디와 세션 아이디를 출력하는 프로그램</li>
+</ul>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+
+int main(int argc, const char *argv[])
+{
+  if (argc == 1)
+    return 1;
+
+  pid_t tpid = atoi(argv[1]);
+  printf(&quot;[%s] pid: %d pgid: %d sid: %d\n&quot;,
+      argv[0], tpid, getpgid(tpid), getsid(tpid));
+
+  return 0;
+}
+</code></pre>
+<h3 id="amplifyc">amplify.c</h3>
+<ul>
+<li>표준입력에서 읽은 문자열을 표준 출력과 제어 터미널에 여러 번 출력하는 프로그램</li>
+<li><code>amplify &lt; input.txt &gt; output.txt</code> 와 같이 실행(stdin, stdout 리다이렉션)하더라도 터미널에 문자열을 출력하는 것이 보장된다</li>
+</ul>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+void printn2stdout(const unsigned char str[], int n)
+{
+  for (int i = 0; i &lt; n; i++)
+    printf(&quot;%s\n&quot;, str);
+}
+
+void print2control_terminal(const unsigned char str[])
+{
+  int tfd;
+  tfd = open(&quot;/dev/tty&quot;, O_WRONLY);
+  if (tfd &lt; 0)
+    return;
+
+  unsigned char buffer[7*128];
+  memset(buffer, '\0', 7*128);
+  snprintf(buffer, sizeof(buffer), 
+     &quot;\033[31m%s\033[0m\n&quot;
+     &quot;\033[33m%s\033[0m\n&quot;
+     &quot;\033[33m%s\033[0m\n&quot;
+     &quot;\033[32m%s\033[0m\n&quot;
+     &quot;\033[34m%s\033[0m\n&quot;
+     &quot;\033[36m%s\033[0m\n&quot;
+     &quot;\033[35m%s\033[0m\n&quot;,
+      str, str, str, str, str, str, str);
+
+  write(tfd, buffer, 7*128);
+  close(tfd);
+}
+
+int main(int argc, const char *argv[])
+{
+  int n = 7;
+  if (argc == 2)
+    n = atoi(argv[1]);
+
+  unsigned char str[128];
+  memset(str, '\0', 128);
+
+  fgets(str, sizeof(str), stdin);
+  if (str[strlen(str) - 1] == '\n')
+    str[strlen(str) - 1] = '\0';
+  print2control_terminal(str);
+  printn2stdout(str, n);
+
+  return 0;
+}
+
+</code></pre>
+<h2 id="_6">출처</h2>
 <ul>
 <li><a href="http://www.apuebook.com/apue3e.html">APUE3e</a></li>
 </ul>
