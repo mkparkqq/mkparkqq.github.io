@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Minkeun Park">
+        <link rel="canonical" href="https://mkparkqq.github.io/cprogramming/how-to-use-openssl-pkcs-api/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>OpenSSL PKCS API - freema</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <link href="../../estyle.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">freema</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">UNIX</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../unix/process-relationships/" class="dropdown-item">세션</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">MariaDB</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../mariadb/test-framework/" class="dropdown-item">테스트 프레임워크</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">C/C++</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">OpenSSL PKCS API</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../../mariadb/test-framework/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" class="nav-link disabled">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#openssl-pkc12s-api" class="nav-link">OpenSSL PKC12S API</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#pkcs12" class="nav-link">PKCS#12</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#public-key-certificate" class="nav-link">공개키 인증서(Public Key Certificate)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#digital-signature" class="nav-link">디지털 서명(Digital Signature)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#asn1abstract-syntax-notation-1" class="nav-link">ASN1(Abstract Syntax Notation 1)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#openssl-api" class="nav-link">OpenSSL API</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#pkcs12_1" class="nav-link">PKCS#12 생성 프로그램</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#pkcs12_2" class="nav-link">PKCS#12 읽기 프로그램</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#references" class="nav-link">references</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="openssl-pkc12s-api">OpenSSL PKC12S API</h1>
+<p>OpenSSL을 사용하면 다양한 인증서를 안전하게 하나의 파일로 보관할 수 있다</p>
+<hr />
+<h2 id="pkcs12">PKCS#12</h2>
+<ul>
+<li>Public Key Cryptography Standards</li>
+<li>RSA Security에서 제정한 public-key cryptography 표준들의 묶음을 PKCS라고 한다</li>
+<li>그 중에서도 PKCS#12는 여러 개의 cryptography object들을 하나의 파일에 저장하는 파일의 포맷을 정의한다</li>
+<li>보통 <strong>private key와 X.509 certificate</strong>를 묶거나(bundle) 모든 chain of trust(일련의 인증서들)를 묶는데 사용한다<ul>
+<li>X.509 - public key certificate(인증서) 포맷에 대한 국제 표준</li>
+<li>chain of trust - root certificate(CA에서 발급한 인증서)에서부터 end entity(애플리케이션, 사용자, 장치 등)까지 이어지는 검증</li>
+<li>CA(Certificate Authority) - 신뢰할 수 있는 인증기관. 디지털 인증서를 발급하고 관리한다</li>
+</ul>
+</li>
+<li>OpenSSL의 <code>pkcs12</code> 명령어를 사용하면 읽을 수 있다</li>
+</ul>
+<h2 id="public-key-certificate">공개키 인증서(Public Key Certificate)</h2>
+<ul>
+<li><strong>공개키의 진위 여부</strong>를 보증하기 위한 문서로 공개키 자체와 그와 관련된 정보를 포함한다<ul>
+<li>public key</li>
+<li>공개키를 소유한 subject의 신원에 관한 정보</li>
+<li>이 인증서를 발급한 CA의 전자서명</li>
+</ul>
+</li>
+<li>단말 A와 서버 B가 통신할때 서버 B는 자신의 인증서를 A에게 보낸다. A는 이 인증서를 검증하여 B가 신뢰할 수 있는 entity임을 확신한다<ul>
+<li>인증서를 검증하기 위해서는 CA의 전자서명이 유효한지를 검사해야 하는데 그러려면 CA의 공개키를 알아야한다. CA의 공개키는 단말A(e.g. web browser)의 root certificate에 저장되어 있다</li>
+</ul>
+</li>
+<li>E1의 공개키를 검증하기 위해서는 상위 주체인 E2의 공개키가 필요하고 E2의 공개키를 검증하려면 상위 주체인 E3의 공개키가 필요하고 ... 이런 체인의 가장 위에 있는 인증서가 root certificate이다<ul>
+<li>이런 루트 인증서는 하드웨어 제조사에서 배포한다</li>
+</ul>
+</li>
+</ul>
+<h2 id="digital-signature">디지털 서명(Digital Signature)</h2>
+<ul>
+<li>electronic signature(전자 서명)이라고도 한다</li>
+<li>디지털 정보가 진본임을 확인할 수 있는 수학적 방법(scheme)이다</li>
+<li>A가 B에게 메세지와 자신의 디지털 서명을 같이 보낸다 --&gt; B는 <strong>디지털 서명을 검증</strong>하여 메세지가 A로부터 온것임을 확신할 수 있다<ul>
+<li>A는 자신의 공개키가 포함된 인증서를 B에게 제공한다</li>
+<li>A의 공개키로 디지털 서명을 복호화하면 메세지의 해시값이 나온다. 매세지를 해싱한 값과 이 값을 비교해서 메세지가 변조되지 않았음을 확신할 수 있다</li>
+</ul>
+</li>
+<li>디지털 서명은 대부분의 암호화 프로토콜에 포함되는 요소이다</li>
+<li>디지털 서명을 통해 데이터가 위조되었거나 부 변경(tampering)되었음을 탐지할 수 있다</li>
+</ul>
+<p><img src="/img/Private_key_signing.svg" alt="digital-signature-diagram" width="50%" /></p>
+<p>By <a href="//commons.wikimedia.org/wiki/User:FlippyFlink" title="User:FlippyFlink">FlippyFlink</a> - <a class="external text" href="https://en.wikipedia.org/w/index.php?title=User_talk:FlippyFlink&amp;oldid=896574165#Improved_version_of_your_digital_signature_picture">Combined</a> changed the image <a class="external free" href="https://en.wikipedia.org/wiki/File:Public_key_encryption.svg">https://en.wikipedia.org/wiki/File:Public_key_encryption.svg</a> from encryption to signing., <a href="https://creativecommons.org/licenses/by-sa/4.0" title="Creative Commons Attribution-Share Alike 4.0">CC BY-SA 4.0</a>, <a href="https://commons.wikimedia.org/w/index.php?curid=78867393">Link</a></p>
+<ul>
+<li>Alice의 공개키가 진짜임을 확인하는 방법은 Alice가 CA로부터 자신의 공개키를 포함하는 CA를 발급받아서 Bob에게 전달하는 것이다</li>
+<li>단, B의 루트 인증서에 CA의 공개키가 저장되어 있어야 한다</li>
+</ul>
+<h2 id="asn1abstract-syntax-notation-1">ASN1(Abstract Syntax Notation 1)</h2>
+<ul>
+<li>데이터의 구조(파일의 포맷과 동치)를 정의하는 표준 언어</li>
+<li>주로 네트워크 통신, 인증서, 보안 프로토콜 등에서 데이터의 표현 방식과 인코딩을 정의하는 데 사용</li>
+<li>ASN.1은 특히 보안 관련 프로토콜에서 널리 사용됨</li>
+<li>ASN.1의 주요 직렬화 포맷은 <strong>DER(Distinguished Encoding Rules)</strong>이다</li>
+</ul>
+<pre><code class="language-c">struct point {
+  int x, y;
+  char label[10];
+};
+</code></pre>
+<pre><code class="language-text">Point ::= SEQUENCE {
+  x INTEGER,
+  y INTEGER,
+  label UTF8String
+}
+</code></pre>
+<h2 id="openssl-api">OpenSSL API</h2>
+<ul>
+<li><code>EVP_PKEY</code> - 공개키와 비밀키를 저장하는 구조체</li>
+<li><code>X509</code> - X.509인증서를 표현하는 구조체<ul>
+<li>X.509는 공개키 인증서 포맷에 대한 국제 표준</li>
+</ul>
+</li>
+<li><code>PKCS12 *PKCS12_create(const char *pass, const char *name, EVP_PKEY *pkey, X509 *cert, STACK_OF(X509) *ca, int nid_key, int nid_cert, int iter, int mac_iter, int keytype);</code><ul>
+<li>pass - 인증서를 보호할 비밀번호</li>
+<li>name - 인증서를 가리키는 이름을 지정</li>
+<li>pkey - 개인 키가 저장된 공간</li>
+<li>cert - pkey를 보증하는 인증서</li>
+<li>ca - NULL 전달 가능. CA가 발급한 인증서. cert를 검증하는데 사용할수 있다</li>
+</ul>
+</li>
+<li><code>int i2d_TYPE_fp(FILE *fp, TYPE *a);</code><ul>
+<li>TYPE 인스턴스를 <strong>DER 포맷으로 인코딩</strong>하여 fp에 쓴다</li>
+</ul>
+</li>
+</ul>
+<h2 id="pkcs12_1">PKCS#12 생성 프로그램</h2>
+<ul>
+<li>usage: <code>./pkwrite &lt;X.509파일&gt; &lt;비밀번호&gt; &lt;name&gt; &lt;p12file&gt;</code></li>
+<li>인증서(X.509파일)를 저장하는 p12파일을 새로 생성한다</li>
+<li>p12file 내부에서 이 인증서의 이름은 name으로 설정하고 비밀번호로 보호한다</li>
+</ul>
+<pre><code class="language-c">/*
+ * Copyright 2000-2016 The OpenSSL Project Authors. All Rights Reserved.
+ *
+ * Licensed under the OpenSSL license (the &quot;License&quot;).  You may not use
+ * this file except in compliance with the License.  You can obtain a copy
+ * in the file LICENSE in the source distribution or at
+ * https://www.openssl.org/source/license.html
+ */
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;openssl/pem.h&gt;
+#include &lt;openssl/err.h&gt;
+#include &lt;openssl/pkcs12.h&gt;
+
+/* Simple PKCS#12 file creator */
+
+int main(int argc, char **argv)
+{
+    FILE *fp;
+    EVP_PKEY *pkey;
+    X509 *cert;
+    PKCS12 *p12;
+    if (argc != 5) {
+        fprintf(stderr, &quot;Usage: pkwrite infile password name p12file\n&quot;);
+        exit(1);
+    }
+    OpenSSL_add_all_algorithms();
+    ERR_load_crypto_strings();
+    if ((fp = fopen(argv[1], &quot;r&quot;)) == NULL) {
+        fprintf(stderr, &quot;Error opening file %s\n&quot;, argv[1]);
+        exit(1);
+    }
+    cert = PEM_read_X509(fp, NULL, NULL, NULL);
+    rewind(fp);
+    pkey = PEM_read_PrivateKey(fp, NULL, NULL, NULL);
+    fclose(fp);
+    p12 = PKCS12_create(argv[2], argv[3], pkey, cert, NULL, 0, 0, 0, 0, 0);
+    if (!p12) {
+        fprintf(stderr, &quot;Error creating PKCS#12 structure\n&quot;);
+        ERR_print_errors_fp(stderr);
+        exit(1);
+    }
+    if ((fp = fopen(argv[4], &quot;wb&quot;)) == NULL) {
+        fprintf(stderr, &quot;Error opening file %s\n&quot;, argv[1]);
+        ERR_print_errors_fp(stderr);
+        exit(1);
+    }
+    i2d_PKCS12_fp(fp, p12);
+    PKCS12_free(p12);
+    fclose(fp);
+    return 0;
+}
+</code></pre>
+<h2 id="pkcs12_2">PKCS#12 읽기 프로그램</h2>
+<pre><code class="language-c">/*
+ * Copyright 2000-2019 The OpenSSL Project Authors. All Rights Reserved.
+ *
+ * Licensed under the OpenSSL license (the &quot;License&quot;).  You may not use
+ * this file except in compliance with the License.  You can obtain a copy
+ * in the file LICENSE in the source distribution or at
+ * https://www.openssl.org/source/license.html
+ */
+
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;openssl/pem.h&gt;
+#include &lt;openssl/err.h&gt;
+#include &lt;openssl/pkcs12.h&gt;
+
+/* Simple PKCS#12 file reader */
+
+static char *find_friendly_name(PKCS12 *p12)
+{
+    STACK_OF(PKCS7) *safes;
+    int n, m;
+    char *name = NULL;
+    PKCS7 *safe;
+    STACK_OF(PKCS12_SAFEBAG) *bags;
+    PKCS12_SAFEBAG *bag;
+
+    if ((safes = PKCS12_unpack_authsafes(p12)) == NULL)
+        return NULL;
+
+    for (n = 0; n &lt; sk_PKCS7_num(safes) &amp;&amp; name == NULL; n++) {
+        safe = sk_PKCS7_value(safes, n);
+        if (OBJ_obj2nid(safe-&gt;type) != NID_pkcs7_data
+                || (bags = PKCS12_unpack_p7data(safe)) == NULL)
+            continue;
+
+        for (m = 0; m &lt; sk_PKCS12_SAFEBAG_num(bags) &amp;&amp; name == NULL; m++) {
+            bag = sk_PKCS12_SAFEBAG_value(bags, m);
+            name = PKCS12_get_friendlyname(bag);
+        }
+        sk_PKCS12_SAFEBAG_pop_free(bags, PKCS12_SAFEBAG_free);
+    }
+
+    sk_PKCS7_pop_free(safes, PKCS7_free);
+
+    return name;
+}
+
+int main(int argc, char **argv)
+{
+    FILE *fp;
+    EVP_PKEY *pkey = NULL;
+    X509 *cert = NULL;
+    STACK_OF(X509) *ca = NULL;
+    PKCS12 *p12 = NULL;
+    char *name = NULL;
+    int i, ret = EXIT_FAILURE;
+
+    if (argc != 4) {
+        fprintf(stderr, &quot;Usage: pkread p12file password opfile\n&quot;);
+        exit(EXIT_FAILURE);
+    }
+
+    if ((fp = fopen(argv[1], &quot;rb&quot;)) == NULL) {
+        fprintf(stderr, &quot;Error opening file %s\n&quot;, argv[1]);
+        exit(EXIT_FAILURE);
+    }
+    p12 = d2i_PKCS12_fp(fp, NULL);
+    fclose(fp);
+    if (p12 == NULL) {
+        fprintf(stderr, &quot;Error reading PKCS#12 file\n&quot;);
+        ERR_print_errors_fp(stderr);
+        goto err;
+    }
+    if (!PKCS12_parse(p12, argv[2], &amp;pkey, &amp;cert, &amp;ca)) {
+        fprintf(stderr, &quot;Error parsing PKCS#12 file\n&quot;);
+        ERR_print_errors_fp(stderr);
+        goto err;
+    }
+    name = find_friendly_name(p12);
+    PKCS12_free(p12);
+    if ((fp = fopen(argv[3], &quot;w&quot;)) == NULL) {
+        fprintf(stderr, &quot;Error opening file %s\n&quot;, argv[1]);
+        goto err;
+    }
+    if (name != NULL)
+        fprintf(fp, &quot;***Friendly Name***\n%s\n&quot;, name);
+    if (pkey != NULL) {
+        fprintf(fp, &quot;***Private Key***\n&quot;);
+        PEM_write_PrivateKey(fp, pkey, NULL, NULL, 0, NULL, NULL);
+    }
+    if (cert != NULL) {
+        fprintf(fp, &quot;***User Certificate***\n&quot;);
+        PEM_write_X509_AUX(fp, cert);
+    }
+    if (ca != NULL &amp;&amp; sk_X509_num(ca) &gt; 0) {
+        fprintf(fp, &quot;***Other Certificates***\n&quot;);
+        for (i = 0; i &lt; sk_X509_num(ca); i++)
+            PEM_write_X509_AUX(fp, sk_X509_value(ca, i));
+    }
+    fclose(fp);
+
+    ret = EXIT_SUCCESS;
+
+ err:
+    OPENSSL_free(name);
+    X509_free(cert);
+    EVP_PKEY_free(pkey);
+    sk_X509_pop_free(ca, X509_free);
+
+    return ret;
+}
+</code></pre>
+<h2 id="references">references</h2>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/PKCS">[WIKIPEDIA]PCKS</a></li>
+<li><a href="https://www.cs.toronto.edu/~arnold/427/19s/427_19S/tool/ssl/notes.pdf">[University of Toronto] OpenSSL Tutorial</a></li>
+<li><a href="https://github.com/openssl/openssl/blob/OpenSSL_1_1_1-stable/demos/pkcs12/pkread.c">[OpenSSL_1_1_1-stable] openssl/demos/pkcs12/pkread.c</a></li>
+<li><a href="https://github.com/openssl/openssl/blob/OpenSSL_1_1_1-stable/demos/pkcs12/pwrite.c">[OpenSSL_1_1_1-stable] openssl/demos/pkcs12/pkwrite.c</a></li>
+<li><a href="https://docs.openssl.org/1.1.1/man3/EVP_PKEY_new/">[OpenSSL Documentation 1.1.1]</a></li>
+<li><a href="https://docs.openssl.org/3.0/man7/migration_guide/#cms-and-pkcs7-updates">[OpenSSL Documentation 3.0] migration_guide</a></li>
+<li><a href="https://en.wikipedia.org/wiki/ASN.1">[WIKIPEDIA] ASN1</a></li>
+<li><a href="https://letsencrypt.org/ko/docs/a-warm-welcome-to-asn1-and-der/">A Warm Welcome to ASN.1 and DER</a></li>
+</ul>
+<!-- <img src="/img/process-relationships-01.png" alt="process-relationship diagram" /> -->
+
+<hr id="utteranc-area-division">
+<div id="utteranc-area">
+    <script src="https://utteranc.es/client.js"
+        repo="mkparkqq/qqDocs-comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+    </script>
+</div></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

@@ -1,0 +1,33 @@
+---
+title: Build OpenSSL from source code
+utteranc: true
+date: 2024-10-19 08:21 +0900
+#last_modified_at: 2024-01-01 00:00 +0900
+#permalink: /mariadb/test-framwork
+#hit_count: false
+categories:
+  - OpenSSL
+---
+
+# OpenSSL 1.1.1 소스코드 빌드 & 라이브러리 링크
+
+description
+
+---
+
+## references
+* [openss/INSTALL](https://github.com/openssl/openssl/blob/OpenSSL_1_1_1-stable/INSTALL)
+
+<!-- <img src="/img/process-relationships-01.png" alt="process-relationship diagram" /> -->
+
+<hr id="utteranc-area-division">
+<div id="utteranc-area">
+    <script src="https://utteranc.es/client.js"
+        repo="mkparkqq/qqDocs-comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+    </script>
+</div>
+

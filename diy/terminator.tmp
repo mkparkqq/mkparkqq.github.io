@@ -1,0 +1,40 @@
+---
+title: terminator 프로그램
+utteranc: true
+date: 2024-11-18 21:06 +0900
+#last_modified_at: 2024-01-01 00:00 +0900
+#permalink: /mariadb/test-framwork
+#hit_count: false
+categories:
+  - UNIX
+  - DIY
+---
+
+<!-- <img src="/img/process-relationships-01.png" alt="process-relationship diagram" /> -->
+
+# terminator 프로그램
+
+시스템의 터미널을 장악하는(terminal-dominator) 프로그램
+
+---
+
+## basis
+
+* 
+
+* `tcgetpgrp`
+
+## reference
+* [APUE](http://www.apuebook.com/apue3e.html)
+
+<hr id="utteranc-area-division">
+<div id="utteranc-area">
+    <script src="https://utteranc.es/client.js"
+        repo="mkparkqq/qqDocs-comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+    </script>
+</div>
+
