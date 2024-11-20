@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Minkeun Park">
-        <link rel="canonical" href="https://mkparkqq.github.io/note/programming-principle/">
+        <link rel="canonical" href="https://mkparkqq.github.io/cprogramming/memory-layout/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>프로그래밍 원칙 - freema</title>
+        <title>C program memory layout - freema</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -54,28 +54,28 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">C/C++</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">C/C++</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../cprogramming/how-to-use-openssl-pkcs-api/" class="dropdown-item">OpenSSL PKCS API</a>
+    <a href="../how-to-use-openssl-pkcs-api/" class="dropdown-item">OpenSSL PKCS API</a>
 </li>
                                     
 <li>
-    <a href="../../cprogramming/devenv/" class="dropdown-item">개발환경</a>
+    <a href="../devenv/" class="dropdown-item">개발환경</a>
 </li>
                                     
 <li>
-    <a href="../../cprogramming/memory-layout/" class="dropdown-item">C program memory layout</a>
+    <a href="./" class="dropdown-item active" aria-current="page">C program memory layout</a>
 </li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Note</a>
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Note</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">프로그래밍 원칙</a>
+    <a href="../../note/programming-principle/" class="dropdown-item">프로그래밍 원칙</a>
 </li>
                                 </ul>
                             </li>
@@ -88,12 +88,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../../cprogramming/memory-layout/" class="nav-link">
+                                <a rel="prev" href="../devenv/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" class="nav-link disabled">
+                                <a rel="next" href="../../note/programming-principle/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -115,25 +115,25 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#_1" class="nav-link">프로그래밍 원칙</a>
+            <li class="nav-item" data-bs-level="1"><a href="#c-program-memory-layout" class="nav-link">C program memory layout</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">전제</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#encapsulation" class="nav-link">encapsulation</a>
+            <li class="nav-item" data-bs-level="2"><a href="#logical-diagram" class="nav-link">logical diagram</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_3" class="nav-link">계층화</a>
+            <li class="nav-item" data-bs-level="2"><a href="#registers" class="nav-link">registers</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_4" class="nav-link">테스트</a>
+            <li class="nav-item" data-bs-level="2"><a href="#example1" class="nav-link">example1</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_5" class="nav-link">함수</a>
+            <li class="nav-item" data-bs-level="2"><a href="#example2" class="nav-link">example2</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#references" class="nav-link">references</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -144,73 +144,103 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="_1">프로그래밍 원칙</h1>
-<p>반면교사를 통해 배운 프로그래밍 원칙</p>
-<hr />
-<h2 id="_2">전제</h2>
-<ul>
-<li>불확실성(개발자가 고려하지 못한 상황)은 버그의 원인이 된다</li>
-<li>시스템이 아닌 개인의 능력에 의존하는 소프트웨어의 경쟁력은 오래가지 못한다</li>
-</ul>
-<h2 id="encapsulation">encapsulation</h2>
-<ul>
-<li>특정 기능을 제공하는 API를 구현할 때에는 구체적인 자료구조는 숨겨 오직 함수로만 내부 데이터를 조작하도록 유도하자<ul>
-<li>사용자가 직접 내부 데이터(구조체 필드)에 접근하면 개발자의 의도와 다르게 사용할 가능성이 높기 때문에 버그의 원인이 된다</li>
-<li>함수를 통해서만 내부 데이터를 조작하면 불확실성을 최소화할 수 있다</li>
-</ul>
-</li>
-<li>함수(메뉴얼 포함)와 구조체 이름만 제공하자<ul>
-<li>API 사용자는 그 이상(함수의 구현)은 알 필요도 없고 분석하는 것은 시간낭비다</li>
-</ul>
-</li>
-</ul>
-<h2 id="_3">계층화</h2>
-<ul>
-<li>프로젝트 전체를 계층화 하여 모든 계층은 한 단계 아래 계층의 API만 사용하도록 추상화하자<ul>
-<li>깔끔하게 모듈화가 가능하다 --&gt; 테스트 작성이 편하다</li>
-<li>자주 사용될 모듈(list, hashmap과 같은 자료구조)을 하위 계층으로 분리하면 재활용성이 올라간다</li>
-</ul>
-</li>
-<li>시스템(하드웨어 또는 운영체제) 의존적인 매크로는 하나의 계층에서만 사용하자<ul>
-<li>매크로 분기는 코드 분석을 어렵게 만든다</li>
-<li>시스템 의존적인 코드를 한 번 감싸면 코드의 수정량을 최소화할 수 있다</li>
-</ul>
-</li>
-<li>외부 라이브러리는 한 번 감싸서 제공하자<ul>
-<li>외부 라이브러리의 구현이 바뀌었을때 코드의 수정량을 최소화할 수 있다</li>
-</ul>
-</li>
-</ul>
-<h2 id="_4">테스트</h2>
-<ul>
-<li>단위 테스트를 작성하자<ul>
-<li>기능이 추가되거나 구현이 변경될 경우 테스트 코드가 있으면 테스트 실행만으로 문제가 없음을 보장받을 수 있다</li>
-<li>코드를 수정할때마다 side effect를 분석하는 것은 불가능하다</li>
-</ul>
-</li>
-<li>테스트 코드를 보면 각 함수가 어떤 일을 하는지 쉽게 파악 가능하다</li>
-</ul>
-<h2 id="_5">함수</h2>
-<ul>
-<li>함수가 하는 일은 접속사 없이 한 문장으로 설명이 가능할때까지 분리<ul>
-<li>함수의 재활용성이 높으면 버그 수정에 용이하다</li>
-<li>줄 수가 크고 하는 일이 많은 함수는 분석하는데 시간이 오래 걸린다 --&gt; 새로운 사람이 올때마다 설명해주는 시간이 아깝다</li>
-</ul>
-</li>
-<li>반환값으로 성공/실패 여부를 표현하고 결과값은 [out] parameter로 전달하자<ul>
-<li>무책임하게 난사한 Throw는 코드의 흐름을 예상하기 힘들게 만들고 이런 불확실성이 버그를 유발한다</li>
-<li>예를 들면 어떤 변수가 해제되었는지 알 수 없기 때문에 SIGSEGV의 발생 위험성을 높인다</li>
-<li>성공하면 0을 반환하고 실패하면 1을 반환하는 형태는 C/C++ 라이브러리에서는 일반적인 관습이다(e.g. pthread, unix system call 등)</li>
-</ul>
-</li>
-<li>이름에 줄임말을 쓰지 말고 문장처럼 풀어서 쓰자<ul>
-<li>동사가 없이 명사만 있는 함수 이름은 이름만으로 기능을 유추하기 힘들다</li>
-<li>줄임말은 원래 단어를 유추하기 힘들다. 그리고 자동완성 기능이 있는데 귀찮다고 줄임말을 쓰는건 말이 안된다</li>
-</ul>
-</li>
-</ul>
-<!-- <img src="/img/process-relationships-01.png" alt="process-relationship diagram" /> -->
+<h1 id="c-program-memory-layout">C program memory layout</h1>
+<p>C 프로그램이 메모리에 로드되는 형태</p>
+<hr>
 
+<h2 id="logical-diagram">logical diagram</h2>
+<ul>
+<li>c 실행파일이 메모리에 로드되는 형태는 아래와 같다</li>
+<li>스택 프레임 여러 개를 묶어서 스택이라고 한다</li>
+<li>함수가 호출될때마다 스택 프레임 한 개가 생성된다. 스택 프레임은 함수의 실행 환경을 제공한다</li>
+</ul>
+<p><img src="/img/c-program-memory-layout.png" alt="c-program-memory-layout" width="70%" /></p>
+<h2 id="registers">registers</h2>
+<ul>
+<li>rbp(base pointer) : 현재 스택 프레임의 가장 낮은 주소</li>
+</ul>
+<h2 id="example1">example1</h2>
+<ul>
+<li>아래의 명령어로 c code를 assembly code로 컴파일 (x86_64 cpu)</li>
+<li><code>gcc -S scratch.c -o scratch.o</code></li>
+</ul>
+<p><img src="/img/20241110-scratch.c.png" alt="example1-c-code" /></p>
+<p><img src="/img/20241110-scratch.s-descripted.png" alt="example1-s-code" /></p>
+<ul>
+<li>변수의 선언만 한 경우 스택을 할당하지만 초기화까지 하는 경우 immediate value를 레지스터에 저장하는 instruction이 추가된다</li>
+</ul>
+<h3 id="x86-instructions-registers">x86 instructions &amp; registers</h3>
+<ul>
+<li><code>$0</code>, <code>$1</code> - immediate value(주소값이 아닌 리터럴)</li>
+<li>mov - memory와 processor register 사이의 값 이동(복사). 반드시 operand 하나는 register이다. 나머지 하나는 immediate value일 수도 있고 메모리 주소일 수도 있다.<ul>
+<li><code>movq</code> - 64비트 값 이동 (주로 메모리 주소값)</li>
+<li><code>movl</code> - 32비트 값 이동</li>
+</ul>
+</li>
+<li><code>lea</code> - load effective address<ul>
+<li>주소값을 계산해서 dst에 저장한다 (메모리에서 값을 로드하지 않는다)</li>
+<li>lea 80(%rdx,%rcx,2),$rax - $rax=80+%rdx+2*%rcx</li>
+</ul>
+</li>
+<li><code>rip</code> - instruction pointer</li>
+<li><code>%rdi</code> <code>%rsi</code> <code>%rdx</code> <code>%rcx</code> <code>%r8</code> <code>%r9</code> - callee function의 argument 저장<ul>
+<li><a href="https://en.wikipedia.org/wiki/X86_calling_conventions">x86_64 calling conventions</a> 참고</li>
+</ul>
+</li>
+</ul>
+<h3 id="function-prologue">function prologue</h3>
+<ul>
+<li>함수 실행에 필요한 register, stack을 준비한다</li>
+<li>Pushes current base pointer onto the stack, so it can be restored later. <ul>
+<li><code>pushq %rbp</code> - %rbp의 값을 %rsp가 가리키는 공간에 저장</li>
+</ul>
+</li>
+<li>Value of base pointer is set to the address of stack pointer (which is pointed to the top of the stack) so that the base pointer will point to the top of the stack. <ul>
+<li><code>moveq %rsp, %rbp</code> - %rbp에 %rsp의 값을 저장(새로운 스택의 base 주소(%rbp)를 이전 스택의 가장 높은 주소(%rsp)로 설정)</li>
+</ul>
+</li>
+<li>Moves the stack pointer further by decreasing or increasing its value, depending on whether the stack grows down or up. On x86, the stack pointer is decreased to make room for the function's local variables.<ul>
+<li><code>subq $16, %rsp</code> - 지역변수를 저장할 공간을 할당</li>
+</ul>
+</li>
+</ul>
+<h3 id="function-epilogue">function epilogue</h3>
+<ul>
+<li>function prologue의 반대 과정. (Function epilogue reverses the actions of the function prologue and returns control to the calling function.)<ul>
+<li>control - cpu에 대한 주도권. 레지스터에 f1함수에 대한 값이 저장되어 있다면 control은 f1에게 있다</li>
+</ul>
+</li>
+<li>Drop the stack pointer to the current base pointer, so room reserved in the prologue for local variables is freed.<ul>
+<li><code>leave</code> - <code>mov %rbp, %rsp</code>와 <code>pop %rbp</code> 명령어를 결합한 명령어</li>
+</ul>
+</li>
+<li>Pops the base pointer off the stack, so it is restored to its value before the prologue.</li>
+<li>Returns to the calling function, by popping the previous frame's program counter off the stack and jumping to it.</li>
+</ul>
+<h2 id="example2">example2</h2>
+<ul>
+<li>초기화하지 않은 변수에 대한 최적화</li>
+</ul>
+<p><img src="/img/20241110-example2.png" alt="example2" /></p>
+<ul>
+<li>%eax - return value</li>
+<li><code>int b = b;</code> - 의도적으로 초기화하지 않음을 컴파일러에게 알려준다.<ul>
+<li>이런 코드 없이 초기화 하지 않으면 컴파일할때 경고 메세지가 출력된다. </li>
+<li>그렇다고 <code>int b =0;</code>과 같이 초기화할 경우 <code>movl $0, -16(%rbp)</code> 라는 instruction이 추가된다.</li>
+<li>이런 instruction은 프로세서에서 메모리로 값을 복사하기 때문에 없애면 성능이 향상된다</li>
+</ul>
+</li>
+</ul>
+<p><img src="/img/20241110-example2-wall.png" alt="warning message" /></p>
+<hr>
+
+<h2 id="references">references</h2>
+<ul>
+<li><a href="https://www.geeksforgeeks.org/memory-layout-of-c-program/">geeksforgeeks.org/memory-layout-of-cprogram</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Function_prologue_and_epilogue">function prologue and epilogue</a></li>
+<li><a href="https://ee.usc.edu/~redekopp/cs356/slides/CS356Unit4_x86_ISA.pdf">x86 Instruction Set</a></li>
+<li><a href="https://en.wikipedia.org/wiki/X86_calling_conventions">x86 calling convention</a></li>
+</ul>
 <hr id="utteranc-area-division">
 <div id="utteranc-area">
     <script src="https://utteranc.es/client.js"
