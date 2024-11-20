@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Minkeun Park">
-        <link rel="canonical" href="https://mkparkqq.github.io/mariadb/test-framework/">
+        <link rel="canonical" href="https://mkparkqq.github.io/note/programming-principle/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>테스트 프레임워크 - freema</title>
+        <title>프로그래밍 원칙 - freema</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -45,11 +45,11 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">MariaDB</a>
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">MariaDB</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">테스트 프레임워크</a>
+    <a href="../../mariadb/test-framework/" class="dropdown-item">테스트 프레임워크</a>
 </li>
                                 </ul>
                             </li>
@@ -63,11 +63,11 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Note</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Note</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../note/programming-principle/" class="dropdown-item">프로그래밍 원칙</a>
+    <a href="./" class="dropdown-item active" aria-current="page">프로그래밍 원칙</a>
 </li>
                                 </ul>
                             </li>
@@ -80,12 +80,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../../unix/process-relationships/" class="nav-link">
+                                <a rel="prev" href="../../cprogramming/how-to-use-openssl-pkcs-api/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../../cprogramming/how-to-use-openssl-pkcs-api/" class="nav-link">
+                                <a rel="next" class="nav-link disabled">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -107,25 +107,25 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#mariadb" class="nav-link">[MariaDB] 테스트 프레임워크</a>
+            <li class="nav-item" data-bs-level="1"><a href="#_1" class="nav-link">프로그래밍 원칙</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">빌드</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">테스트 실행</a>
+            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">전제</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_3" class="nav-link">테스트 프레임워크</a>
+            <li class="nav-item" data-bs-level="2"><a href="#encapsulation" class="nav-link">encapsulation</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_4" class="nav-link">실습</a>
+            <li class="nav-item" data-bs-level="2"><a href="#_3" class="nav-link">계층화</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_5" class="nav-link">출처</a>
+            <li class="nav-item" data-bs-level="2"><a href="#_4" class="nav-link">테스트</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_5" class="nav-link">함수</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -136,128 +136,73 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="mariadb">[MariaDB] 테스트 프레임워크</h1>
-<p>mariadb 프로젝트의 테스트 코드가 실행되는 과정 분석</p>
+<h1 id="_1">프로그래밍 원칙</h1>
+<p>반면교사를 통해 배운 프로그래밍 원칙</p>
 <hr />
-<h2 id="_1">빌드</h2>
+<h2 id="_2">전제</h2>
 <ul>
-<li><code>mkdir build &amp;&amp; cd build &amp;&amp; cmake .. &amp;&amp; cmake --build . --parallel 5</code><ul>
-<li>빌드 결과가 저장될 디렉토리 <code>build</code> 생성&amp;이동</li>
-<li>따로 옵션을 명시하지 않아도 단위 테스트들이 기본적으로 빌드된다</li>
+<li>불확실성(개발자가 고려하지 못한 상황)은 버그의 원인이 된다</li>
+<li>시스템이 아닌 개인의 능력에 의존하는 소프트웨어의 경쟁력은 오래가지 못한다</li>
 </ul>
-</li>
-</ul>
-<h2 id="_2">테스트 실행</h2>
+<h2 id="encapsulation">encapsulation</h2>
 <ul>
-<li>모든 테스트 실행<ul>
-<li><code>build</code> 디렉토리에서 <code>cmake</code> 명령어 실행</li>
+<li>특정 기능을 제공하는 API를 구현할 때에는 구체적인 자료구조는 숨겨 오직 함수로만 내부 데이터를 조작하도록 유도하자<ul>
+<li>사용자가 직접 내부 데이터(구조체 필드)에 접근하면 개발자의 의도와 다르게 사용할 가능성이 높기 때문에 버그의 원인이 된다</li>
+<li>함수를 통해서만 내부 데이터를 조작하면 불확실성을 최소화할 수 있다</li>
 </ul>
 </li>
-<li>특정 테스트 실행 <ul>
-<li><code>build/unittest/mysys/my_malloc-t</code> 실행</li>
+<li>함수(메뉴얼 포함)와 구조체 이름만 제공하자<ul>
+<li>API 사용자는 그 이상(함수의 구현)은 알 필요도 없고 분석하는 것은 시간낭비다</li>
 </ul>
 </li>
 </ul>
-<h2 id="_3">테스트 프레임워크</h2>
+<h2 id="_3">계층화</h2>
 <ul>
-<li>MariaDB의 테스트 프레임워크는 ctest, cmake를 감싸는 cmake 매크로와 함수로 구현되어 있다</li>
-<li><code>MY_ADD_TESTS(dynarray LINK_LIBRARYS mysys)</code><ul>
-<li><code>cmake/ctest.cmake</code>에 정의된 cmake 매크로</li>
-<li><code>dynarray-t.c</code>파일에 mytap 라이브러리를 링크하여 <code>dynarray-t</code> 실행파일을 만드는 규칙을 생성한다</li>
+<li>프로젝트 전체를 계층화 하여 모든 계층은 한 단계 아래 계층의 API만 사용하도록 추상화하자<ul>
+<li>깔끔하게 모듈화가 가능하다 --&gt; 테스트 작성이 편하다</li>
+<li>자주 사용될 모듈(list, hashmap과 같은 자료구조)을 하위 계층으로 분리하면 재활용성이 올라간다</li>
 </ul>
 </li>
-<li>mytap : MariaDB에서 사용하는 테스트 라이브러리<ul>
-<li>테스트 작성에 반복적으로 사용되는 함수들을 제공</li>
-<li><code>unittest/examples/simple-t.c</code>에서 사용법을 익힐 수 있다</li>
-<li><code>plan</code>함수 : 이 파일에서 몇 개의 테스트를 진행할지 미리 선언한다</li>
-<li><code>ok</code>함수 : 첫 번째 인자로 0이 전달되면 테스트 실패를 의미한다</li>
+<li>시스템(하드웨어 또는 운영체제) 의존적인 매크로는 하나의 계층에서만 사용하자<ul>
+<li>매크로 분기는 코드 분석을 어렵게 만든다</li>
+<li>시스템 의존적인 코드를 한 번 감싸면 코드의 수정량을 최소화할 수 있다</li>
+</ul>
+</li>
+<li>외부 라이브러리는 한 번 감싸서 제공하자<ul>
+<li>외부 라이브러리의 구현이 바뀌었을때 코드의 수정량을 최소화할 수 있다</li>
 </ul>
 </li>
 </ul>
-<h2 id="_4">실습</h2>
+<h2 id="_4">테스트</h2>
 <ul>
-<li>cmake에게 테스트 빌드 방법 전달<ul>
-<li><code>unittest/mysys/CMakeLists.txt</code> 파일 편집</li>
-<li><code>MY_ADD_TESTS</code> 매크로에 <code>dynarray</code> 추가</li>
+<li>단위 테스트를 작성하자<ul>
+<li>기능이 추가되거나 구현이 변경될 경우 테스트 코드가 있으면 테스트 실행만으로 문제가 없음을 보장받을 수 있다</li>
+<li>코드를 수정할때마다 side effect를 분석하는 것은 불가능하다</li>
 </ul>
 </li>
-<li><code>unittest/mysys/dynarray-t.c</code> 파일 생성</li>
+<li>테스트 코드를 보면 각 함수가 어떤 일을 하는지 쉽게 파악 가능하다</li>
 </ul>
-<pre><code class="language-c">#include &lt;tap.h&gt;
-#include &lt;my_global.h&gt;
-#include &lt;my_sys.h&gt;
-#include &lt;stdio.h&gt;
+<h2 id="_5">함수</h2>
+<ul>
+<li>함수가 하는 일은 접속사 없이 한 문장으로 설명이 가능할때까지 분리<ul>
+<li>함수의 재활용성이 높으면 버그 수정에 용이하다</li>
+<li>줄 수가 크고 하는 일이 많은 함수는 분석하는데 시간이 오래 걸린다 --&gt; 새로운 사람이 올때마다 설명해주는 시간이 아깝다</li>
+</ul>
+</li>
+<li>반환값으로 성공/실패 여부를 표현하고 결과값은 [out] parameter로 전달하자<ul>
+<li>무책임하게 난사한 Throw는 코드의 흐름을 예상하기 힘들게 만들고 이런 불확실성이 버그를 유발한다</li>
+<li>예를 들면 어떤 변수가 해제되었는지 알 수 없기 때문에 SIGSEGV의 발생 위험성을 높인다</li>
+<li>성공하면 0을 반환하고 실패하면 1을 반환하는 형태는 C/C++ 라이브러리에서는 일반적인 관습이다(e.g. pthread, unix system call 등)</li>
+</ul>
+</li>
+<li>이름에 줄임말을 쓰지 말고 문장처럼 풀어서 쓰자<ul>
+<li>동사가 없이 명사만 있는 함수 이름은 이름만으로 기능을 유추하기 힘들다</li>
+<li>줄임말은 원래 단어를 유추하기 힘들다. 그리고 자동완성 기능이 있는데 귀찮다고 줄임말을 쓰는건 말이 안된다</li>
+</ul>
+</li>
+</ul>
+<!-- <img src="/img/process-relationships-01.png" alt="process-relationship diagram" /> -->
 
-struct _foo {
-  int num;
-  char str[64];
-};
-
-static unsigned int test_dynamic_increase(int size)
-{
-  /* @given
-   * 초기 크기가 size이고 element32개만큼의 공간이 늘어나는 동적 배열 생성
-   */
-  unsigned int inc = 32;
-  DYNAMIC_ARRAY array;
-  // my_init_dynamic_array 함수는 항상 FALSE를 반환한다
-  my_init_dynamic_array(PSI_NOT_INSTRUMENTED, &amp;array, sizeof(struct _foo), 
-      size, inc, MYF(0));
-  /* @when
-   * size + 1개의 원소를 배열에 추가
-   */
-  unsigned int i;
-  struct _foo foo;
-  for (i = 0; i &lt;= size; ++i)
-  {
-    foo.num = i;
-    snprintf(foo.str, 64, &quot;sample string-%u&quot;, i);
-    /* @then
-     * 원소 추가에 성공
-     */
-    if (insert_dynamic(&amp;array, (const void *)&amp;foo)) {
-      diag(&quot;insert_dynamic failed&quot;);
-      return TRUE;
-    }
-  }
-  /* @then
-   * capacity가 size에서 inc만큼 증가함
-   */
-  if (size + array.alloc_increment != array.max_element) {
-    diag(&quot;actual: %u expected: %u&quot;, array.max_element, 
-        size+array.alloc_increment);
-    return TRUE;
-  }
-
-  /*
-   * C/C++ 프로그래밍에서 함수가 성공할 경우 0을 반환하는 관례를 따름
-   */
-  return FALSE;
-}
-
-int main() {
-  unsigned int a,b;
-  unsigned int failed;
-  plan(1);
-  diag(&quot;Testing DYNAMIC_ARRAY&quot;);
-  failed = 0;
-  for (a = 1 ; a &lt; 200 ; ++a)
-    if (test_dynamic_increase(a)) {
-      ++failed;
-      diag(&quot;Failed for test_dynamic_increase(%3u)&quot;, a);
-    }
-  ok(failed == 0, &quot;test_dynamic_increase&quot;);
-  return exit_status();
-}
-</code></pre>
-<ul>
-<li>빌드한 뒤 전체 실행 또는 <code>build/unittest/mysys/dynarray-t</code> 실행</li>
-</ul>
-<h2 id="_5">출처</h2>
-<ul>
-<li><a href="https://mariadb.org/get-involved/getting-started-for-developers/get-code-build-test/#testing-the-server">Get the code, build it, test it</a></li>
-<li><a href="https://mariadb.org/get-involved/getting-started-for-developers/writing-good-test-cases-mariadb-server/">Writing Good Test Cases for MariaDB Server</a></li>
-</ul>
 <hr id="utteranc-area-division">
 <div id="utteranc-area">
     <script src="https://utteranc.es/client.js"
