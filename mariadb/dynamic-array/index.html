@@ -4,28 +4,28 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="None">
+        
         <meta name="author" content="Minkeun Park">
-        <link rel="canonical" href="https://mkparkqq.github.io/">
-        <link rel="shortcut icon" href="img/favicon.ico">
-        <title>freema</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/fontawesome.min.css" rel="stylesheet">
-        <link href="css/brands.min.css" rel="stylesheet">
-        <link href="css/solid.min.css" rel="stylesheet">
-        <link href="css/v4-font-face.min.css" rel="stylesheet">
-        <link href="css/base.css" rel="stylesheet">
+        <link rel="canonical" href="https://mkparkqq.github.io/mariadb/dynamic-array/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>\[MariaDB\] DYNAMIC_ARRAY API - freema</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
         <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
         <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
-        <link href="estyle.css" rel="stylesheet">
+        <link href="../../estyle.css" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script> 
     </head>
 
-    <body class="homepage">
+    <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href=".">freema</a>
+                <a class="navbar-brand" href="../..">freema</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -40,7 +40,7 @@
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="unix/process-relationships/" class="dropdown-item">세션</a>
+    <a href="../../unix/process-relationships/" class="dropdown-item">세션</a>
 </li>
                                 </ul>
                             </li>
@@ -49,7 +49,7 @@
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="mariadb/test-framework/" class="dropdown-item">테스트 프레임워크</a>
+    <a href="../test-framework/" class="dropdown-item">테스트 프레임워크</a>
 </li>
                                 </ul>
                             </li>
@@ -58,15 +58,15 @@
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="cprogramming/how-to-use-openssl-pkcs-api/" class="dropdown-item">OpenSSL PKCS API</a>
+    <a href="../../cprogramming/how-to-use-openssl-pkcs-api/" class="dropdown-item">OpenSSL PKCS API</a>
 </li>
                                     
 <li>
-    <a href="cprogramming/devenv/" class="dropdown-item">개발환경</a>
+    <a href="../../cprogramming/devenv/" class="dropdown-item">개발환경</a>
 </li>
                                     
 <li>
-    <a href="cprogramming/memory-layout/" class="dropdown-item">C program memory layout</a>
+    <a href="../../cprogramming/memory-layout/" class="dropdown-item">C program memory layout</a>
 </li>
                                 </ul>
                             </li>
@@ -75,7 +75,7 @@
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="note/programming-principle/" class="dropdown-item">프로그래밍 원칙</a>
+    <a href="../../note/programming-principle/" class="dropdown-item">프로그래밍 원칙</a>
 </li>
                                 </ul>
                             </li>
@@ -104,16 +104,134 @@
     
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#dynamic_array" class="nav-link">DYNAMIC_ARRAY 코드분석</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#dynamic_array_1" class="nav-link">DYNAMIC_ARRAY 구조체</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#api" class="nav-link">API</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#api_1" class="nav-link">테스트로 API 사용법 파악</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#references" class="nav-link">references</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
         </ul>
     </div>
 </div></div>
                     <div class="col-md-9" role="main">
 
-<p>프로그래밍 관련 이것저것</p>
-<!-- ![cat](img/dodo.jpg) -->
+<h1 id="dynamic_array">DYNAMIC_ARRAY 코드분석</h1>
+<p>MariaDB 프로젝트에서 사용하는 동적배열(DYNAMIC_ARRAY) API 코드분석</p>
+<hr />
+<!-- <img src="img/process-relationships-01.png" alt="process-relationship diagram" /> -->
 
-<p><img src="img/dodo.jpg" alt="cat" width="50%" style="padding: 0;" /></p>
-<!--
+<h2 id="dynamic_array_1">DYNAMIC_ARRAY 구조체</h2>
+<pre><code class="language-c">typedef struct st_dynamic_array
+{
+  uchar *buffer;                      // raw data가 저장되는 공간
+  size_t elements, max_element;       // 현재 원소 개수, 최대 개수
+  size_t alloc_increment;             // 재할당시 증가량
+  size_t size_of_element;             // 원소 크기
+  PSI_memory_key m_psi_key;           // performance schema 정보 수집을 위한 key
+  myf malloc_flags;                   // 기타 옵션
+} DYNAMIC_ARRAY;
+</code></pre>
+<h2 id="api">API</h2>
+<pre><code class="language-c">#define my_init_dynamic_array(A,B,C,D,E,F) init_dynamic_array2(A,B,C,NULL,D,E,F)
+#define my_init_dynamic_array2(A,B,C,D,E,F,G) init_dynamic_array2(A,B,C,D,E,F,G)
+extern my_bool init_dynamic_array2(PSI_memory_key psi_key, DYNAMIC_ARRAY *array,
+                                   size_t element_size, void *init_buffer,
+                                   size_t init_alloc, size_t alloc_increment,
+                                   myf my_flags);
+extern my_bool insert_dynamic(DYNAMIC_ARRAY *array, const void* element);
+extern void *alloc_dynamic(DYNAMIC_ARRAY *array);
+extern void *pop_dynamic(DYNAMIC_ARRAY*);
+extern my_bool set_dynamic(DYNAMIC_ARRAY *array, const void *element,
+                           size_t array_index);
+extern my_bool allocate_dynamic(DYNAMIC_ARRAY *array, size_t max_elements);
+extern void get_dynamic(DYNAMIC_ARRAY *array, void *element, size_t array_index);
+extern void delete_dynamic(DYNAMIC_ARRAY *array);
+extern void delete_dynamic_element(DYNAMIC_ARRAY *array, size_t array_index);
+extern void delete_dynamic_with_callback(DYNAMIC_ARRAY *array, FREE_FUNC f);
+extern void freeze_size(DYNAMIC_ARRAY *array);
+#define dynamic_array_ptr(array,array_index) ((array)-&gt;buffer+(array_index)*(array)-&gt;size_of_element)
+#define dynamic_element(array,array_index,type) ((type)((array)-&gt;buffer) +(array_index))
+#define push_dynamic(A,B) insert_dynamic((A),(B))
+#define reset_dynamic(array) ((array)-&gt;elements= 0)
+#define sort_dynamic(A,cmp) my_qsort((A)-&gt;buffer, (A)-&gt;elements, (A)-&gt;size_of_element, (cmp))
+extern void init_append_dynamic(DYNAMIC_ARRAY_APPEND *append,
+                                DYNAMIC_ARRAY *array);
+extern my_bool append_dynamic(DYNAMIC_ARRAY_APPEND *append,
+                              const void * element);
+</code></pre>
+<h2 id="api_1">테스트로 API 사용법 파악</h2>
+<ul>
+<li>테스트 파일 생성 - <code>unittest/mysys/dynarray-t.c</code></li>
+<li><a href="https://mkparkqq.github.io/mariadb/test-framework/#_4">unittest/mysys/CMakeLists.txt 수정</a> - dynarray 추가</li>
+<li>테스트 빌드 - <code>cd build &amp;&amp; cmake .. &amp;&amp; cmake --build . --parallel 5</code></li>
+<li>테스트(<code>build/unittest/mysys/dynarray-t</code>) 실행</li>
+</ul>
+<pre><code class="language-c">/* Copyright (C) 2006 MySQL AB
+   Use is subject to license terms
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; version 2 of the License.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1335  USA */
+
+#include &lt;tap.h&gt;
+
+#include &lt;my_global.h&gt;
+#include &lt;my_sys.h&gt;
+#include &lt;stdio.h&gt;
+
+enum TEST_RESULT {
+  FAIL = 0,
+  PASS = 1
+};
+
+struct person {
+  unsigned char age;
+  char name[16];
+  char nationality[16];
+};
+
+static TEST_RESULT test_get_dynamic(void) {
+
+}
+
+
+int main() {
+  unsigned int failed;
+  plan(1);
+  diag(&quot;Testing DYNAMIC_ARRAY&quot;);
+  failed = 0;
+  return exit_status();
+}
+</code></pre>
+<h2 id="references">references</h2>
+<ul>
+<li><a href="https://github.com/MariaDB/server">MariaDB/server</a></li>
+<li><a href="https://dev.mysql.com/doc/mysql-perfschema-excerpt/8.0/en/performance-schema.html">MySQL Performance Schema</a></li>
+</ul>
 <hr id="utteranc-area-division">
 <div id="utteranc-area">
     <script src="https://utteranc.es/client.js"
@@ -123,18 +241,7 @@
         crossorigin="anonymous"
         async>
     </script>
-</div>
--->
-
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    var toc = document.querySelector('div#toc-collapse');
-    if (toc) {
-        toc.remove();
-    }
-
-  });
-</script></div>
+</div></div>
             </div>
         </div>
 
@@ -142,13 +249,13 @@
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
-        <script src="js/bootstrap.bundle.min.js"></script>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
         <script>
-            var base_url = ".",
+            var base_url = "../..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="js/base.js"></script>
-        <script src="search/main.js"></script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -213,8 +320,3 @@
 
     </body>
 </html>
-
-<!--
-MkDocs version : 1.6.1
-Build Date UTC : 2024-11-24 06:18:56.129575+00:00
--->
