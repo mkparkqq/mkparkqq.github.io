@@ -8,7 +8,7 @@
         <meta name="author" content="Minkeun Park">
         <link rel="canonical" href="https://mkparkqq.github.io/mariadb/tap-api/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>\[MariaDB\] MyTAP 코드분석 - freema</title>
+        <title>MyTAP - freema</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -45,11 +45,15 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">MariaDB</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">MariaDB</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
     <a href="../test-framework/" class="dropdown-item">테스트 프레임워크</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">MyTAP</a>
 </li>
                                 </ul>
                             </li>
@@ -87,6 +91,16 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../test-framework/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../cprogramming/how-to-use-openssl-pkcs-api/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -127,7 +141,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#unittestmysysmy_malloc-tc" class="nav-link">unittest/mysys/my_malloc-t.c</a>
+            <li class="nav-item" data-bs-level="2"><a href="#example-code" class="nav-link">example code</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -249,7 +263,11 @@ some time in the near future.</em></li>
 <li>Report - <code>exit_status</code>함수는 <code>main</code>함수에 포함된 모든 테스트의 결과를 (TAP producer)로 반환한다.
 모든 테스트가 성공한 경우 <code>EXIT_SUCCESS</code>, 하나라도 실패한 경우 다른 값을 반환한다</li>
 </ul>
-<h2 id="unittestmysysmy_malloc-tc">unittest/mysys/my_malloc-t.c</h2>
+<h2 id="example-code">example code</h2>
+<ul>
+<li>MariaDB 프로젝트의 <code>unittest</code> 디렉토리에 각 모듈별 단위 테스트 코드들이 있다</li>
+</ul>
+<h3 id="unittestmysysmy_malloc-tc"><code>unittest/mysys/my_malloc-t.c</code></h3>
 <ul>
 <li>mysys/my_malloc 모듈에 대한 단위 테스트</li>
 </ul>
@@ -279,22 +297,102 @@ int main(int argc __attribute__((unused)),char *argv[])
 
   plan(4);
 
+  /*
+   * Borderline case에 대한 테스트
+   * 요청한 메모리 크기가 0인 경우에도 
+   */
   p= my_malloc(PSI_NOT_INSTRUMENTED, 0, MYF(0));
   ok(p != NULL, &quot;Zero-sized block allocation.&quot;);
 
+  /* Normal inpu test */
   p= my_realloc(PSI_NOT_INSTRUMENTED, p, 32, MYF(0));
   ok(p != NULL, &quot;Reallocated zero-sized block.&quot;);
 
+  /* Normal inpu test */
   p= my_realloc(PSI_NOT_INSTRUMENTED, p, 16, MYF(0));
   ok(p != NULL, &quot;Trimmed block.&quot;);
 
   my_free(p);
   p= NULL;
 
+  /* 
+   * my_free에 NULL이 전달되면 아무것도 하지 않는다
+   * stdlib의 free함수도 NULL이 전달될 경우 아무것도 하지 않는다고 명시하고 있다
+   */
   ok((my_free(p), 1), &quot;Free NULL pointer.&quot;);
 
   my_end(0);
   return exit_status();
+}
+</code></pre>
+<ul>
+<li><code>my_malloc</code> 함수는 이렇게 생겼다</li>
+<li>요청한 메모리의 크기가 0인 경우 1로 설정된다</li>
+</ul>
+<pre><code class="language-c">/**
+  Allocate a sized block of memory.
+
+  @param key    Key to register instrumented memory
+  @param size   The size of the memory block in bytes.
+  @param flags  Failure action modifiers (bitmasks).
+
+  @return A pointer to the allocated memory block, or NULL on failure.
+*/
+ATTRIBUTE_MALLOC
+void *my_malloc(PSI_memory_key key, size_t size, myf my_flags)
+{
+  my_memory_header *mh;
+  void *point;
+  DBUG_ENTER(&quot;my_malloc&quot;);
+  DBUG_PRINT(&quot;my&quot;,(&quot;size: %zu flags: %lu&quot;, size, my_flags));
+  compile_time_assert(sizeof(my_memory_header) &lt;= HEADER_SIZE);
+
+  if (!(my_flags &amp; (MY_WME | MY_FAE)))
+    my_flags|= my_global_flags;
+
+  /* Safety */
+  if (!size)
+    size=1;
+  if (size &gt; SIZE_T_MAX - 1024L*1024L*16L)           /* Wrong call */
+    DBUG_RETURN(0);
+
+  /* We have to align size as we store MY_THREAD_SPECIFIC flag in the LSB */
+  size= ALIGN_SIZE(size);
+
+  if (DBUG_IF(&quot;simulate_out_of_memory&quot;))
+    mh= NULL;
+  else
+    mh= (my_memory_header*) sf_malloc(size + HEADER_SIZE, my_flags);
+
+  if (mh == NULL)
+  {
+    my_errno=errno;
+    if (my_flags &amp; MY_FAE)
+      error_handler_hook=fatal_error_handler_hook;
+    if (my_flags &amp; (MY_FAE+MY_WME))
+      my_error(EE_OUTOFMEMORY, MYF(ME_BELL+ME_ERROR_LOG+ME_FATAL),size);
+    if (my_flags &amp; MY_FAE)
+      abort();
+    point= NULL;
+  }
+  else
+  {
+    int flag= MY_TEST(my_flags &amp; MY_THREAD_SPECIFIC);
+    mh-&gt;m_size= size | flag;
+    mh-&gt;m_key= PSI_CALL_memory_alloc(key, size, &amp; mh-&gt;m_owner);
+    if (update_malloc_size)
+    {
+      mh-&gt;m_size|=2;
+      update_malloc_size(size + HEADER_SIZE, flag);
+    }
+    point= HEADER_TO_USER(mh);
+    if (my_flags &amp; MY_ZEROFILL)
+      bzero(point, size);
+    else
+      TRASH_ALLOC(point, size);
+  }
+  DBUG_PRINT(&quot;exit&quot;,(&quot;ptr: %p&quot;, point));
+  DBUG_RETURN(point);
 }
 </code></pre>
 <h2 id="references">references</h2>
