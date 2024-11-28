@@ -1,0 +1,138 @@
+---
+title: DYNAMIC_ARRAY
+utteranc: true
+date: 2024-11-21 20:56 +0900
+#last_modified_at: 2024-01-01 00:00 +0900
+#permalink: /mariadb/test-framwork
+#hit_count: false
+categories:
+  - MariaDB
+---
+
+# DYNAMIC_ARRAY 코드분석
+
+MariaDB 프로젝트에서 사용하는 동적배열(DYNAMIC_ARRAY) API 코드분석
+
+---
+
+<!-- <img src="img/process-relationships-01.png" alt="process-relationship diagram" /> -->
+
+## DYNAMIC_ARRAY 구조체
+
+```c
+typedef struct st_dynamic_array
+{
+  uchar *buffer;                      // raw data가 저장되는 공간
+  size_t elements, max_element;       // 현재 원소 개수, 최대 개수
+  size_t alloc_increment;             // 재할당시 증가량
+  size_t size_of_element;             // 원소 크기
+  PSI_memory_key m_psi_key;           // performance schema 정보 수집을 위한 key
+  myf malloc_flags;                   // 기타 옵션
+} DYNAMIC_ARRAY;
+```
+
+## API
+
+```c
+#define my_init_dynamic_array(A,B,C,D,E,F) init_dynamic_array2(A,B,C,NULL,D,E,F)
+#define my_init_dynamic_array2(A,B,C,D,E,F,G) init_dynamic_array2(A,B,C,D,E,F,G)
+extern my_bool init_dynamic_array2(PSI_memory_key psi_key, DYNAMIC_ARRAY *array,
+                                   size_t element_size, void *init_buffer,
+                                   size_t init_alloc, size_t alloc_increment,
+                                   myf my_flags);
+extern my_bool insert_dynamic(DYNAMIC_ARRAY *array, const void* element);
+extern void *alloc_dynamic(DYNAMIC_ARRAY *array);
+extern void *pop_dynamic(DYNAMIC_ARRAY*);
+extern my_bool set_dynamic(DYNAMIC_ARRAY *array, const void *element,
+                           size_t array_index);
+extern my_bool allocate_dynamic(DYNAMIC_ARRAY *array, size_t max_elements);
+extern void get_dynamic(DYNAMIC_ARRAY *array, void *element, size_t array_index);
+extern void delete_dynamic(DYNAMIC_ARRAY *array);
+extern void delete_dynamic_element(DYNAMIC_ARRAY *array, size_t array_index);
+extern void delete_dynamic_with_callback(DYNAMIC_ARRAY *array, FREE_FUNC f);
+extern void freeze_size(DYNAMIC_ARRAY *array);
+#define dynamic_array_ptr(array,array_index) ((array)->buffer+(array_index)*(array)->size_of_element)
+#define dynamic_element(array,array_index,type) ((type)((array)->buffer) +(array_index))
+#define push_dynamic(A,B) insert_dynamic((A),(B))
+#define reset_dynamic(array) ((array)->elements= 0)
+#define sort_dynamic(A,cmp) my_qsort((A)->buffer, (A)->elements, (A)->size_of_element, (cmp))
+extern void init_append_dynamic(DYNAMIC_ARRAY_APPEND *append,
+                                DYNAMIC_ARRAY *array);
+extern my_bool append_dynamic(DYNAMIC_ARRAY_APPEND *append,
+                              const void * element);
+```
+
+
+## 테스트로 API 사용법 파악
+
+* 테스트 파일 생성 - `unittest/mysys/dynarray-t.c`
+* [unittest/mysys/CMakeLists.txt 수정](https://mkparkqq.github.io/mariadb/test-framework/#_4) - dynarray 추가
+* 테스트 빌드 - `cd build && cmake .. && cmake --build . --parallel 5`
+* 테스트(`build/unittest/mysys/dynarray-t`) 실행
+
+
+```c
+/* Copyright (C) 2006 MySQL AB
+   Use is subject to license terms
+
+   This program is free software; you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation; version 2 of the License.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1335  USA */
+
+#include <tap.h>
+
+#include <my_global.h>
+#include <my_sys.h>
+#include <stdio.h>
+
+enum TEST_RESULT {
+  FAIL = 0,
+  PASS = 1
+};
+
+struct person {
+  unsigned char age;
+  char name[16];
+  char nationality[16];
+};
+
+static TEST_RESULT test_get_dynamic(void) {
+
+}
+
+
+int main() {
+  unsigned int failed;
+  plan(1);
+  diag("Testing DYNAMIC_ARRAY");
+  failed = 0;
+  return exit_status();
+}
+```
+
+
+## references
+* [MariaDB/server](https://github.com/MariaDB/server)
+* [MySQL Performance Schema](https://dev.mysql.com/doc/mysql-perfschema-excerpt/8.0/en/performance-schema.html)
+
+
+<hr id="utteranc-area-division">
+<div id="utteranc-area">
+    <script src="https://utteranc.es/client.js"
+        repo="mkparkqq/qqDocs-comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+    </script>
+</div>
+
