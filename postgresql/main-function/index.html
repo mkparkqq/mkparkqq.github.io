@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Minkeun Park">
-        <link rel="canonical" href="https://mkparkqq.github.io/mariadb/test-framework/">
+        <link rel="canonical" href="https://mkparkqq.github.io/postgresql/main-function/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>테스트 프레임워크 - freema</title>
+        <title>main 함수 - freema</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -45,28 +45,28 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">MariaDB</a>
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">MariaDB</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">테스트 프레임워크</a>
+    <a href="../../mariadb/test-framework/" class="dropdown-item">테스트 프레임워크</a>
 </li>
                                     
 <li>
-    <a href="../tap-api/" class="dropdown-item">MyTAP</a>
+    <a href="../../mariadb/tap-api/" class="dropdown-item">MyTAP</a>
 </li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">PostgreSQL</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">PostgreSQL</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../postgresql/mmgr/" class="dropdown-item">mmgr</a>
+    <a href="../mmgr/" class="dropdown-item">mmgr</a>
 </li>
                                     
 <li>
-    <a href="../../postgresql/main-function/" class="dropdown-item">main 함수</a>
+    <a href="./" class="dropdown-item active" aria-current="page">main 함수</a>
 </li>
                                 </ul>
                             </li>
@@ -118,12 +118,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../../unix/process-relationships/" class="nav-link">
+                                <a rel="prev" href="../mmgr/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../tap-api/" class="nav-link">
+                                <a rel="next" href="../../cprogramming/zombie-process/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -145,25 +145,13 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#mariadb" class="nav-link">[MariaDB] 테스트 프레임워크</a>
+            <li class="nav-item" data-bs-level="1"><a href="#postgresql-main" class="nav-link">[PostgreSQL] main 함수</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">빌드</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">테스트 실행</a>
+            <li class="nav-item" data-bs-level="2"><a href="#main" class="nav-link">main 함수에서 호출하는 함수</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_3" class="nav-link">테스트 프레임워크</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_4" class="nav-link">실습</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_5" class="nav-link">출처</a>
+            <li class="nav-item" data-bs-level="2"><a href="#references" class="nav-link">references</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -174,128 +162,72 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="mariadb">[MariaDB] 테스트 프레임워크</h1>
-<p>mariadb 프로젝트의 테스트 코드가 실행되는 과정 분석</p>
+<h1 id="postgresql-main">[PostgreSQL] main 함수</h1>
+<p>PostgreSQL의 main 함수 분석 (<code>src/backend/main/main.c</code>)</p>
 <hr />
-<h2 id="_1">빌드</h2>
+<h2 id="main">main 함수에서 호출하는 함수</h2>
 <ul>
-<li><code>mkdir build &amp;&amp; cd build &amp;&amp; cmake .. &amp;&amp; cmake --build . --parallel 5</code><ul>
-<li>빌드 결과가 저장될 디렉토리 <code>build</code> 생성&amp;이동</li>
-<li>따로 옵션을 명시하지 않아도 단위 테스트들이 기본적으로 빌드된다</li>
+<li>get_progname(argv[0])<ul>
+<li>디렉토리 경로, 확장자를 제외한 프로그램 이름을 반환한다</li>
 </ul>
 </li>
+<li>startup_hacks(progname)<ul>
+<li>어떤 종류의 서버 프로세스의 생성보다 전에 해야 할 작업을 진행한다</li>
+<li>실질적으로는 Windows환경에서의 C runtime에 대한 설정을 진행한다</li>
 </ul>
-<h2 id="_2">테스트 실행</h2>
+</li>
+<li>save_ps_display_args(argc, argv)<ul>
+<li>argv가 가리키는 공간에 저장된 제이터가 이후에 ps_display 의 동작에 의해 덮어써질 수 있기 때문에 
+그 데이터들을 안전한 곳으로 복사한다</li>
+</ul>
+</li>
+<li>MemoryContextInit()<ul>
+<li>에러, 메모리 관리 시스템 초기화(fireup)</li>
+<li>이 함수가 반환한 이후에는 elog/ereport를 사용할 수 있다</li>
+<li>단, GUC가 로드되기 전까지는 메세지들이 stderr에만 출력된다</li>
+</ul>
+</li>
+<li>set_pglocale_pgservice(argv[0], PG_TEXTDOMAIN("postgres"))<ul>
+<li>locale 정보 초기화</li>
+</ul>
+</li>
+<li>init_locale<ul>
+<li>인자를 바꿔가며 4번 연속으로 호출한다</li>
+<li>LC_COLLATE, LC_CTYPE, LC_MESSAGES, LC_MONETARY, LC_NUMERIC, LC_TIME</li>
+<li>일부 C 함수들은 locale 정보에 의해 출력하거나 데이터 처리 방식이 달라진다</li>
+</ul>
+</li>
+<li>unsetenv("LC_ALL")<ul>
+<li>위에서 locale 정보를 충분히 설정했기 때문에 기존의 locale 설정을 지운다</li>
+<li>환경변수를 삭제한다</li>
+</ul>
+</li>
+<li>check_root(progname)<ul>
+<li>PostgreSQL이 루트 권한으로 실행된 경우 의도되지 않았다면 종료한다</li>
+<li>루트 권한으로 실행 가능한 경우는 아래의 경우이다. 이 두 경우는 read-only 작업만을 수행하기 때문에
+루트 권한으로 실행되어도 안전하다</li>
+<li>argv[1] : --describe-config</li>
+<li>argv[1] : -C</li>
+</ul>
+</li>
+<li>첫 번째 cli argument에 따라 다양한 subprogram으로 분기한다<ul>
+<li>--check : BootstrapModeMain(argc, argv, true)</li>
+<li>--boot : BootstrapmasterMain(artc, argv)</li>
+<li>--forkchild : SubPostmasterMain(argc, argv)</li>
+<li>--describe-config : GucInfoMain</li>
+<li>--single : PostgresSingleUserMain(argc, argv, strdup(get_user_name_or_exit(program)))</li>
+<li>else : PostmasterMain</li>
+<li>위의 함수들은 반환하지 않는다</li>
+</ul>
+</li>
+<li>abort()</li>
+</ul>
+<h2 id="references">references</h2>
 <ul>
-<li>모든 테스트 실행<ul>
-<li><code>build</code> 디렉토리에서 <code>ctest</code> 명령어 실행</li>
+<li><a href="https://github.com/postgres/postgres">PostgreSQL 소스코드</a></li>
 </ul>
-</li>
-<li>특정 테스트 실행 <ul>
-<li><code>build/unittest/mysys/my_malloc-t</code> 실행</li>
-</ul>
-</li>
-</ul>
-<h2 id="_3">테스트 프레임워크</h2>
-<ul>
-<li>MariaDB의 테스트 프레임워크는 ctest, cmake를 감싸는 cmake 매크로와 함수로 구현되어 있다</li>
-<li><code>MY_ADD_TESTS(dynarray LINK_LIBRARYS mysys)</code><ul>
-<li><code>cmake/ctest.cmake</code>에 정의된 cmake 매크로</li>
-<li><code>dynarray-t.c</code>파일에 mytap 라이브러리를 링크하여 <code>dynarray-t</code> 실행파일을 만드는 규칙을 생성한다</li>
-</ul>
-</li>
-<li>mytap : MariaDB에서 사용하는 테스트 라이브러리<ul>
-<li>테스트 작성에 반복적으로 사용되는 함수들을 제공</li>
-<li><code>unittest/examples/simple-t.c</code>에서 사용법을 익힐 수 있다</li>
-<li><code>plan</code>함수 : 이 파일에서 몇 개의 테스트를 진행할지 미리 선언한다</li>
-<li><code>ok</code>함수 : 첫 번째 인자로 0이 전달되면 테스트 실패를 의미한다</li>
-</ul>
-</li>
-</ul>
-<h2 id="_4">실습</h2>
-<ul>
-<li>cmake에게 테스트 빌드 방법 전달<ul>
-<li><code>unittest/mysys/CMakeLists.txt</code> 파일 편집</li>
-<li><code>MY_ADD_TESTS</code> 매크로에 <code>dynarray</code> 추가</li>
-</ul>
-</li>
-<li><code>unittest/mysys/dynarray-t.c</code> 파일 생성</li>
-</ul>
-<pre><code class="language-c">#include &lt;tap.h&gt;
-#include &lt;my_global.h&gt;
-#include &lt;my_sys.h&gt;
-#include &lt;stdio.h&gt;
+<!-- <img src="img/process-relationships-01.png" alt="process-relationship diagram" /> -->
 
-struct _foo {
-  int num;
-  char str[64];
-};
-
-static unsigned int test_dynamic_increase(int size)
-{
-  /* @given
-   * 초기 크기가 size이고 element32개만큼의 공간이 늘어나는 동적 배열 생성
-   */
-  unsigned int inc = 32;
-  DYNAMIC_ARRAY array;
-  // my_init_dynamic_array 함수는 항상 FALSE를 반환한다
-  my_init_dynamic_array(PSI_NOT_INSTRUMENTED, &amp;array, sizeof(struct _foo), 
-      size, inc, MYF(0));
-  /* @when
-   * size + 1개의 원소를 배열에 추가
-   */
-  unsigned int i;
-  struct _foo foo;
-  for (i = 0; i &lt;= size; ++i)
-  {
-    foo.num = i;
-    snprintf(foo.str, 64, &quot;sample string-%u&quot;, i);
-    /* @then
-     * 원소 추가에 성공
-     */
-    if (insert_dynamic(&amp;array, (const void *)&amp;foo)) {
-      diag(&quot;insert_dynamic failed&quot;);
-      return TRUE;
-    }
-  }
-  /* @then
-   * capacity가 size에서 inc만큼 증가함
-   */
-  if (size + array.alloc_increment != array.max_element) {
-    diag(&quot;actual: %u expected: %u&quot;, array.max_element, 
-        size+array.alloc_increment);
-    return TRUE;
-  }
-
-  /*
-   * C/C++ 프로그래밍에서 함수가 성공할 경우 0을 반환하는 관례를 따름
-   */
-  return FALSE;
-}
-
-int main() {
-  unsigned int a,b;
-  unsigned int failed;
-  plan(1);
-  diag(&quot;Testing DYNAMIC_ARRAY&quot;);
-  failed = 0;
-  for (a = 1 ; a &lt; 200 ; ++a)
-    if (test_dynamic_increase(a)) {
-      ++failed;
-      diag(&quot;Failed for test_dynamic_increase(%3u)&quot;, a);
-    }
-  ok(failed == 0, &quot;test_dynamic_increase&quot;);
-  return exit_status();
-}
-</code></pre>
-<ul>
-<li>빌드한 뒤 전체 실행 또는 <code>build/unittest/mysys/dynarray-t</code> 실행</li>
-</ul>
-<h2 id="_5">출처</h2>
-<ul>
-<li><a href="https://mariadb.org/get-involved/getting-started-for-developers/get-code-build-test/#testing-the-server">Get the code, build it, test it</a></li>
-<li><a href="https://mariadb.org/get-involved/getting-started-for-developers/writing-good-test-cases-mariadb-server/">Writing Good Test Cases for MariaDB Server</a></li>
-</ul>
 <hr id="utteranc-area-division">
 <div id="utteranc-area">
     <script src="https://utteranc.es/client.js"
