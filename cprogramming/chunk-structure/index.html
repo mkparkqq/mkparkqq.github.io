@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Minkeun Park">
-        <link rel="canonical" href="https://mkparkqq.github.io/mariadb/likely-unlikely-api/">
+        <link rel="canonical" href="https://mkparkqq.github.io/cprogramming/chunk-structure/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>compiler-level 분기 최적화 - ACDB</title>
+        <title>chunk structure - ACDB</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -45,19 +45,19 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">MariaDB</a>
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">MariaDB</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../test-framework/" class="dropdown-item">테스트 프레임워크</a>
+    <a href="../../mariadb/test-framework/" class="dropdown-item">테스트 프레임워크</a>
 </li>
                                     
 <li>
-    <a href="../tap-api/" class="dropdown-item">MyTAP</a>
+    <a href="../../mariadb/tap-api/" class="dropdown-item">MyTAP</a>
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">compiler-level 분기 최적화</a>
+    <a href="../../mariadb/likely-unlikely-api/" class="dropdown-item">compiler-level 분기 최적화</a>
 </li>
                                 </ul>
                             </li>
@@ -75,27 +75,27 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">C/C++</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">C/C++</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../cprogramming/zombie-process/" class="dropdown-item">zombie process</a>
+    <a href="../zombie-process/" class="dropdown-item">zombie process</a>
 </li>
                                     
 <li>
-    <a href="../../cprogramming/how-to-use-openssl-pkcs-api/" class="dropdown-item">OpenSSL PKCS API</a>
+    <a href="../how-to-use-openssl-pkcs-api/" class="dropdown-item">OpenSSL PKCS API</a>
 </li>
                                     
 <li>
-    <a href="../../cprogramming/devenv/" class="dropdown-item">개발환경</a>
+    <a href="../devenv/" class="dropdown-item">개발환경</a>
 </li>
                                     
 <li>
-    <a href="../../cprogramming/memory-layout/" class="dropdown-item">C program memory layout</a>
+    <a href="../memory-layout/" class="dropdown-item">C program memory layout</a>
 </li>
                                     
 <li>
-    <a href="../../cprogramming/chunk-structure/" class="dropdown-item">chunk structure</a>
+    <a href="./" class="dropdown-item active" aria-current="page">chunk structure</a>
 </li>
                                 </ul>
                             </li>
@@ -126,12 +126,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../tap-api/" class="nav-link">
+                                <a rel="prev" href="../memory-layout/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../../postgresql/mmgr/" class="nav-link">
+                                <a rel="next" href="../../note/programming-principle/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -153,13 +153,21 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#compiler-level-if" class="nav-link">compiler-level if문 최적화</a>
+            <li class="nav-item" data-bs-level="1"><a href="#chunk-structure" class="nav-link">chunk structure</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#__builtin_expect" class="nav-link">__builtin_expect</a>
+            <li class="nav-item" data-bs-level="2"><a href="#allocated-chunk" class="nav-link">allocated chunk</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#likely-unlikely" class="nav-link">likely unlikely</a>
+            <li class="nav-item" data-bs-level="2"><a href="#free-chunk" class="nav-link">free chunk</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#arena" class="nav-link">Arena</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#heap" class="nav-link">Heap</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -174,76 +182,91 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="compiler-level-if">compiler-level if문 최적화</h1>
-<p>MariaDB 프로젝트에서는 <code>likely</code>, <code>unlikely</code> api를 사용하여 분기를 최적화한다.</p>
+<h1 id="chunk-structure">chunk structure</h1>
+<p>glibc는 메모리 동적 할당 api를 제공하기 위해 내부적으로 메모리를 chunk 단위로 관리한다</p>
 <hr />
-<h2 id="__builtin_expect">__builtin_expect</h2>
-<pre><code class="language-c">long __builtin_expect (long expression, long value);
+<h2 id="allocated-chunk">allocated chunk</h2>
+<pre><code class="language-c">    chunk-&gt; +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+  
+            |             Size of previous chunk, if unallocated (P clear)  |  
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+  
+            |             Size of chunk, in bytes                     |A|M|P|  
+      mem-&gt; +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+  
+            |             User data starts here...                          .
+            .                                                               .
+            .             (malloc_usable_size() bytes)                      .
+            .                                                               |
+nextchunk-&gt; +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |             (size of chunk, but used for application data)    |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |             Size of next chunk, in bytes                |A|0|1|
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 </code></pre>
 <ul>
-<li>컴파일러에게 표현식이 어떤 값일 확률이 높다는 정보를 주는 방법이다. 컴파일러는 이 힌트를 이용해 최적화를 진행한다<ul>
-<li>cpu는 instruction 실행의 병렬성(parallelism)을 높이기 위해 branch prediction을 진행한다</li>
-<li>instruction의 병렬성은 <a href="https://en.wikipedia.org/wiki/Instruction_pipelining#Branches">instruction pipelining</a>을 통해 구현된다</li>
+<li>prev_size : 이전 chunk가 free chunk이면 이 영역에는 이전 chunk의 크기가 저장된다. 
+    반대로 할당된 chunk이면 해당 chunk의 <em>user data</em>가 저장된다</li>
+<li>mchunk_size : 현재 chunk의 크기. 마지막 세 개의 비트(P, A, M)는 flag bit들이다<ul>
+<li>P (PREV_INUSE) : 이전 chunk가 할당되었는지 나타낸다. 특정 chunk가 할당되었는지 확인하려면 그 다음 chunk의 bit 0를 확인하면 된다</li>
+<li>M (IS_MMAPPED) : 현재 chunk가 system call에 의해 할당되었는지를 나타낸다</li>
+<li>A (NON_MAIN_ARENA) : main arena에 포함된 chunk이면 0, thread가 할당받은 arena에 포함된 chunk이면 1</li>
 </ul>
 </li>
-<li><code>value</code>에는 constant literal이 전달되어야 한다</li>
-<li><code>expression</code>의 결과가 <code>value</code>일 경우 성능이 향상되지만 그렇지 못할 경우에 대가를 치르기 때문에 신중하게 사용해야 한다</li>
-<li><a href="https://gcc.gnu.org/bugzilla/show_bug.cgi?id=59521">switch문에 대해서도 최적화가 가능</a>하다</li>
 </ul>
-<h2 id="likely-unlikely">likely unlikely</h2>
-<pre><code class="language-c">/* Add checking if we are using likely/unlikely wrong */
-#ifdef CHECK_UNLIKELY
-C_MODE_START
-extern void init_my_likely(), end_my_likely(FILE *);
-extern int my_likely_ok(const char *file_name, uint line);
-extern int my_likely_fail(const char *file_name, uint line);
-C_MODE_END
-
-#define likely(A) ((A) ? (my_likely_ok(__FILE__, __LINE__),1) : (my_likely_fail(__FILE__, __LINE__), 0))
-#define unlikely(A) ((A) ? (my_likely_fail(__FILE__, __LINE__),1) : (my_likely_ok(__FILE__, __LINE__), 0))
-/*
-  These macros should be used when the check fails often when running benchmarks but
-  we know for sure that the check is correct in a production environment
-*/
-#define checked_likely(A) (A)
-#define checked_unlikely(A) (A)
-#else
-/**
-  The semantics of builtin_expect() are that
-  1) its two arguments are long
-  2) it's likely that they are ==
-  Those of our likely(x) are that x can be bool/int/longlong/pointer.
-*/
-
-#define likely(x)   __builtin_expect(((x) != 0),1)
-#define unlikely(x) __builtin_expect(((x) != 0),0)
-#define checked_likely(x) likely(x)
-#define checked_unlikely(x) unlikely(x)
-#endif /* CHECK_UNLIKELY */
+<h2 id="free-chunk">free chunk</h2>
+<pre><code class="language-c">    chunk-&gt; +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+  
+            |             Size of previous chunk, if unallocated (P clear)  |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    `head:' |             Size of chunk, in bytes                     |A|0|P|
+      mem-&gt; +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |             (fd)Forward pointer to next chunk in list         |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |             (bk)Back pointer to previous chunk in list        |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |             Unused space (may be 0 bytes long)                .
+            .                                                               .
+            .                                                               |
+nextchunk-&gt; +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    `foot:' |             Size of chunk, in bytes                           |
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+            |             Size of next chunk, in bytes                |A|0|0|
+            +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 </code></pre>
 <ul>
-<li>MariaDB 프로젝트에서 최적화를 위해 사용하는 __builtin_expect 를 감싼 api</li>
-<li><code>CHECK_UNLIKELY</code> 매크로를 켜서 분기 예측의 hit, miss 여부에 관한 통계를 수집해서 unlikely, likely 사용 여부를 결정하는 방식이다</li>
+<li>free chunk에만 있는 필드<ul>
+<li>fd(forward pointer) : 같은 bin에서 다음 chunk를 가리킨다</li>
+<li>bk(backward pointer) : 같은 bin에서 이전 chunk를 가리킨다</li>
 </ul>
-<!--
-## __builtin_expect로 인한 assembly code 변화
-
-* gcc -O3 demo.c -o demo
-
-
-<pre><code class="language-c">
-</code></pre>
-
-
--->
-
+</li>
+</ul>
+<h2 id="arena">Arena</h2>
+<ul>
+<li>서로 다른 종류의 chunk들을 가리키는 포인터들이 저장된 구조체</li>
+<li>각 thread는 메모리를 요청하면 하나의 arena를 할당받는다</li>
+<li>arena는 main arena와 thread arena 두 종류로 나뉜다</li>
+<li>main arena는 <em>프로세스 당</em> 한 개 존재한다</li>
+<li>새로운 스레드가 메모리를 요청하면 global linked list에서 arena를 하나 할당해준다</li>
+<li>새로운 arena가 없고 전체 arena의 개수가 M_ARENA_MAX를 넘지 않았다면 malloc은 arena를 하나 새로 생성한다</li>
+</ul>
+<h2 id="heap">Heap</h2>
+<ul>
+<li>heap은 하나의 frame header와 chunk들로 구성되어 있다</li>
+<li>Glibc는 OS로부터 메모리를 <em>heap 단위</em>로 요청하고 반환한다<ul>
+<li>glibc에서 heap은 프로세스 메모리 공간 중 heap영역과는 다른 의미이다</li>
+<li>glibc에서 사용하는 논리적 단위이다</li>
+<li>glibc는 OS에게 메모리를 요청/반환할 때 heap이라는 큰 단위로 메모리를 요청하고 반환한다</li>
+</ul>
+</li>
+<li>main arena와 heap arena는 생성될 때 heap을 하나 가진다 </li>
+<li>thread arena의 heap 크기가 특정 값(64MB) 이상이 되면 새로운 heap이 추가된다</li>
+<li>heap들은 연결 리스트로 관리된다</li>
+<li>heap이 처음 생성되면 heap에는 top chunk라는 chunk 하나만 존재한다. 이 heap으로 메모리 요청이 올 때마다 top chunk에서 chunk 하나를 분리한다</li>
+</ul>
 <h2 id="references">references</h2>
 <ul>
-<li><a href="https://www.ibm.com/docs/en/xl-c-and-cpp-aix/16.1?topic=functions-builtin-expect">[IBM Documentation] __builtin_expect</a></li>
-<li><a href="https://gcc.gnu.org/git/?p=gcc.git&amp;a=commit;h=add4cbca8cf60d1108959de10a6c4b66d90464dc">Make __builtin_expect effective in switch statements (PR middle-end/PR59521).</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Instruction_pipelining#Branches">[WIKIPEDIA] Instruction Pipelining</a></li>
+<li><a href="https://www.openeuler.org/en/blog/wangshuo/Glibc%20Malloc%20Principle/Glibc_Malloc_Principle">Glibc Malloc Principle</a></li>
+<li><a href="https://heap-exploitation.dhavalkapil.com/diving_into_glibc_heap/malloc_chunk">Diving into glibc heap</a></li>
+<li><a href="https://azeria-labs.com/heap-exploitation-part-2-glibc-heap-free-bins/">Part 2: Understanding the GLIBC Heap Implementation</a></li>
 </ul>
-<!-- <img src="img/process-relationships-01.png" alt="process-relationship diagram" /> -->
+<!-- <img src="/img/process-relationships-01.png" alt="process-relationship diagram" /> -->
 
 <hr id="utteranc-area-division">
 <div id="utteranc-area">
