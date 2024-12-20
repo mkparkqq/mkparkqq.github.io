@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Minkeun Park">
-        <link rel="canonical" href="https://mkparkqq.github.io/diy/raspberrypi-communication/">
+        <link rel="canonical" href="https://mkparkqq.github.io/firefox/building-firefox-on-linux/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Raspberry Pi GPIO - ACDB</title>
+        <title>Linux에서 Firefox 빌드 - ACDB</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -66,11 +66,11 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Firefox</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Firefox</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../firefox/building-firefox-on-linux/" class="dropdown-item">Linux에서 Firefox 빌드</a>
+    <a href="./" class="dropdown-item active" aria-current="page">Linux에서 Firefox 빌드</a>
 </li>
                                 </ul>
                             </li>
@@ -118,11 +118,11 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">DIY</a>
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">DIY</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">Raspberry Pi GPIO</a>
+    <a href="../../diy/raspberrypi-communication/" class="dropdown-item">Raspberry Pi GPIO</a>
 </li>
                                 </ul>
                             </li>
@@ -135,12 +135,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../../note/programming-principle/" class="nav-link">
+                                <a rel="prev" href="../../postgresql/main-function/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" class="nav-link disabled">
+                                <a rel="next" href="../../unix/process-relationships/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -162,21 +162,17 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#gpio" class="nav-link">라즈베리 GPIO</a>
+            <li class="nav-item" data-bs-level="1"><a href="#building-firefox-on-linux" class="nav-link">Building Firefox on Linux</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#gpio-pin" class="nav-link">GPIO pin</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#spi" class="nav-link">SPI</a>
+            <li class="nav-item" data-bs-level="2"><a href="#depedencies" class="nav-link">Depedencies</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#i2c" class="nav-link">I2C</a>
+            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">소스코드 다운로드</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#uart" class="nav-link">UART</a>
+            <li class="nav-item" data-bs-level="2"><a href="#build" class="nav-link">Build</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -191,79 +187,46 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="gpio">라즈베리 GPIO</h1>
-<p>라즈베리 파이가 다른 장치들과 데이터를 주고 받는 방식</p>
+<h1 id="building-firefox-on-linux">Building Firefox on Linux</h1>
+<p>리눅스(Ubuntu) PC에서 Firefox를 빌드하는 방법</p>
 <hr />
-<h2 id="gpio-pin">GPIO pin</h2>
+<h2 id="depedencies">Depedencies</h2>
 <ul>
-<li>General Purpose Input/Output</li>
-<li>single-board computer(or microprocessor)와 다른 component 사이의 표준 인터페이스</li>
-<li>Rapsberry Pi 3B+에는 40-pin header가 있는데 그 중 28개가 GPIO pin들이고 나머지는 power 또는 ground pin이다<ul>
-<li><a href="https://www.pi4j.com/1.2/pins/model-3b-plus-rev1.html">Pin Numbering - Raspberry Pi 3B+</a></li>
-</ul>
-</li>
-<li>각 pin들에는 기본적으로 통신 방법(SPI, I2C, UART 등)이 할당되어 있다<ul>
-<li><a href="https://pinout.xyz/pinout/i2c">pinmap 확인</a></li>
+<li>python 3.8 이상 설치 - <code>sudo apt-get install curl python3 python3-pip</code></li>
+<li>mercurial 설치 - <code>python3 -m pip install --user mercurial</code><ul>
+<li>Mozilla의 소스 코드는 Mercurial 저장소에 저장되어 있다</li>
 </ul>
 </li>
 </ul>
-<h2 id="spi">SPI</h2>
+<h2 id="_1">소스코드 다운로드</h2>
 <ul>
-<li>Serial Peripheral Interface (직렬 주변기기 인터페이스)</li>
-<li>직렬 동기 통신(synchronous serial communication)의 사실상(de facto) 표준<ul>
-<li>serial(직렬) : 데이터를 한 번에 1bit씩 순차적으로 전송하는 방식 (e.g. USB, RS-232)</li>
-<li>parallel(병렬) : 한 번에 여러 비트를 동시에 전송 (e.g. PCI, DDR)</li>
+<li>15분정도 걸린다</li>
 </ul>
-</li>
-<li>주로 microprocessor 사이의 단거리 유선 통신에 사용된다</li>
-<li>master-slave(main-sub) 구조를 따른다. 하나의 main device에 여러 개의 
-                         sub(peripheral) device들이 연결해서 <a href="https://en.wikipedia.org/wiki/Chip_select">chip select</a> signal
-                         을 통해 데이터를 주고 받는다</li>
-<li>Motorola가 1980년대에 처음 개발했다</li>
-<li>주로 microcontroller와 SD card, LCD, ADC(Analog-Digital Converter) 등의 주변기기 사이의 데이터 통신에 사용된다</li>
-<li>일반적으로 네 개의 논리 신호(pin)들을 이용한다<ul>
-<li>!(CS) (Chip Select) - 통신할 장치를 활성화하기 위해 main에서 전송하는 신호<ul>
-<li>negative를 의미하는 ! 또는 bar는 해당 신호가 LOW(0)가 활성화를 의미하는 active low임을 나타낸다</li>
-</ul>
-</li>
-<li>SCLK (Serial Clock) - main에서 보내는 clock signal</li>
-<li>MOSI (Master Out Slave In) - master에서 slave로 전송하는 신호(pin)</li>
-<li>MISO (Master In Slave Out) - slave에서 master로 전송하는 신호(pin)</li>
-</ul>
-</li>
-<li><code>sudo raspi-config</code> --&gt; Interfacing Options --&gt; SPI Enable 선택</li>
-</ul>
-<h2 id="i2c">I2C</h2>
+<pre><code class="language-bash">mkdir mozilla &amp;&amp; cd mozilla \
+          &amp;&amp; curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O \
+          &amp;&amp; python3 bootstrap.py --vcs=git \
+          &amp;&amp; python3 bootstrap.py
+</code></pre>
+<h2 id="build">Build</h2>
+<pre><code class="language-bash">cd mozilla-unified &amp;&amp; git pull origin bookmarks/central &amp;&amp; ./mach build
+</code></pre>
 <ul>
-<li>1982년 Philips Semiconductors에서 개발한 Serial Communication Bus이다</li>
-<li>SPI와 마찬가지로 synchronous serial communication(동기식 직렬 통신)이다</li>
-<li>비교적 느린 주변기기(IC)와 microcontroller(또는 processor) 사이의 단거리 통신에 사용된다. 
-속도보다는 단순함과 낮은 비용이 요구되는 경우에 적합하다</li>
-<li>Display 설정(e.g. backlight, contrast, hue)을 제어하는 등의 간단한 통신에 사용된다</li>
-</ul>
-<h2 id="uart">UART</h2>
-<ul>
-<li>Universal Asynchronous Receiver-Transmitter (범용 비동기화 송수신기)</li>
-<li>비동기 직렬 통신에 사용된 장치</li>
-<li>UART를 사용하기 위해서는 수신측과 송신측에서 다음과 같은 설정을 동일하게 맞춰야 한다<ul>
-<li>Voltage level</li>
-<li>Baud Rate</li>
-<li>Parity bit</li>
-<li>Data bits size</li>
-<li>Stop bits size</li>
-<li>Flow Control</li>
+<li>한 번 빌드한 이후부터는 그냥 <code>./mach build</code> 명령어로 빌드할 수 있다</li>
+<li>빌드에 실패할 경우 <a href="https://firefox-source-docs.mozilla.org/setup/linux_build.html#troubleshooting">Troubleshooting section</a> 참고</li>
+<li>Artifact mode로 빌드하면 빌드 결과물 일부를 저장소에서 받아와 빌드 시간을 단축한다. 상위 레벨의 코드(UI, JavaScript 등)만 빌드한다</li>
+<li><code>hg</code> - Mercurial 명령어를 호출하는 명령어<ul>
+<li><code>up</code> - 현재 디렉토리를 특정 브랜치(또는 리비전)로 업데이트한다</li>
+<li><code>-C</code> - 현재 디렉토리의 모든 변경 사항을 강제로 초기화한다</li>
+<li><code>central</code> - 브랜치 이름</li>
 </ul>
 </li>
-<li>RS-232, raw TTL</li>
 </ul>
 <h2 id="references">references</h2>
 <ul>
-<li><a href="https://www.futurelearn.com/info/courses/robotics-with-raspberry-pi/0/steps/75878">Raspberry Pi and General-Purpose Input/Output</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Serial_Peripheral_Interface">[WIKIPEDIA] Serial Peripheral Interface</a></li>
-<li><a href="https://en.wikipedia.org/wiki/I%C2%B2C">[WIKIPEDIA] I2C</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Universal_asynchronous_receiver-transmitter">[WIKIPEDIA] UART</a></li>
+<li><a href="https://firefox-source-docs.mozilla.org/setup/linux_build.html">Building Firefox On Linux</a></li>
+<li><a href="https://firefox-source-docs.mozilla.org/setup/contributing_code.html">How To Contribute Code To Firefox</a></li>
 </ul>
-<!-- <img src="/img/process-relationships-01.png" alt="process-relationship diagram" /> -->
+<!-- <img src="img/process-relationships-01.png" alt="process-relationship diagram" /> -->
 
 <hr id="utteranc-area-division">
 <div id="utteranc-area">
