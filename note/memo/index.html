@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Minkeun Park">
-        <link rel="canonical" href="https://mkparkqq.github.io/postgresql/main-function/">
+        <link rel="canonical" href="https://mkparkqq.github.io/note/memo/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>main 함수 - ACDB</title>
+        <title>memo - ACDB</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -53,15 +53,15 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">PostgreSQL</a>
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">PostgreSQL</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../mmgr/" class="dropdown-item">mmgr</a>
+    <a href="../../postgresql/mmgr/" class="dropdown-item">mmgr</a>
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">main 함수</a>
+    <a href="../../postgresql/main-function/" class="dropdown-item">main 함수</a>
 </li>
                                 </ul>
                             </li>
@@ -109,15 +109,15 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Note</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Note</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../note/programming-principle/" class="dropdown-item">프로그래밍 원칙</a>
+    <a href="../programming-principle/" class="dropdown-item">프로그래밍 원칙</a>
 </li>
                                     
 <li>
-    <a href="../../note/memo/" class="dropdown-item">memo</a>
+    <a href="./" class="dropdown-item active" aria-current="page">memo</a>
 </li>
                                 </ul>
                             </li>
@@ -139,12 +139,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../mmgr/" class="nav-link">
+                                <a rel="prev" href="../programming-principle/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../../firefox/building-firefox-on-linux/" class="nav-link">
+                                <a rel="next" href="../../diy/raspberrypi-communication/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -166,20 +166,8 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#postgresql-main" class="nav-link">[PostgreSQL] main 함수</a>
+            <li class="nav-item" data-bs-level="1"><a href="#memo" class="nav-link">memo</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#main" class="nav-link">main 함수에서 호출하는 함수</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#postmaster" class="nav-link">postmaster 프로세스</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#references" class="nav-link">references</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
               </ul>
             </li>
         </ul>
@@ -187,85 +175,15 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="postgresql-main">[PostgreSQL] main 함수</h1>
-<p>PostgreSQL의 main 함수 분석 (<code>src/backend/main/main.c</code>)</p>
-<hr />
-<h2 id="main">main 함수에서 호출하는 함수</h2>
-<ul>
-<li>get_progname(argv[0])<ul>
-<li>디렉토리 경로, 확장자를 제외한 프로그램 이름을 반환한다</li>
-</ul>
-</li>
-<li>startup_hacks(progname)<ul>
-<li>어떤 종류의 서버 프로세스의 생성보다 전에 해야 할 작업을 진행한다</li>
-<li>실질적으로는 Windows환경에서의 C runtime에 대한 설정을 진행한다</li>
-</ul>
-</li>
-<li>save_ps_display_args(argc, argv)<ul>
-<li>argv가 가리키는 공간에 저장된 제이터가 이후에 ps_display 의 동작에 의해 덮어써질 수 있기 때문에 
-그 데이터들을 안전한 곳으로 복사한다</li>
-</ul>
-</li>
-<li>MemoryContextInit()<ul>
-<li>에러, 메모리 관리 시스템 초기화(fireup)</li>
-<li>이 함수가 반환한 이후에는 elog/ereport를 사용할 수 있다</li>
-<li>단, GUC가 로드되기 전까지는 메세지들이 stderr에만 출력된다</li>
-</ul>
-</li>
-<li>set_pglocale_pgservice(argv[0], PG_TEXTDOMAIN("postgres"))<ul>
-<li>locale 정보 초기화</li>
-</ul>
-</li>
-<li>init_locale<ul>
-<li>인자를 바꿔가며 4번 연속으로 호출한다</li>
-<li>LC_COLLATE, LC_CTYPE, LC_MESSAGES, LC_MONETARY, LC_NUMERIC, LC_TIME</li>
-<li>일부 C 함수들은 locale 정보에 의해 출력하거나 데이터 처리 방식이 달라진다</li>
-</ul>
-</li>
-<li>unsetenv("LC_ALL")<ul>
-<li>위에서 locale 정보를 충분히 설정했기 때문에 기존의 locale 설정을 지운다</li>
-<li>환경변수를 삭제한다</li>
-</ul>
-</li>
-<li>check_root(progname)<ul>
-<li>PostgreSQL이 루트 권한으로 실행된 경우 의도되지 않았다면 종료한다</li>
-<li>루트 권한으로 실행 가능한 경우는 아래의 경우이다. 이 두 경우는 read-only 작업만을 수행하기 때문에
-루트 권한으로 실행되어도 안전하다</li>
-<li>argv[1] : --describe-config</li>
-<li>argv[1] : -C</li>
-</ul>
-</li>
-<li>첫 번째 cli argument에 따라 다양한 subprogram으로 분기한다<ul>
-<li>--check : BootstrapModeMain(argc, argv, true)</li>
-<li>--boot : BootstrapmasterMain(artc, argv)</li>
-<li>--forkchild : SubPostmasterMain(argc, argv)</li>
-<li>--describe-config : GucInfoMain</li>
-<li>--single : PostgresSingleUserMain(argc, argv, strdup(get_user_name_or_exit(program)))</li>
-<li>else : PostmasterMain</li>
-<li>위의 함수들은 반환하지 않는다</li>
-</ul>
-</li>
-<li>abort()</li>
-</ul>
-<h2 id="postmaster">postmaster 프로세스</h2>
-<ul>
-<li>postmaster는 여러 명이 접속 가능한 PostgreSQL DB server이다</li>
-<li>클라이언트가 데이터베이스에 접속하려면 반드시 필요하다</li>
-<li>postmain 프로세스는 postgres 프로세스르 실행시킨다<ul>
-<li>postgres 프로세스에서 클라이언트의 연결(connection)을 처리한다</li>
-<li>postmain 프로세스는 서버 프로세스들 사이의 통신을 관리한다</li>
-</ul>
-</li>
-<li>foreground 프로세스로 실행되는게 기본이지만 백그라운드 프로세스로 실행도 가능하다</li>
-</ul>
-<!-- ## PostmasterMain -->
-
-<h2 id="references">references</h2>
-<ul>
-<li><a href="https://github.com/postgres/postgres">PostgreSQL 소스코드</a></li>
-<li><a href="https://www.postgresql.org/docs/8.1/app-postmaster.html">PostgreSQL 8.1.23 Documentation - postmaster</a></li>
-</ul>
-<!-- <img src="img/process-relationships-01.png" alt="process-relationship diagram" /> -->
+<h1 id="memo">memo</h1>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var toc = document.querySelector('div#toc-collapse');
+    if (toc) {
+        toc.remove();
+    }
+  });
+</script>
 
 <hr id="utteranc-area-division">
 <div id="utteranc-area">
