@@ -176,6 +176,81 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="memo">memo</h1>
+<!--
+NOTE:
+markdown-callouts NOTE
+
+WARNING:
+markdown-callouts WARNING
+
+>? WARNING: **Suggested useful configurations:**
+>
+> *   GitHub Wiki:  
+>     (e.g. `https://github.com/project/repo/wiki/foo/bar/_edit`)
+>
+>     ```yaml
+>     repo_url: 'https://github.com/project/repo/wiki'
+>     edit_uri_template: '{path_noext}/_edit'
+>     ```
+>
+> *   BitBucket editor:  
+>     (e.g. `https://bitbucket.org/project/repo/src/master/docs/foo/bar.md?mode=edit`)
+>
+>     ```yaml
+>     repo_url: 'https://bitbucket.org/project/repo/'
+>     edit_uri_template: 'src/master/docs/{path}?mode=edit'
+>     ```
+>
+> *   GitLab Static Site Editor:  
+>     (e.g. `https://gitlab.com/project/repo/-/sse/master/docs%2Ffoo%2bar.md`)
+>
+>     ```yaml
+>     repo_url: 'https://gitlab.com/project/repo'
+>     edit_uri_template: '-/sse/master/docs%2F{path!q}'
+>     ```
+>
+> *   GitLab Web IDE:  
+>     (e.g. `https://gitlab.com/-/ide/project/repo/edit/master/-/docs/foo/bar.md`)
+>
+>     ```yaml
+>     edit_uri_template: 'https://gitlab.com/-/ide/project/repo/edit/master/-/docs/{path}'
+>     ```
+
+>? NOTE: **Suggested useful configurations:**
+>
+> *   GitHub Wiki:  
+>     (e.g. `https://github.com/project/repo/wiki/foo/bar/_edit`)
+>
+>     ```yaml
+>     repo_url: 'https://github.com/project/repo/wiki'
+>     edit_uri_template: '{path_noext}/_edit'
+>     ```
+>
+> *   BitBucket editor:  
+>     (e.g. `https://bitbucket.org/project/repo/src/master/docs/foo/bar.md?mode=edit`)
+>
+>     ```yaml
+>     repo_url: 'https://bitbucket.org/project/repo/'
+>     edit_uri_template: 'src/master/docs/{path}?mode=edit'
+>     ```
+>
+> *   GitLab Static Site Editor:  
+>     (e.g. `https://gitlab.com/project/repo/-/sse/master/docs%2Ffoo%2bar.md`)
+>
+>     ```yaml
+>     repo_url: 'https://gitlab.com/project/repo'
+>     edit_uri_template: '-/sse/master/docs%2F{path!q}'
+>     ```
+>
+> *   GitLab Web IDE:  
+>     (e.g. `https://gitlab.com/-/ide/project/repo/edit/master/-/docs/foo/bar.md`)
+>
+>     ```yaml
+>     edit_uri_template: 'https://gitlab.com/-/ide/project/repo/edit/master/-/docs/{path}'
+>     ```
+
+-->
+
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     var toc = document.querySelector('div#toc-collapse');
