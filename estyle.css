@@ -14,3 +14,10 @@ pre.cli {
 	overflow-x: auto;
 }
 
+.bg-primary {
+  background-image: none !important;
+}
+
+body.homepage {
+  background-image: none !important;
+}
