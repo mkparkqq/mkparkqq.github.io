@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Minkeun Park">
-        <link rel="canonical" href="https://mkparkqq.github.io/unix/process-relationships/">
+        <link rel="canonical" href="https://mkparkqq.github.io/postgresql/ilist-api/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>세션 - ACDB</title>
+        <title>ilist api - ACDB</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -53,19 +53,19 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">PostgreSQL</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">PostgreSQL</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../postgresql/mmgr/" class="dropdown-item">mmgr</a>
+    <a href="../mmgr/" class="dropdown-item">mmgr</a>
 </li>
                                     
 <li>
-    <a href="../../postgresql/main-function/" class="dropdown-item">main 함수</a>
+    <a href="../main-function/" class="dropdown-item">main 함수</a>
 </li>
                                     
 <li>
-    <a href="../../postgresql/ilist-api/" class="dropdown-item">ilist api</a>
+    <a href="./" class="dropdown-item active" aria-current="page">ilist api</a>
 </li>
                                 </ul>
                             </li>
@@ -79,11 +79,11 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">UNIX</a>
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">UNIX</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">세션</a>
+    <a href="../../unix/process-relationships/" class="dropdown-item">세션</a>
 </li>
                                 </ul>
                             </li>
@@ -143,12 +143,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../../firefox/building-firefox-on-linux/" class="nav-link">
+                                <a rel="prev" href="../main-function/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../../cprogramming/zombie-process/" class="nav-link">
+                                <a rel="next" href="../../firefox/building-firefox-on-linux/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -170,25 +170,29 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#unix-session" class="nav-link">[UNIX] session</a>
+            <li class="nav-item" data-bs-level="1"><a href="#postgresql-ilist-api" class="nav-link">[PostgreSQL] ilist API</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">프로세스 그룹</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_3" class="nav-link">세션</a>
+            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">요약</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_4" class="nav-link">제어 터미널</a>
+            <li class="nav-item" data-bs-level="2"><a href="#doubly-linked-list" class="nav-link">doubly-linked list</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_5" class="nav-link">실습</a>
+            <li class="nav-item" data-bs-level="2"><a href="#api" class="nav-link">API의 특징</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_6" class="nav-link">출처</a>
+            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">빈 리스트</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#examples" class="nav-link">examples</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#references" class="nav-link">references</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -199,165 +203,129 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="unix-session">[UNIX] session</h1>
-<p>POSIX 1.1에서 도입한 세션(session)이라는 개념에 대한 소개</p>
+<h1 id="postgresql-ilist-api">[PostgreSQL] ilist API</h1>
+<p>intgrated/inline 리스트 자료구조</p>
 <hr />
-<p><img src="/img/process-relationships-01.png" alt="process-relationship diagram" width="80%"/></p>
-<h2 id="_1">프로세스 그룹</h2>
+<h2 id="_1">요약</h2>
 <ul>
-<li>모든 프로세스는 pid를 가지며 하나의 프로세스 그룹에 속한다</li>
-<li>프로세스 그룹은 한 개 이상의 프로세스로 구성된 집합이고 pgid를 가진다</li>
-<li>프로세스 그룹은 주로 같은 <strong>작업</strong>을 하는 프로세스들의 집합이고 같은 터미널로부터 <strong>신호</strong>를 받는다</li>
-<li>shell pipeline(<code>|</code>)을 통해 프로세스 그룹을 만들 수 있다<ul>
-<li><code>proc1 | proc2 &amp; proc3 | proc4 | proc5</code></li>
-<li>proc1, proc2가 하나의 프로세스 그룹을 형성하고 proc3, proc4, proc5가 하나의 프로세스 그룹을 형성한다</li>
-<li>&amp; 기호는 proc1, proc2를 background process group으로 지정한다</li>
+<li>특정 객체가 리스트를 구성할 것이 이미 결정된 경우에 사용할 수 있다</li>
+<li><strong>List link들은 객체들에 직접적으로 삽입</strong>되기 때문에 별도의 메모리 공간 관리가 필요하지 않다</li>
+<li>주어진 객체들(List link가 삽입된) 중 소수만 하나의 리스트(a list)에 포함될 경우 리스트에 포함되지 않은 객체들의 List link는 낭비된다</li>
+<li>일반적으로, 이 방법은 별도의 list node들을 할당하지 않기 때문에 메모리를 절약할 수 있다</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Link</p>
+<p>
+Linked list가 아니라 List link이다. 객체들에 link를 부착하는 느낌이다. List가 아니라 Link가 메인이다</p>
+</div>
+<h2 id="doubly-linked-list">doubly-linked list</h2>
+<ul>
+<li>doubly-linked list에는 두 가지가 있다</li>
+<li>dlist_head - dlist_node들이 연결된 리스트의 head를 가리킨다<ul>
+<li><code>dlist</code> 접두어가 붙은 함수들로 조작한다</li>
 </ul>
 </li>
+<li>dclist_head - 리스트의 head를 가리키고 해당 리스트의 node 개수를 나타내는 count 필드를 가진다<ul>
+<li><code>dclist</code> 접두어가 붙은 함수들로 조작한다</li>
 </ul>
-<pre><code class="language-c">#include &lt;unistd.h&gt;
+</li>
+<li>dlist와 dclist는 node와 iterator type을 공유한다</li>
+</ul>
+<h2 id="api">API의 특징</h2>
+<ul>
+<li>doubly-linked list api는 메모리를 할당하지 않는다<ul>
+<li>외부에서 관리하는 메모리를 사용할 뿐이다</li>
+</ul>
+</li>
+<li>doubly-linked count list API들은 해당 리스트의 원소 개수를 반환하는 함수를 제공한다는 점을 제외하면
+singly linked list와 doubly linked list의 API는 동일하다</li>
+</ul>
+<h2 id="_2">빈 리스트</h2>
+<ul>
+<li>모든 리스트(node가 없는 리스트 포함)는 list header를 가진다</li>
+<li>an empty singly-linked list는 header에 NULL pointer가 포함되어 있다</li>
+<li>두 가지 doubly-linked list에서 비어있는 리스트를 표현하는 방법은 두 가지이다<ol>
+<li>head의 next 포인터가 NULL을 가리킨다. 이 방법은 편리성 때문에 list를 초기화할 때 주로 사용한다</li>
+<li>head의 next와 prev 포인터가 다시 head를 가리킬 수도 있다. dlist의 모든 
+원소들이 삭제되면 이런 circular state가 된다. 이런 circular dlist를 추천한다. 분기를 타지 않고 실행 할 수 있다
+operation이 있어서 실행속도가 빠르기 때문이다</li>
+</ol>
+</li>
+</ul>
+<h2 id="examples">examples</h2>
+<ul>
+<li>데이터베이스에 저장된 테이블들에 대한 정보를 저장하고 싶다면 아래와 같이 list를 사용할 수 있다</li>
+</ul>
+<pre><code class="language-c">#include &quot;lib/ilist.h&quot;
 
-/**
-  * pid가 0이면 호출한 프로세스의 pgid를 반환한다
-  * 실패할 경우 -1을 반환한다
-  */
-pid_t getpgid(pid_t pid)
-</code></pre>
-<h3 id="_2">그룹 리더</h3>
-<ul>
-<li>프로세스 그룹에는 그룹 리더가 존재하는데 pid값이 pgid와 동일한 프로세스가 그룹 리더이다</li>
-<li>그룹 리더는 프로세스 그룹을 생성한 프로세스이고 그룹 안에 프로세스들을 생성할 수 있다</li>
-<li>프로세스 그룹 리더가 종료되어도 프로세스 그룹은 여전히 존재할 수 있다<ul>
-<li>프로세스 그룹 내의 모든 프로세스가 종료되어야 그룹이 사라진다</li>
-<li>프로세스는 자신의 그룹을 변경할 수 있다</li>
-</ul>
-</li>
-</ul>
-<h2 id="_3">세션</h2>
-<ul>
-<li>세션은 하나 이상의 프로세스 그룹의 집합이다</li>
-</ul>
-<pre><code class="language-c">#include &lt;unistd.h&gt;
-
-/**
-  * 호출한 프로세스가 프로세스 리더이면 실패(-1 반환)
-  * 그렇지 않은 경우 새 세션을 생성하고 pgid 반환
-  */
-pid_t setsid(void);
-</code></pre>
-<ul>
-<li>위의 함수는 새로운 세션을 생성한다</li>
-<li><code>setsid</code> 호출에 성공한 프로세스는 새로운 세션의 리더인 동시에 새로운 프로세스 그룹의 리더가 된다</li>
-<li>함수 호출에 성공한 시점에 새로운 세션에는 프로세스 그룹이 한 개 있고 그 그룹에 프로세스는 호출 프로세스 한개이다</li>
-<li>호출 프로세스가 함수 호출 전에 제어 터미널에 연결되어 있었다면 그 제어 터미널과의 <em>연결 관계</em>가 끊어진다<ul>
-<li><em>open한게 자동으로 닫힌다는 뜻인가?</em></li>
-</ul>
-</li>
-<li>프로세스가 그룹 리더가 아님을 보장하는 방법은 fork를 호출한 뒤 부모는 종료하고 자식은 계속 실행하는 것이다</li>
-</ul>
-<h2 id="_4">제어 터미널</h2>
-<ul>
-<li>세션에는 하나의 제어 터미널이 연결될 수 있다(없을 수도 있다)</li>
-<li>제어 터미널과 <em>연결</em>을 확립한 세션 리더를 제어 프로세스라고 한다</li>
-<li>세션의 프로세스 그룹은 background group, foreground group으로 분류할 수 있다<ul>
-<li>foreground 그룹은 한 개, background group은 하나 이상 있을 수 있다</li>
-</ul>
-</li>
-<li>세션에 제어 터미널이 있으면 그 세션에는 반드시 하나의 foreground process 그룹이 있다</li>
-<li>터미널에서 interrupt key(e.g. ctrl-c)를 입력하면 foreground group의 모든 프로세스에게 signal이 전달된다</li>
-</ul>
-<h3 id="devtty">/dev/tty</h3>
-<ul>
-<li>표준 입출력 리다이렉션 여부에 관계없이 입출력 대상이 터미널이 되도록 보장하는 방법은 <code>/dev/tty</code> device file을 open하는 것이다<ul>
-<li>커널은 이 파일을 제어 터미널로 인식한다</li>
-</ul>
-</li>
-<li>제어 터미널이 없는 프로세스가 <code>/dev/tty</code>를 open하려고 시도하면 실패한다</li>
-</ul>
-<h2 id="_5">실습</h2>
-<h3 id="procinfoc">procinfo.c</h3>
-<ul>
-<li>cli 인자로 전달받은 프로세스의 그룹 아이디와 세션 아이디를 출력하는 프로그램</li>
-</ul>
-<pre><code class="language-c">#include &lt;stdio.h&gt;
-#include &lt;unistd.h&gt;
-#include &lt;stdlib.h&gt;
-
-int main(int argc, const char *argv[])
+// list header를 포함하는 database 구조체 선언. 
+// 여기에 포함된 list header는 리스트의 노드들에 접근하기 위해 사용된다.
+typedef struct my_database
 {
-  if (argc == 1)
-    return 1;
+    char       *datname;
+    dlist_head  tables;
+// ...
+} my_database;
 
-  pid_t tpid = atoi(argv[1]);
-  printf(&quot;[%s] pid: %d pgid: %d sid: %d\n&quot;,
-      argv[0], tpid, getpgid(tpid), getsid(tpid));
-
-  return 0;
-}
-</code></pre>
-<h3 id="amplifyc">amplify.c</h3>
-<ul>
-<li>표준입력에서 읽은 문자열을 표준 출력과 제어 터미널에 여러 번 출력하는 프로그램</li>
-<li><code>amplify &lt; input.txt &gt; output.txt</code> 와 같이 실행(stdin, stdout 리다이렉션)하더라도 터미널에 문자열을 출력하는 것이 보장된다</li>
-</ul>
-<pre><code class="language-c">#include &lt;unistd.h&gt;
-#include &lt;fcntl.h&gt;
-#include &lt;string.h&gt;
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-
-void printn2stdout(const unsigned char str[], int n)
+// table을 표현하는 구조체 선언.
+// 각 list_node에는 prev/next list link가 저장되어 있다. 
+// 이 list_node들은 리스트의 처음에 위치할 수 없다.
+typedef struct my_table
 {
-  for (int i = 0; i &lt; n; i++)
-    printf(&quot;%s\n&quot;, str);
+    char       *tablename;
+    dlist_node  list_node;
+    perm_t      permissions;
+// ...
+} my_table;
+
+// database 구조체 생성(list header)
+my_database *db = create_database();
+
+// table list에 table을 추가
+dlist_push_head(&amp;db-&gt;tables, &amp;create_table(db, &quot;a&quot;)-&gt;list_node);
+// ...
+dlist_push_head(&amp;db-&gt;tables, &amp;create_table(db, &quot;b&quot;)-&gt;list_node);
+
+
+// 단순 iterator element와 looping construct.
+// `iter.cur`는 `dlist_node`인스턴스를 가리킨다. `dlist_container`를 사용하면 list link를 가지고 있는
+객체에 접근이 가능하다.
+dlist_iter  iter;
+dlist_foreach(iter, &amp;db-&gt;tables)
+{
+    my_table   *tbl = dlist_container(my_table, list_node, iter.cur);
+    printf(&quot;we have a table: %s in database %s\n&quot;, 
+            tbl-&gt;tablename, db-&gt;datname);
 }
 
-void print2control_terminal(const unsigned char str[])
+
+// 순회와 동시에 해당 원소를 조작할수 있는 iterator element와 looping construct.
+// 특정 조건을 만족하는 테이블을 삭제하는 방법은 아래와 같다.
+dlist_mutable_iter miter;
+dlist_foreach_modify(miter, &amp;db-&gt;tables)
 {
-  int tfd;
-  tfd = open(&quot;/dev/tty&quot;, O_WRONLY);
-  if (tfd &lt; 0)
-    return;
+    my_table   *tbl = dlist_container(my_table, list_node, miter.cur);
 
-  unsigned char buffer[7*128];
-  memset(buffer, '\0', 7*128);
-  snprintf(buffer, sizeof(buffer), 
-     &quot;\033[31m%s\033[0m\n&quot;
-     &quot;\033[33m%s\033[0m\n&quot;
-     &quot;\033[33m%s\033[0m\n&quot;
-     &quot;\033[32m%s\033[0m\n&quot;
-     &quot;\033[34m%s\033[0m\n&quot;
-     &quot;\033[36m%s\033[0m\n&quot;
-     &quot;\033[35m%s\033[0m\n&quot;,
-      str, str, str, str, str, str, str);
+    if (!tbl-&gt;to_be_deleted)
+    continue;       // don't touch this one
 
-  write(tfd, buffer, 7*128);
-  close(tfd);
+    // 특정 table을 리스트에서 제거(unlink)
+    dlist_delete(miter.cur);
+    // list link API는 메모리 할당에는 관여하지 않기 때문에 list에서 unlik되어도 여전히 해당 원소에는 접근 가능하다
+    drop_table(db, tbl);
 }
-
-int main(int argc, const char *argv[])
-{
-  int n = 7;
-  if (argc == 2)
-    n = atoi(argv[1]);
-
-  unsigned char str[128];
-  memset(str, '\0', 128);
-
-  fgets(str, sizeof(str), stdin);
-  if (str[strlen(str) - 1] == '\n')
-    str[strlen(str) - 1] = '\0';
-  print2control_terminal(str);
-  printn2stdout(str, n);
-
-  return 0;
-}
-
 </code></pre>
-<h2 id="_6">출처</h2>
+<h2 id="references">references</h2>
 <ul>
-<li><a href="http://www.apuebook.com/apue3e.html">APUE3e</a></li>
+<li>
+<p><a href="https://github.com/postgres/postgres/blob/master/src/include/lib/ilist.h">src/include/lib/ilist.h</a></p>
+</li>
+<li>
+<p><a href="https://github.com/postgres/postgres">PostgreSQL github repository</a></p>
+</li>
 </ul>
+<!-- <img src="img/process-relationships-01.png" alt="process-relationship diagram" /> -->
+
 <hr id="utteranc-area-division">
 <div id="utteranc-area">
     <script src="https://utteranc.es/client.js"
