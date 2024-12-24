@@ -192,6 +192,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#api_1" class="nav-link">API</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#references" class="nav-link">references</a>
               <ul class="nav flex-column">
               </ul>
@@ -204,7 +208,7 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="postgresql-ilist-api">[PostgreSQL] ilist API</h1>
-<p>intgrated/inline 리스트 자료구조</p>
+<p>PostgreSQL에서 사용하는 intgrated/inline 리스트 API 분석</p>
 <hr />
 <h2 id="_1">요약</h2>
 <ul>
@@ -315,14 +319,153 @@ dlist_foreach_modify(miter, &amp;db-&gt;tables)
     drop_table(db, tbl);
 }
 </code></pre>
+<h2 id="api_1">API</h2>
+<ul>
+<li><code>src/include/lib/ilist.h</code></li>
+<li><strong><code>slist_head</code>는 왜 <code>typdef slist_head slist_node</code>로 구현하지 않고 필드가 하나짜리인 구조체를 굳이 만든걸까?</strong></li>
+</ul>
+<p><img src="/img/dlist-head-diagram.png" alt="dlist_head diagram" width="80%" /></p>
+<pre><code class="language-c">/*
+ * doubly linked list를 만드는 list link 구조체
+ * node 라는 표현보다는 link(고리)라는 표현이 적절한거같다
+ */
+typedef struct dlist_node dlist_node;
+struct dlist_node
+{
+    dlist_node *prev;
+    dlist_node *next;
+};
+
+/*
+ * Head of a doubly linked list.
+ *
+ * 비어있지 않은 리스트는 내부적으로 순환 구조(circularly linked)이다.
+ * 이런 구조의 장점은 일반적인 리스트 조작 과정에 분기가 필요 없다는 것이다.
+ * 빈 리스트는 간단하게 head의 prev와 next를 NULL로 초기화할 수 있다.
+ */
+typedef struct dlist_head
+{
+    /*
+     * head.next는 리스트의 첫 번째 원소를 가리키거나, 
+     * circular empty list라면 &amp;head를 저장한다. 
+     * emtpy and not circular list라면 NULL을 저장한다.
+     *
+     * head.prev는 리스트의 마지막 원소를 가리키거나,
+     * circular empty list라면 &amp;head를 저장한다. 
+     * emtpy and not circular list라면 NULL을 저장한다.
+     */
+    dlist_node  head;
+} dlist_head;
+
+
+/*
+ * dlist_head와 dclist_head를 위한 iterator type.
+ *
+ * dlist_foreach(), dlist_reverse_foreach(), dclist 변형에서 상태를 나타내기 
+ * 위해 사용한다.
+ *
+ * 반복(iteration)에서 현재 원소에 접근하고싶을 때에는 cur 필드를 사용하면 된다.
+ *
+ * 이 iterator를 사용해서 리스트를 변형하는 것은 허용하지 않는다.
+ *
+ * 참고: dlist_foreach(), dclist_foreach() 매크로에서 인자들을 여러 번 계산하는 것을 막기 위해 추가적인 end 필드를 사용한다.
+ */
+typedef struct dlist_iter
+{
+    dlist_node *cur;            /* current element */
+    dlist_node *end;            /* last node we'll iterate to */
+} dlist_iter;
+
+/*
+ * 반복 과정에서 리스트(dclist_head, dlist_head)에 대한 변형을 허용하는 doubly linked list iterator 타입.
+ *
+ * dlist_foreach_modify(), dclist_foreach_modify()에서 상태를 나타낸다.
+ *
+ * 리스트에서 현재 원소를 제거하는 것은 허용하지만, 새로운 원소를 추가하거나 인접 노드를 삭제하는것은 허용하지 않는다.
+ *
+ * 참고: 변형 가능한 순회(iteration)를 위해서는 현재 노드의 다음 노드를 저장해야 하기 때문에 별도의 iterator type이 필요하다.
+ */
+typedef struct dlist_mutable_iter
+{
+    dlist_node *cur;            /* current element */
+    dlist_node *next;           /* next node we'll iterate to */
+    dlist_node *end;            /* last node we'll iterate to */
+} dlist_mutable_iter;
+
+/*
+ * doubly linked list의 원소 개수를 저장하는 head.
+ *
+ * 내부적으로 dlist를 사용하고 원소를 추가하거나 삭제할 때마다 count를 업데이트한다.
+ */
+typedef struct dclist_head
+{
+    dlist_head  dlist;
+    uint32      count;
+} dclist_head;
+
+/*
+ * singly linked list의 노드(고리).
+ *
+ * singly linked list를 구성할 객체에 이 구조체를 삽입해서 사용한다.
+ */
+typedef struct slist_node slist_node;
+struct slist_node
+{
+    slist_node *next;
+};
+
+/*
+ * singly linked list의 head.
+ *
+ * 순환적으로 연결되지 않기 때문에 리스트가 비어 있는 경우 head.next에 NULL을 저장한다.
+ * head.next에 NULL을 저장한다고 해서 일반적인 리스트 조작(manipulations)에 대해 추가적인 분기를 필요로 하지 않는다.
+ */
+typedef struct slist_head
+{
+    slist_node  head;
+} slist_head;
+
+/*
+ * Singly linked list iterator.
+ *
+ * slist_foreach()에서 사용하고 'cur' 필드를 통해 현재 원소에 접근한다.
+ *
+ * iterating 중에 리스트를 변경하는 것을 허용한다. 단, 현재 원소를 삭제하는 것은 예외이다.
+ * 현재 노드를 삭제하면 그 이후에 iteration을 계속 진행할 수 있을지 확인해야 한다.
+ * 인접 노드를 삭제하거나 추가하는 것도 조심해야 한다. 의도대로 동작하지 않을 수 있다.
+ *
+ * 참고: 굳이 별도의 구조체를 정의할 필요는 없었지만 일관성을 위해 별도의 구조체를 만들었다.
+ */
+typedef struct slist_iter
+{
+    slist_node *cur;
+} slist_iter;
+
+/*
+ * iteration 과정에서 변경을 허용하는 singly linked list iterator.
+ *
+ * slist_foreach_modify()에서 사용한다. cur 멤버를 통해 현재 원소에 접근한다. 
+ *
+ * itration 중에 허용되는 변경은 slist_delete_current함수를 이용해서 현재 원소를 리스트에서 제거하는 것이다.
+ * 인접 노드를 삭제하거나 현재 노드의 양 옆에 새로운 노드를 삽입하는 것은 안전하지 않다.
+ */
+typedef struct slist_mutable_iter
+{
+    slist_node *cur;            /* current element */
+    slist_node *next;           /* next node we'll iterate to */
+    slist_node *prev;           /* prev node, for deletions */
+} slist_mutable_iter;
+
+
+/* list node(고리)를 초기화하는 Static initializers */
+#define DLIST_STATIC_INIT(name) {{&amp;(name).head, &amp;(name).head}}
+#define DCLIST_STATIC_INIT(name) {{{&amp;(name).dlist.head, &amp;(name).dlist.head}}, 0}
+#define SLIST_STATIC_INIT(name) {{NULL}}
+</code></pre>
 <h2 id="references">references</h2>
 <ul>
-<li>
-<p><a href="https://github.com/postgres/postgres/blob/master/src/include/lib/ilist.h">src/include/lib/ilist.h</a></p>
-</li>
-<li>
-<p><a href="https://github.com/postgres/postgres">PostgreSQL github repository</a></p>
-</li>
+<li><a href="https://github.com/postgres/postgres/blob/master/src/include/lib/ilist.h">src/include/lib/ilist.h</a></li>
+<li><a href="https://github.com/postgres/postgres">PostgreSQL github repository</a></li>
 </ul>
 <!-- <img src="img/process-relationships-01.png" alt="process-relationship diagram" /> -->
 
