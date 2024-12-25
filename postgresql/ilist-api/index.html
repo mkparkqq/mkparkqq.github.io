@@ -172,7 +172,11 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#postgresql-ilist-api" class="nav-link">[PostgreSQL] ilist API</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">요약</a>
+            <li class="nav-item" data-bs-level="2"><a href="#history" class="nav-link">History</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#ilist" class="nav-link">ilist 요약</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -184,7 +188,7 @@
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">빈 리스트</a>
+            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">빈 리스트</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -197,6 +201,22 @@
               </ul>
             </li>
             <li class="nav-item" data-bs-level="2"><a href="#inline" class="nav-link">inline 함수</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">초기화 함수</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#push" class="nav-link">push</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#insert" class="nav-link">insert</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#delete-pop" class="nav-link">delete &amp; pop</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -214,7 +234,13 @@
 <h1 id="postgresql-ilist-api">[PostgreSQL] ilist API</h1>
 <p>PostgreSQL에서 사용하는 intgrated/inline 리스트 API 분석</p>
 <hr />
-<h2 id="_1">요약</h2>
+<h2 id="history">History</h2>
+<ul>
+<li>이전에는 dllist api를 사용했는데 a66ee69add6 commit(2012)에서 ilist api로 대채되었다</li>
+<li>ilist api는 메모리 할당 오버헤드를 줄이고 inline 함수로 성능을 높였다</li>
+<li>7c335b7a202 commit(2022)에서 dclist api를 추가했다</li>
+</ul>
+<h2 id="ilist">ilist 요약</h2>
 <ul>
 <li>특정 객체가 리스트를 구성할 것이 이미 결정된 경우에 사용할 수 있다</li>
 <li><strong>List link들은 객체들에 직접적으로 삽입</strong>되기 때문에 별도의 메모리 공간 관리가 필요하지 않다</li>
@@ -248,7 +274,7 @@ Linked list가 아니라 List link이다. 객체들에 link를 부착하는 느�
 <li>doubly-linked count list API들은 해당 리스트의 원소 개수를 반환하는 함수를 제공한다는 점을 제외하면
 singly linked list와 doubly linked list의 API는 동일하다</li>
 </ul>
-<h2 id="_2">빈 리스트</h2>
+<h2 id="_1">빈 리스트</h2>
 <ul>
 <li>모든 리스트(node가 없는 리스트 포함)는 list header를 가진다</li>
 <li>an empty singly-linked list는 header에 NULL pointer가 포함되어 있다</li>
@@ -492,6 +518,147 @@ extern void slist_check(const slist_head *head);
 #define dlist_check(head)   ((void) (head))
 #define slist_check(head)   ((void) (head))
 #endif                          /* ILIST_DEBUG */
+</code></pre>
+<h2 id="_2">초기화 함수</h2>
+<pre><code class="language-c">/*
+ * doubly linked list 초기화 함수. 개별 원소가 아닌 리스트를 초기화한다.
+ * 정리를 하지 않았다면 이전 상태는 덮어써진다.
+ */
+static inline void
+dlist_init(dlist_head *head)
+{
+    head-&gt;head.next = head-&gt;head.prev = &amp;head-&gt;head;
+}
+
+/*
+ * doubly linked list의 개별 list link를 초기화한다.
+ *
+ * 이 함수는 dlist_node_is_detached 함수가 필요한 경우에만 필요하다.
+ */
+static inline void
+dlist_node_init(dlist_node *node)
+{
+    node-&gt;next = node-&gt;prev = NULL;
+}
+</code></pre>
+<h2 id="push">push</h2>
+<pre><code class="language-c">/*
+ * 리스트의 맨 앞에 원소를 추가한다
+ */
+static inline void
+dlist_push_head(dlist_head *head, dlist_node *node)
+{
+    if (head-&gt;head.next == NULL)    /* NULL로 초기화된 head인 경우 원형 구조로 바꾼다 */
+        dlist_init(head);
+
+    node-&gt;next = head-&gt;head.next;
+    node-&gt;prev = &amp;head-&gt;head;
+    node-&gt;next-&gt;prev = node;
+    head-&gt;head.next = node;
+
+    dlist_check(head);
+}
+
+/*
+ * 리스트의 맨 마지막에 노드를 추가한다.
+ */
+static inline void
+dlist_push_tail(dlist_head *head, dlist_node *node)
+{
+    if (head-&gt;head.next == NULL)    /* NULL로 초기화된 head인 경우 원형 구조로 바꾼다 */
+        dlist_init(head);
+
+    node-&gt;next = &amp;head-&gt;head;
+    node-&gt;prev = head-&gt;head.prev;
+    node-&gt;prev-&gt;next = node;
+    head-&gt;head.prev = node;
+
+    dlist_check(head);
+}
+</code></pre>
+<h2 id="insert">insert</h2>
+<pre><code class="language-c">/*
+ * after 노드 뒤에 노드 하나를 추가한다. 두 노드는 같은 리스트의 노드이다.
+ */
+static inline void
+dlist_insert_after(dlist_node *after, dlist_node *node)
+{
+    node-&gt;prev = after;
+    node-&gt;next = after-&gt;next;
+    after-&gt;next = node;
+    node-&gt;next-&gt;prev = node;
+}
+
+/*
+ * 노드 하나를 before 노드 앞에 추가한다. 두 노드는 같은 리스트의 노드이다.
+ */
+static inline void
+dlist_insert_before(dlist_node *before, dlist_node *node)
+{
+    node-&gt;prev = before-&gt;prev;
+    node-&gt;next = before;
+    before-&gt;prev = node;
+    node-&gt;prev-&gt;next = node;
+}
+</code></pre>
+<h2 id="delete-pop">delete &amp; pop</h2>
+<pre><code class="language-c">/*
+ * node를 리스트에서 제거한다. 반드시 해당 노드는 리스트에 존재해야 한다.
+ */
+static inline void
+dlist_delete(dlist_node *node)
+{
+    node-&gt;prev-&gt;next = node-&gt;next;
+    node-&gt;next-&gt;prev = node-&gt;prev;
+}
+
+/*
+ * dlist_delete 기능 + 제거한 노드의 next, prev를 NULL로 설정
+ */
+static inline void
+dlist_delete_thoroughly(dlist_node *node)
+{
+    node-&gt;prev-&gt;next = node-&gt;next;
+    node-&gt;next-&gt;prev = node-&gt;prev;
+    node-&gt;next = NULL;
+    node-&gt;prev = NULL;
+}
+
+/*
+ * dlist_delete처럼 노드를 리스트에서 제거한다. 단, ILIST_DEBUG 빌드일 경우 
+ 노드가 진짜 해당 리스트(head)에 포함되는지 확인한다.
+ */
+static inline void
+dlist_delete_from(dlist_head *head, dlist_node *node)
+{
+    dlist_member_check(head, node);
+    dlist_delete(node);
+}
+
+/*
+ * dlist_delete_from + 제거된 노드의 prev, next를 NULL로 설정
+ */
+static inline void
+dlist_delete_from_thoroughly(dlist_head *head, dlist_node *node)
+{
+    dlist_member_check(head, node);
+    dlist_delete_thoroughly(node);
+}
+
+/*
+ * 리스트의 맨 처음 노드를 제거하고 반환한다. 
+ * 리스트에 노드가 반드시 존재해야 한다.
+ */
+static inline dlist_node *
+dlist_pop_head_node(dlist_head *head)
+{
+    dlist_node *node;
+
+    Assert(!dlist_is_empty(head));
+    node = head-&gt;head.next;
+    dlist_delete(node);
+    return node;
+}
 </code></pre>
 <h2 id="references">references</h2>
 <ul>
