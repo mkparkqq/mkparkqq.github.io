@@ -196,6 +196,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#inline" class="nav-link">inline 함수</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#references" class="nav-link">references</a>
               <ul class="nav flex-column">
               </ul>
@@ -462,10 +466,38 @@ typedef struct slist_mutable_iter
 #define DCLIST_STATIC_INIT(name) {{{&amp;(name).dlist.head, &amp;(name).dlist.head}}, 0}
 #define SLIST_STATIC_INIT(name) {{NULL}}
 </code></pre>
+<h2 id="inline">inline 함수</h2>
+<div class="admonition note">
+<p class="admonition-title">inline</p>
+<p>
+inline 함수는 함수 호출이 정의로 대체(substitution)될 수도 있다. 대체 여부는 컴파일러가 결정한다.
+프로그램 전체의 크기가 커질 수 있지만 함수 호출 오버헤드(stack frame 연산)가 없어지기 때문에 함수 호출 횟수가 많을수록 성능이 개선된다.</p>
+</div>
+<ul>
+<li>대부분의 함수는 inline으로 정의되어 있고 일부 크기가 큰 함수들은 extern으로 프로토타입만 선언되어 있다</li>
+<li>slist_delete 함수와 디버깅 전용 함수가 extern으로 선언되어 있다</li>
+</ul>
+<pre><code class="language-c">/* inline이 되기엔 너무 큰 함수들 */
+
+/* 주의: 이 함수의 시간복잡도는 O(n)이다. 대신 slist_delete_current() 쓰자 */
+extern void slist_delete(slist_head *head, const slist_node *node);
+
+#ifdef ILIST_DEBUG
+extern void dlist_member_check(const dlist_head *head, const dlist_node *node);
+extern void dlist_check(const dlist_head *head);
+extern void slist_check(const slist_head *head);
+#else
+/* 인자가 사용되지 않는다는 컴파일러의 경고를 없애기 위해 void로 변환한다. */
+#define dlist_member_check(head, node) ((void) (head))
+#define dlist_check(head)   ((void) (head))
+#define slist_check(head)   ((void) (head))
+#endif                          /* ILIST_DEBUG */
+</code></pre>
 <h2 id="references">references</h2>
 <ul>
 <li><a href="https://github.com/postgres/postgres/blob/master/src/include/lib/ilist.h">src/include/lib/ilist.h</a></li>
 <li><a href="https://github.com/postgres/postgres">PostgreSQL github repository</a></li>
+<li><a href="https://www.geeksforgeeks.org/inline-function-in-c/">inline function in C</a></li>
 </ul>
 <!-- <img src="img/process-relationships-01.png" alt="process-relationship diagram" /> -->
 
