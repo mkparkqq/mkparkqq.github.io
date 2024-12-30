@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Minkeun Park">
-        <link rel="canonical" href="https://mkparkqq.github.io/firefox/building-firefox-on-linux/">
+        <link rel="canonical" href="https://mkparkqq.github.io/v8/build-from-source/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Linux에서 Firefox 빌드 - ACDB</title>
+        <title>Linux에서 V8 소스코드 빌드 - ACDB</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -74,20 +74,20 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Firefox</a>
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Firefox</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">Linux에서 Firefox 빌드</a>
+    <a href="../../firefox/building-firefox-on-linux/" class="dropdown-item">Linux에서 Firefox 빌드</a>
 </li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">V8</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">V8</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../v8/build-from-source/" class="dropdown-item">Linux에서 V8 소스코드 빌드</a>
+    <a href="./" class="dropdown-item active" aria-current="page">Linux에서 V8 소스코드 빌드</a>
 </li>
                                 </ul>
                             </li>
@@ -156,12 +156,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../../postgresql/simplehash/" class="nav-link">
+                                <a rel="prev" href="../../firefox/building-firefox-on-linux/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../../v8/build-from-source/" class="nav-link">
+                                <a rel="next" href="../../unix/process-relationships/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -183,17 +183,21 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#building-firefox-on-linux" class="nav-link">Building Firefox on Linux</a>
+            <li class="nav-item" data-bs-level="1"><a href="#v8-linux-v8" class="nav-link">[V8] Linux에서 V8을 빌드하는 방법</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#depedencies" class="nav-link">Depedencies</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">소스코드 다운로드</a>
+            <li class="nav-item" data-bs-level="2"><a href="#depot_tools" class="nav-link">depot_tools 설치</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#build" class="nav-link">Build</a>
+            <li class="nav-item" data-bs-level="2"><a href="#v8" class="nav-link">V8 소스코드 다운로드</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">빌드</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">테스트 실행</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -208,46 +212,54 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="building-firefox-on-linux">Building Firefox on Linux</h1>
-<p>리눅스(Ubuntu) PC에서 Firefox를 빌드하는 방법</p>
+<h1 id="v8-linux-v8">[V8] Linux에서 V8을 빌드하는 방법</h1>
+<p>V8은 구글에서 관리하는 고성능 자바스크립트/웹 어셈블리 엔진이다</p>
 <hr />
-<h2 id="depedencies">Depedencies</h2>
+<h2 id="depot_tools">depot_tools 설치</h2>
 <ul>
-<li>python 3.8 이상 설치 - <code>sudo apt-get install curl python3 python3-pip</code></li>
-<li>mercurial 설치 - <code>python3 -m pip install --user mercurial</code><ul>
-<li>Mozilla의 소스 코드는 Mercurial 저장소에 저장되어 있다</li>
+<li>Chromium 프로젝트의 원격 저장소와 개발 과정을 위한 스크립트 모음(package). 다양한 utility들을 제공한다.</li>
 </ul>
-</li>
-</ul>
-<h2 id="_1">소스코드 다운로드</h2>
-<ul>
-<li>15분정도 걸린다</li>
-</ul>
-<pre><code class="language-bash">mkdir mozilla &amp;&amp; cd mozilla \
-          &amp;&amp; curl https://hg.mozilla.org/mozilla-central/raw-file/default/python/mozboot/bin/bootstrap.py -O \
-          &amp;&amp; python3 bootstrap.py --vcs=git \
-          &amp;&amp; python3 bootstrap.py
+<pre><code class="language-bash">git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git &amp;&amp; \
+        export PATH=/path/to/depot_tools:$PATH &amp;&amp; \
+        gclient
 </code></pre>
-<h2 id="build">Build</h2>
-<pre><code class="language-bash">cd mozilla-unified &amp;&amp; git pull origin bookmarks/central &amp;&amp; ./mach build
+<h2 id="v8">V8 소스코드 다운로드</h2>
+<pre><code class="language-bash">gclient sync
 </code></pre>
+<h2 id="_1">빌드</h2>
 <ul>
-<li>한 번 빌드한 이후부터는 그냥 <code>./mach build</code> 명령어로 빌드할 수 있다</li>
-<li>빌드에 실패할 경우 <a href="https://firefox-source-docs.mozilla.org/setup/linux_build.html#troubleshooting">Troubleshooting section</a> 참고</li>
-<li>Artifact mode로 빌드하면 빌드 결과물 일부를 저장소에서 받아와 빌드 시간을 단축한다. 상위 레벨의 코드(UI, JavaScript 등)만 빌드한다</li>
-<li><code>hg</code> - Mercurial 명령어를 호출하는 명령어<ul>
-<li><code>up</code> - 현재 디렉토리를 특정 브랜치(또는 리비전)로 업데이트한다</li>
-<li><code>-C</code> - 현재 디렉토리의 모든 변경 사항을 강제로 초기화한다</li>
-<li><code>central</code> - 브랜치 이름</li>
+<li>dependencies 다운 - <code>gclient sync</code></li>
+</ul>
+<div class="admonition danger">
+<p class="admonition-title">Error: client not configured; see 'gclient config'</p>
+<p>
+이런 에러가 발생할 경우 <code>gclient config https://chromium.googlesource.com/v8/v8</code> 실행</p>
+</div>
+<ul>
+<li>Linux에서만 해당하는 단계. 추가적은 dependencies 다운 - <code>./build/install-build-deps.sh</code></li>
+<li>compile - <code>./tools/dev/gm.py x64.release</code></li>
+</ul>
+<h2 id="_2">테스트 실행</h2>
+<ul>
+<li><code>alias gm=/path/to/v8/tools/dev/gm.py</code></li>
+<li>gm을 사용해서 테스트 실행. <code>&lt;build target&gt;.check</code> 을 인자로 전달하면 테스트를 실행한다.<ul>
+<li><code>gm x64.release.checkl</code></li>
+<li><code>gm x64.optdebug.check</code> - 추천하는 방법이다. 빠르고 DCHECK가 활성화된다.</li>
+<li><code>gm ia32.check</code></li>
+<li><code>gm release.check</code></li>
+<li><code>gm check</code> - 모든 default platform에 대한 빌드와 테스트를 실행한다.</li>
 </ul>
 </li>
 </ul>
 <h2 id="references">references</h2>
 <ul>
-<li><a href="https://firefox-source-docs.mozilla.org/setup/linux_build.html">Building Firefox On Linux</a></li>
-<li><a href="https://firefox-source-docs.mozilla.org/setup/contributing_code.html">How To Contribute Code To Firefox</a></li>
+<li><a href="https://v8.dev/">v8.dev</a></li>
+<li><a href="https://v8.dev/docs/source-code">Checking out the V8 source code</a></li>
+<li><a href="https://commondatastorage.googleapis.com/chrome-infra-docs/flat/depot_tools/docs/html/depot_tools_tutorial.html#_setting_up">depot_tools Manual page</a></li>
+<li><a href="https://www.chromium.org/developers/how-tos/depottools/">Using depot_tools</a></li>
+<li><a href="https://v8.dev/docs/build-gn#gm">Building V8 using gm</a></li>
 </ul>
-<!-- <img src="img/process-relationships-01.png" alt="process-relationship diagram" /> -->
+<!-- <img src="/img/process-relationships-01.png" alt="process-relationship diagram" /> -->
 
 <hr id="utteranc-area-division">
 <div id="utteranc-area">
