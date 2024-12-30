@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Minkeun Park">
+        <link rel="canonical" href="https://mkparkqq.github.io/postgresql/simplehash/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>simplehash - ACDB</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <link href="../../estyle.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">ACDB</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">MariaDB</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../mariadb/test-framework/" class="dropdown-item">테스트 프레임워크</a>
+</li>
+                                    
+<li>
+    <a href="../../mariadb/tap-api/" class="dropdown-item">MyTAP</a>
+</li>
+                                    
+<li>
+    <a href="../../mariadb/likely-unlikely-api/" class="dropdown-item">compiler-level 분기 최적화</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">PostgreSQL</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../mmgr/" class="dropdown-item">mmgr</a>
+</li>
+                                    
+<li>
+    <a href="../main-function/" class="dropdown-item">main 함수</a>
+</li>
+                                    
+<li>
+    <a href="../ilist-api/" class="dropdown-item">ilist</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">simplehash</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Firefox</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../firefox/building-firefox-on-linux/" class="dropdown-item">Linux에서 Firefox 빌드</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">UNIX</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../unix/process-relationships/" class="dropdown-item">세션</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">C/C++</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../cprogramming/zombie-process/" class="dropdown-item">zombie process</a>
+</li>
+                                    
+<li>
+    <a href="../../cprogramming/how-to-use-openssl-pkcs-api/" class="dropdown-item">OpenSSL PKCS API</a>
+</li>
+                                    
+<li>
+    <a href="../../cprogramming/devenv/" class="dropdown-item">개발환경</a>
+</li>
+                                    
+<li>
+    <a href="../../cprogramming/memory-layout/" class="dropdown-item">C program memory layout</a>
+</li>
+                                    
+<li>
+    <a href="../../cprogramming/chunk-structure/" class="dropdown-item">chunk structure</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Note</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../note/programming-principle/" class="dropdown-item">프로그래밍 원칙</a>
+</li>
+                                    
+<li>
+    <a href="../../note/memo/" class="dropdown-item">memo</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">DIY</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../diy/raspberrypi-communication/" class="dropdown-item">Raspberry Pi GPIO</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../ilist-api/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../firefox/building-firefox-on-linux/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#postgresql-simplehash" class="nav-link">[PostgreSQL] simplehash</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#commit-b30d3ea824c-2016" class="nav-link">commit b30d3ea824c (2016)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#introduction" class="nav-link">Introduction</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#usage" class="nav-link">Usage</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#sh_type" class="nav-link">SH_TYPE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#sh_status-sh_iterator" class="nav-link">SH_STATUS SH_ITERATOR</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#sh_compute_size" class="nav-link">SH_COMPUTE_SIZE</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#references" class="nav-link">references</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="postgresql-simplehash">[PostgreSQL] simplehash</h1>
+<p>dynahash의 단점(indirect function call)을 개선(실행할 코드가 컴파일 시점에 결정됨)한 hash table</p>
+<hr />
+<h2 id="commit-b30d3ea824c-2016">commit b30d3ea824c (2016)</h2>
+<ul>
+<li>dynahash.c 의 성능이 몇몇 use-case들에서 충분하지 못했다.<ul>
+<li>충돌을 회피하기 위해 사용되는 chaining으로 인해 cache가 비효율적으로 사용되었다. 
+chaining으로 연결된 element들은 논리적으로는 인접하지만 실제로 메모리 상에서는 연속하지 못하기 때문이다.</li>
+<li>dynahash의 element size는 런타임에 결정되기 때문에 <em>offset 계산</em>의 비용이 높았다.</li>
+<li>hash와 element 비교가 <strong>indirect function call</strong>방식으로 진행되어 <strong>pipeline stall</strong>이 발생했다.</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">indirect function call 과 instruction pipelining</p>
+<p>
+함수의 주소를 함수 포인터에 저장해놓고 함수 포인터를 사용해서 함수를 호출하는 방식. 다형성, 콜백함수 전달 등에 사용한다.  <br />
+실행할 함수의 주소는 런타임에만 알 수 있기 때문에 cpu가 다음 실행할 명령어를 예상하기 힘들어 성능이 저하된다. <br />
+cpu는 <a href="https://en.wikipedia.org/wiki/Instruction_pipelining#">instruction piplining</a>을 통해 성능이 높이려고 노력하는데 
+이를 방해하기 때문이다.</p>
+</div>
+<ul>
+<li>이러한 문제점을 해결하려면 hash table이 컴파일 타임에 결정되어야 한다. 하지만 C에는 C++의 template처럼 
+컴파일 시점에 코드를 결정하는 방법을 제공하지 않는다. 그래서 약간 우아하지 못한 방법으로 구현했다. 
+<em>macro-templatized</em> 헤더 파일을 사용해서 코드(prefix에 따른 함수와 타입)를 컴파일 시점에 생성한다. </li>
+<li><code>tidbitmap.c</code>와 <code>execGrouping.c</code>에 simplehash를 사용하고 bitmap scan과 hash aggregation 등이 대부분의 시간을 차지하는 쿼리
+에서 성능이 100% 이상 개선되는 것을 측정했다.<ul>
+<li><code>tidbitmap.c</code> - bitmap scan</li>
+<li><code>execGrouping.c</code> - hash aggregation 등</li>
+</ul>
+</li>
+<li>뿐만 아니라 다른 use-case(예를 들면 catcache.c)에서도 이 simplehash는 유용할 수 있다. </li>
+<li>이 해시테이블 설계는 <strong>linear open-addressing</strong>을 변형한 것이다. 단순 open-addressing 방법의 가장 큰 단점은 
+clustering으로 인해 lookup 시간의 편차가 매우 크다는 점과 삭제 연산에서 부가적인 표시(tombstone)를 매우 많이 남긴다는 점이다.
+이런 문제를 해결하기 위해 robin hood hasing을 변형해서 적용했다. </li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Open addressing</p>
+<p>
+해시테이블에서 해시값 충돌이 발생했을 때 해당 데이터를 어디에 저장할지 결정하는 방법이다.  <br />
+해시값 충돌(이미 동일한 해시값을 가지는 원소가 저장된 경우)이 발생하면 probing을 진행한다.
+probing(조사)이란 빈 자리 또는 원하는 값을 발견할때까지 bucket을 찾는 과정이다.   <br />
+<strong>Linear probing</strong> - 탐색 간격이 상수이다. 주로 1을 사용하여 인덱스가 일차 함수로 표현된다. 
+chache performance가 가장 뛰어나지만 특정 bucket으로 데이터가 몰리는 clustering 현상이 발생한다.  <br />
+<strong>Quadratic probing</strong> - 탐색 간격이 선형적으로 증가한다. 결국 탐색하는 인덱스는 이차 함수로 표현된다. 
+Linear probing 방식과 Double hashing의 중간적인 특성을 띤다.  <br />
+<strong>Double hashing</strong> - record를 한번 더 hashing하여 다음 index를 결정한다. 
+cache performance는 낮지만 clustering 현상이 거의 발생하지 않는다.</p>
+</div>
+<ul>
+<li>Robin hood hashing은 삽입할 element를 최적의 bucket에서 먼 곳에 
+삽입해야(poor element가 될 것 같은) 할 경우 최적의 bucket에 가까운 element들(rich element)을 최적의 bucket 근처로 옮기는 방식으로
+chaining 길이를 최적화한다. 이것이 삽입 연산을 느리게 만들지만, 평균 lookup 시간이 매우 크게 개선되고 성능을 유지하면서 <strong>fill factor</strong>를 
+높게 유지할 수 있다.</li>
+<li><em>To avoid tombstones - which normally solve the issue that a deleted node's presence is relevant to
+determine whether a lookup needs to continue looking or is done - buckets following a deleted element are shifted backwards, unless
+they're empty or already at their optimal position.</em></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Fill factor</p>
+<p>
+사용 가능한 공간을 얼마나 채울지를 나타내는 비율. 예를 들어 해시테이블에서 각 bucket의 fill factor=80%인 경우 bucket의 80%가 차면 
+bucket을 새로 만들어 기존의 공간을 더 이상 사용하지 않는다.
+Fill factor가 높아지면 더 많은 데이터를 저장할 수 있지만 충돌 횟수가 증가해 탐색 및 삽입 속도가 느려진다.</p>
+</div>
+<ul>
+<li>이번에 도입한 simplehash의 구현을 다음과 같이 개선할 수 있다<ul>
+<li>탐색하는 동안 거리를 종료의 기준으로 사용하는 것이다. 이것은 일반적으로 좋은 생각이지만, 몇몇 상황에서 overhead가 큰것을 
+확인할 수 있어서 그렇게 하지는 않았다.</li>
+<li>비어있는 상태를 hash값으로 통합하여 hash값 저장을 강제하는 것이다. 몇몇 상황에 대해 이 방법은 
+메모리 밀도를 높이고 instruction 몇 개를 제거할 수 있다.</li>
+<li>fill factor를 조절하는 방법. 단, 매우 조심스럽게 선택해야 한다.</li>
+<li>hashtable의 maximum size를 설정 가능하도록 변경해서 매우 큰 테이블들을 저장할 수 있도록 변경하는 것이다. 
+그렇게 하기 위해서는 64bit 해시값이 더 일반적으로 사용되어야 한다.</li>
+</ul>
+</li>
+</ul>
+<h2 id="introduction">Introduction</h2>
+<ul>
+<li>이 파일(simplehash.h)을 include하면 매크로에 의해 사용자가 정의한 타입에 대해 template화된 
+open-addressing 해시테이블 구현이 생성된다.</li>
+<li>단, 성능이나 메모리 공간에 예민하지 않은 타입에 대한 해시테이블 구현을 생성하는 것은 가치가 없다.</li>
+<li>dynahash에 비해 simplehash는 다음과 같은 장점을 가진다.<ul>
+<li>structure size를 미리 알고 있는 템플릿화된 코드가 생성되고 간점 함수 호출이 없어진다. 이러한 특징으로 인해 
+크기가 작은 entry들에 대해 성능(speed)이 크게 향상된다.</li>
+<li>Open addressing 방식은 dynahash의 chained hashtable보다 CPU 캐시를 잘 활용한다.</li>
+<li>매크로로 생성된 코드의 인터페이스는 type-safe하고 dynahash보다 사용하기 쉽다. 대신 설정(setup)이 복잡하다.</li>
+<li>MemoryContext 또는 다른 allocator에서 메모리를 할당받는다.</li>
+<li>별도의 memory context를 관리하지 않아 memory context를 유지하는데 필요한 ovearhead가 없다.</li>
+</ul>
+</li>
+</ul>
+<h2 id="usage">Usage</h2>
+<ul>
+<li>특정 use case에 필요한 hash-table과 함수 코드를 생성하기 위해서는 이 파일을 simplehash.h를 include하기 전에
+몇몇 매크로들이 #define되어야 한다. 이 파일에서는 해당 매크로들을 #undef하여 이후에 새로운 타입에 대한 
+simplehash api가 생성될 수 있다.</li>
+<li>정의해줘야 하는 매크로(parameter)들은 다음과 같다.<ul>
+<li>SH_PREFIX - 생성되는 모든 symbol에 붙일 접두사. 예를 들어 접두사를 'foo'로 설정하면 생성되는 해시테이블 구조체는
+<code>foo_hash</code>, 함수는 <code>foo_insert</code>, <code>foo_lookup</code>등이 된다.</li>
+<li>SH_ELEMENT_TYPE - 원소의 타입 </li>
+<li>SH_KEY_TYPE - 해시테이블의 키 타입</li>
+<li>SH_DECLARE[on/off] - 정의하면 함수의 프로토타입과 타입 선언을 생성한다.</li>
+<li>SH_DEFINE[on/off] - 정의하면 함수 정의를 생성한다.</li>
+<li>SH_SCOPE - 함수의 scope(extern, static inline 등)를 지정한다.</li>
+<li>SH_RAW_ALLOCATOR - 정의하면 전역 공간의 메모리 컨텍스트를 참조하지 않고 이 allocator에서 공간을 할당한다.
+이 allocator는 반드시 반환한 공간을 0으로 초기화해야 한다.</li>
+<li>SH_DEFINE이 정의된 경우 아래의 매크로를 정의할 수 있다.<ul>
+<li>SH_KEY - 해시 키를 가지는 SH_ELEMENT_TYPE 속 원소의 이름</li>
+<li>SH_EQUAL(table, a, b) - table key 두 개를 비교한다.</li>
+<li>SH_HASH_KEY(table, key) - 키에 대한 해시값을 계산한다.</li>
+<li>SH_STORE_HASH[on/off] - 정의되면 해시값을 원소에 저장한다.</li>
+<li>SH_GET_HASH(tb, a) - 해시값을 저장하는 필드를 반환한다. </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>element 타입에는 <code>status</code> 필드가 있어야 한다. 이 필드에는 SH_STATUS enum 값을 저장할 수 있어야 한다.</li>
+<li>실제 사용 예시는 <code>tidbitmap.c</code>와 <code>execnodes.h/execGrouping.c</code>에서 볼 수 있다.</li>
+</ul>
+<h2 id="sh_type">SH_TYPE</h2>
+<pre><code class="language-c">/* type definitions */
+typedef struct SH_TYPE
+{
+    /*
+     * 데이터 또는 bucket array 크기.
+     * 크기가 UINT32_MAX인 해시테이블의 크기까지 저장하기 위해 64비트를 사용한다.
+     * 해시테이블에 저장된 원소 개수는 SH_MAX_FILLFACTOR보다 작다.
+     */
+    uint64      size;
+
+    /* how many elements have valid contents */
+    /* element중 유효한(삭제되지 않은) 데이터의 개수 */
+    uint32      members;
+
+    /* bucket과 크기 계산을 위한 mask. */
+    uint32      sizemask;
+
+    /* 이 값을 넘으면 해시테이블의 크기를 늘린다. */
+    uint32      grow_threshold;
+
+    /* hash buckets */
+    SH_ELEMENT_TYPE *data;
+
+#ifndef SH_RAW_ALLOCATOR
+    /* 메모리 할당에 사용할 메모리 컨텍스트 */
+    MemoryContext ctx;
+#endif
+
+    /* 사용자가 정의하는 데이터. 콜백함수에 전달하는 용도로 사용할 수 있다. */
+    void       *private_data;
+}           SH_TYPE;
+</code></pre>
+<h2 id="sh_status-sh_iterator">SH_STATUS SH_ITERATOR</h2>
+<pre><code class="language-c">/* element의 상태를 나타낸다 */
+typedef enum SH_STATUS
+{
+    SH_STATUS_EMPTY = 0x00,
+    SH_STATUS_IN_USE = 0x01
+} SH_STATUS;
+
+typedef struct SH_ITERATOR
+{
+    uint32      cur;            /* 현재 원소의 인덱스 */
+    uint32      end;
+    bool        done;           /* iterator가 끝났는지를 나타낸다 */
+}           SH_ITERATOR;
+</code></pre>
+<h2 id="sh_compute_size">SH_COMPUTE_SIZE</h2>
+<pre><code class="language-c">/*
+ * Compute allocation size for hashtable. Result can be passed to
+ * SH_UPDATE_PARAMETERS.
+ */
+static inline uint64
+SH_COMPUTE_SIZE(uint64 newsize)
+{
+    uint64      size;
+
+    /* supporting zero sized hashes would complicate matters */
+    size = Max(newsize, 2);
+
+    /* round up size to the next power of 2, that's how bucketing works */
+    size = pg_nextpower2_64(size);
+    Assert(size &lt;= SH_MAX_SIZE);
+
+    /*
+     * Verify that allocation of -&gt;data is possible on this platform, without
+     * overflowing Size.
+     */
+    if (unlikely((((uint64) sizeof(SH_ELEMENT_TYPE)) * size) &gt;= SIZE_MAX / 2))
+        sh_error(&quot;hash table too large&quot;);
+
+    return size;
+}
+</code></pre>
+<h2 id="references">references</h2>
+<ul>
+<li><a href="https://github.com/postgres/postgres">PostgreSQL github repository</a></li>
+<li>src/include/lib/simplehash.h</li>
+</ul>
+<!-- <img src="/img/process-relationships-01.png" alt="process-relationship diagram" /> -->
+
+<hr id="utteranc-area-division">
+<div id="utteranc-area">
+    <script src="https://utteranc.es/client.js"
+        repo="mkparkqq/qqDocs-comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+    </script>
+</div></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

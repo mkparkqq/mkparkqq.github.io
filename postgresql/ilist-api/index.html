@@ -8,7 +8,7 @@
         <meta name="author" content="Minkeun Park">
         <link rel="canonical" href="https://mkparkqq.github.io/postgresql/ilist-api/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>ilist api - ACDB</title>
+        <title>ilist - ACDB</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -65,7 +65,11 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">ilist api</a>
+    <a href="./" class="dropdown-item active" aria-current="page">ilist</a>
+</li>
+                                    
+<li>
+    <a href="../simplehash/" class="dropdown-item">simplehash</a>
 </li>
                                 </ul>
                             </li>
@@ -148,7 +152,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../../firefox/building-firefox-on-linux/" class="nav-link">
+                                <a rel="next" href="../simplehash/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -172,7 +176,7 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#postgresql-ilist-api" class="nav-link">[PostgreSQL] ilist API</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#history" class="nav-link">History</a>
+            <li class="nav-item" data-bs-level="2"><a href="#commit-7c335b7a202-2022" class="nav-link">commit 7c335b7a202 (2022)</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -234,11 +238,10 @@
 <h1 id="postgresql-ilist-api">[PostgreSQL] ilist API</h1>
 <p>PostgreSQL에서 사용하는 intgrated/inline 리스트 API 분석</p>
 <hr />
-<h2 id="history">History</h2>
+<h2 id="commit-7c335b7a202-2022">commit 7c335b7a202 (2022)</h2>
 <ul>
 <li>이전에는 dllist api를 사용했는데 a66ee69add6 commit(2012)에서 ilist api로 대채되었다</li>
 <li>ilist api는 메모리 할당 오버헤드를 줄이고 inline 함수로 성능을 높였다</li>
-<li>7c335b7a202 commit(2022)에서 dclist api를 추가했다</li>
 </ul>
 <h2 id="ilist">ilist 요약</h2>
 <ul>
