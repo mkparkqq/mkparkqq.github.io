@@ -89,6 +89,10 @@
 <li>
     <a href="../../v8/build-from-source/" class="dropdown-item">Linux에서 V8 소스코드 빌드</a>
 </li>
+                                    
+<li>
+    <a href="../../v8/shell-class/" class="dropdown-item">v8::Shell</a>
+</li>
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
@@ -202,6 +206,14 @@
               </ul>
             </li>
             <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">영상 데이터를 수신</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_3" class="nav-link">메모리 할당 실패하는 문제</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#libcamera" class="nav-link">libcamera 설치</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -419,10 +431,33 @@ int main() {
     return 0;
 }
 </code></pre>
+<h2 id="_3">메모리 할당 실패하는 문제</h2>
+<pre><code class="language-text">module v4l2src0 reported failed to allocate required memory
+</code></pre>
+<ul>
+<li><a href="https://forums.raspberrypi.com/viewtopic.php?t=373851">OpenCV의 VideoCapture는 단순 V4L2 device들만 지원한다</a>.<ul>
+<li>V4L2(Video For Linux 2) - Linux 운영체제가 영상 장치의 기능을 사용할 수 있게 해주는 커널 프레임워크</li>
+<li>user-space의 앱이 영상 장치(cameras, TV cards)와 상호작용할 수 있는 다양한 API와 driver interface를 제공한다.</li>
+</ul>
+</li>
+<li><a href="https://github.com/opencv/opencv/issues/21653">Raspberry Pi OS Bullseye부터</a> 새로운 카메라 스택인 <code>libcamera</code>가 도입되었다.</li>
+</ul>
+<h2 id="libcamera">libcamera 설치</h2>
+<ul>
+<li>소스코드 다운로드&amp;빌드</li>
+</ul>
+<pre><code class="language-bash">git clone https://git.libcamera.org/libcamera/libcamera.git &amp;&amp; \
+        cd libcamera &amp;&amp; \
+        meson setup build &amp;&amp; \
+        ninja -C build install
+</code></pre>
 <h2 id="references">references</h2>
 <ul>
 <li><a href="https://chatgpt.com/">ChatGPT</a></li>
 <li><a href="https://opencv.org/get-started/">[OpenCV] Get Started</a></li>
+<li><a href="https://forums.raspberrypi.com/viewtopic.php?t=373851">opencv2 error v4l2src0 reported: Failed to allocate required memory</a></li>
+<li><a href="https://wiki.luckfox.com/Luckfox-Pico/Luckfox-Pico-V4L2/">V4L2</a></li>
+<li><a href="https://libcamera.org/guides/application-developer.html">Using libcamera in a C++ application</a></li>
 </ul>
 <!-- <img src="/img/process-relationships-01.png" alt="process-relationship diagram" /> -->
 
