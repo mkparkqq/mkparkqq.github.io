@@ -1,0 +1,36 @@
+---
+title: Title
+utteranc: true
+date: 2025-01-10 21:33 +0900
+#last_modified_at: 2024-01-01 00:00 +0900
+#permalink: /mariadb/test-framwork
+#hit_count: false
+categories:
+  - Luckfox
+---
+
+# Luckfox Pico Pro에 리눅스 설치
+
+[Luckfox Pico Pro](https://www.luckfox.com/Luckfox-Pico/EN-Luckfox-Pico-Pro)는 라즈베리 파이같은 소형 컴퓨터이다.
+
+---
+
+## 
+
+## references
+
+* [ESP32-WROOM-32 Datasheet](https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf)
+
+<!-- <img src="/img/process-relationships-01.png" alt="process-relationship diagram" /> -->
+
+<hr id="utteranc-area-division">
+<div id="utteranc-area">
+    <script src="https://utteranc.es/client.js"
+        repo="mkparkqq/qqDocs-comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+    </script>
+</div>
+
