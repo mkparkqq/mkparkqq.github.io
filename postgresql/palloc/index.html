@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Minkeun Park">
-        <link rel="canonical" href="https://mkparkqq.github.io/note/memo/">
+        <link rel="canonical" href="https://mkparkqq.github.io/postgresql/palloc/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>memo - ACDB</title>
+        <title>palloc - ACDB</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -53,31 +53,31 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">PostgreSQL</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">PostgreSQL</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../postgresql/mmgr/" class="dropdown-item">mmgr</a>
+    <a href="../mmgr/" class="dropdown-item">mmgr</a>
 </li>
                                     
 <li>
-    <a href="../../postgresql/main-function/" class="dropdown-item">main 함수</a>
+    <a href="../main-function/" class="dropdown-item">main 함수</a>
 </li>
                                     
 <li>
-    <a href="../../postgresql/ilist-api/" class="dropdown-item">ilist</a>
+    <a href="../ilist-api/" class="dropdown-item">ilist</a>
 </li>
                                     
 <li>
-    <a href="../../postgresql/simplehash/" class="dropdown-item">simplehash</a>
+    <a href="../simplehash/" class="dropdown-item">simplehash</a>
 </li>
                                     
 <li>
-    <a href="../../postgresql/memnode/" class="dropdown-item">memnode</a>
+    <a href="../memnode/" class="dropdown-item">memnode</a>
 </li>
                                     
 <li>
-    <a href="../../postgresql/palloc/" class="dropdown-item">palloc</a>
+    <a href="./" class="dropdown-item active" aria-current="page">palloc</a>
 </li>
                                 </ul>
                             </li>
@@ -138,15 +138,15 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Note</a>
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Note</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../programming-principle/" class="dropdown-item">프로그래밍 원칙</a>
+    <a href="../../note/programming-principle/" class="dropdown-item">프로그래밍 원칙</a>
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">memo</a>
+    <a href="../../note/memo/" class="dropdown-item">memo</a>
 </li>
                                 </ul>
                             </li>
@@ -172,12 +172,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../programming-principle/" class="nav-link">
+                                <a rel="prev" href="../memnode/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../../diy/raspberrypi-communication/" class="nav-link">
+                                <a rel="next" href="../../firefox/building-firefox-on-linux/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -199,8 +199,36 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#memo" class="nav-link">memo</a>
+            <li class="nav-item" data-bs-level="1"><a href="#postgresql-palloc" class="nav-link">[PostgreSQL] palloc</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#palloch" class="nav-link">palloc.h</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#memorycontextcallback" class="nav-link">MemoryContextCallback</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#currentmemorycontext" class="nav-link">CurrentMemoryContext</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#pgdllimport" class="nav-link">PGDLLIMPORT</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#memorycontextalloc" class="nav-link">MemoryContextAlloc</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#assertnotincriticalsection" class="nav-link">AssertNotInCriticalSection</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#references" class="nav-link">references</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -208,90 +236,162 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="memo">memo</h1>
-<!--
-NOTE:
-markdown-callouts NOTE
+<h1 id="postgresql-palloc">[PostgreSQL] palloc</h1>
+<p>POSTGRES의 memory allocator</p>
+<hr />
+<h2 id="palloch">palloc.h</h2>
+<ul>
+<li>백엔드 대부분의 모듈에서 사용하는 메모리 할당 인터페이스를 제공한다.</li>
+<li><code>postgres.h</code>에 포함되어 있기 때문에 이 파일이 포함하는 정의는 모든 곳에서 접근 가능하다. 가볍게 만들어야 한다.</li>
+<li>메모리 할당은 항상 "context" 내부에서 진행된다. </li>
+<li><code>palloc()</code> 또는 <code>MemoryContextAlloc()</code>를 통해 반환받은 chunk는 항상 하나의 context 내부에서 가져온(할당한) 것이다.</li>
+<li>context의 모든 데이터는 context를 reset 또는 delete 하여 쉽게 해제할 수 있다. 이 방법은 chunk 각각을 해제하는 것보다
+더 빠르고 메모리 누수 버그에 덜 취약하다.</li>
+<li>context는 트리 형태로 관리한다. </li>
+<li>자세한 내용은 <a href="/postgresql/mmgr">mmgr</a> 참고</li>
+</ul>
+<h2 id="memorycontextcallback">MemoryContextCallback</h2>
+<pre><code class="language-c">/*
+ * MemoryContextData는 nodes/memnodes.h에 정의되어 있다.
+ * 대부분의 사용자는 MemoryContextData를 추상 클래스로 사용하도록 설계되었다.
+ */
+typedef struct MemoryContextData *MemoryContext;
 
-WARNING:
-markdown-callouts WARNING
+/*
+ * memory context에는 콜백함수들을 등록할 수 있다.
+ * 등록된 콜백함수는 리셋 또는 삭제되기 직전에 한 번 호출된다.
+ * MemoryContextCallback 인스턴스가 저장될 공간은 컨텍스트 내부에서 스스로 할당하기 때문에 
+ * 외부에서 명시적으로 해제할 필요가 없다. 해당 컨텍스트를 해제/삭제하면 자동으로 해제된다.
+ */
+typedef void (*MemoryContextCallbackFunction) (void *arg);
 
->? WARNING: **Suggested useful configurations:**
->
-> *   GitHub Wiki:  
->     (e.g. `https://github.com/project/repo/wiki/foo/bar/_edit`)
->
->     ```yaml
->     repo_url: 'https://github.com/project/repo/wiki'
->     edit_uri_template: '{path_noext}/_edit'
->     ```
->
-> *   BitBucket editor:  
->     (e.g. `https://bitbucket.org/project/repo/src/master/docs/foo/bar.md?mode=edit`)
->
->     ```yaml
->     repo_url: 'https://bitbucket.org/project/repo/'
->     edit_uri_template: 'src/master/docs/{path}?mode=edit'
->     ```
->
-> *   GitLab Static Site Editor:  
->     (e.g. `https://gitlab.com/project/repo/-/sse/master/docs%2Ffoo%2bar.md`)
->
->     ```yaml
->     repo_url: 'https://gitlab.com/project/repo'
->     edit_uri_template: '-/sse/master/docs%2F{path!q}'
->     ```
->
-> *   GitLab Web IDE:  
->     (e.g. `https://gitlab.com/-/ide/project/repo/edit/master/-/docs/foo/bar.md`)
->
->     ```yaml
->     edit_uri_template: 'https://gitlab.com/-/ide/project/repo/edit/master/-/docs/{path}'
->     ```
+typedef struct MemoryContextCallback
+{
+    MemoryContextCallbackFunction func; /* 콜백함수 */
+    void       *arg;            /* 콜백에 전달할 인자 */
+    struct MemoryContextCallback *next; /* 다음으로 호출할 콜백함수. 리스트로 연결되어 있다. */
+} MemoryContextCallback;
+</code></pre>
+<h2 id="currentmemorycontext">CurrentMemoryContext</h2>
+<pre><code class="language-c">/*
+ * palloc이 메모리를 할당하는 기본 메모리 컨텍스트.
+ * 직접 이 객체에 접근하는 것은 위험하다. 컨텍스트를 바꾸고싶다면
+ * MemoryContextSwitchTo 함수를 이용해라.
+ */
+extern PGDLLIMPORT MemoryContext CurrentMemoryContext;
+</code></pre>
+<h2 id="pgdllimport">PGDLLIMPORT</h2>
+<ul>
+<li>loadable module이 core build에 선언된 변수에 접근할 수 있도록 허용하는 매크로</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">__declspec</p>
+<p>
+Windows에서 제공하는 C/C++ 전용 확장 기능이다. <a href="https://learn.microsoft.com/ko-kr/cpp/cpp/declspec?view=msvc-170">스토리지 클래스 정보</a>
+를 지정하는데 사용한다. <br />
+<strong>__declspec(dllexport)</strong> <br />
+DLL에 정의된 함수에 이 특성(attribute)을 표시함으로써 그 함수가 외부로 노출되는 인터페이스임을 명시적으로 나타낸다. DLL에서 <code>dllexport</code>로 선언된 함수에 대해서는
+별도의 <code>.def</code> 파일을 만들어주지 않아도 된다.  <br />
+<strong>__declspec(dllimport)</strong> <br />
+DLL에 선언된 symbol을 사용하는 것을 import한다고 표현한다. 함수에 대해서는 헤더파일을 include하는 것만으로도 해당 함수를 호출할 수 있지만
+변수에 접근하기 위해서는 반드시 해당 symbol에 <code>__declspec(dllimport)</code>가 적용되어 있어야 한다. 함수에도 사용하는 것이 좋다. 컴파일러가 
+더 효율적인 코드로 번역할 수 있기 때문이다.</p>
+</div>
+<pre><code class="language-c">/*
+ * defines for dynamic linking on Win32 platform
+ */
 
->? NOTE: **Suggested useful configurations:**
->
-> *   GitHub Wiki:  
->     (e.g. `https://github.com/project/repo/wiki/foo/bar/_edit`)
->
->     ```yaml
->     repo_url: 'https://github.com/project/repo/wiki'
->     edit_uri_template: '{path_noext}/_edit'
->     ```
->
-> *   BitBucket editor:  
->     (e.g. `https://bitbucket.org/project/repo/src/master/docs/foo/bar.md?mode=edit`)
->
->     ```yaml
->     repo_url: 'https://bitbucket.org/project/repo/'
->     edit_uri_template: 'src/master/docs/{path}?mode=edit'
->     ```
->
-> *   GitLab Static Site Editor:  
->     (e.g. `https://gitlab.com/project/repo/-/sse/master/docs%2Ffoo%2bar.md`)
->
->     ```yaml
->     repo_url: 'https://gitlab.com/project/repo'
->     edit_uri_template: '-/sse/master/docs%2F{path!q}'
->     ```
->
-> *   GitLab Web IDE:  
->     (e.g. `https://gitlab.com/-/ide/project/repo/edit/master/-/docs/foo/bar.md`)
->
->     ```yaml
->     edit_uri_template: 'https://gitlab.com/-/ide/project/repo/edit/master/-/docs/{path}'
->     ```
+/*
+ * Variables declared in the core backend and referenced by loadable
+ * modules need to be marked &quot;dllimport&quot; in the core build, but
+ * &quot;dllexport&quot; when the declaration is read in a loadable module.
+ * No special markings should be used when compiling frontend code.
+ */
+#ifndef FRONTEND
+#ifdef BUILDING_DLL
+#define PGDLLIMPORT __declspec (dllexport)
+#else
+#define PGDLLIMPORT __declspec (dllimport)
+#endif
+#endif
+</code></pre>
+<h2 id="memorycontextalloc">MemoryContextAlloc</h2>
+<ul>
+<li>왜 <code>MemoryContextAlloc</code> 함수에서 직접 메모리 할당 실패에 대한 처리를 하면 비효율적일까?<ul>
+<li><em>if문의 수가 하나 더 늘어난다. 이미 MemoryContextMethods 에서 메모리 컨텍스트에 남는 메모리가 있는지
+확인하느라 if문을 사용해서 결과를 반환했는데 MemoryContextAlloc에서 반환 결과가 NULL인지 확인하는 if문이 추가된다</em></li>
+<li><em>MemoryContextMethods에서만 할당 실패 처리를 하면 메모리 컨텍스트에서 더이상 할당이 불가능하다고 판단한 if문 내부에서
+malloc을 호출하면 되기 때문이다. 물론 여기에서도 실패하는지 확인하기 위해 if문을 쓰긴 하는데 이 if문은 실패할 확률이
+낮아서 unlikely 같은 api로 최적화가 가능할 것 같다</em></li>
+</ul>
+</li>
+<li><code>alloc</code> 에는 런타임에 어떤 함수가 저장되어 있는걸까?</li>
+</ul>
+<pre><code class="language-c">/*
+ * MemoryContextAlloc
+ *      Allocate space within the specified context.
+ *
+ * This could be turned into a macro, but we'd have to import
+ * nodes/memnodes.h into postgres.h which seems a bad idea.
+ */
+void *
+MemoryContextAlloc(MemoryContext context, Size size)
+{
+    void       *ret;
 
--->
+    Assert(MemoryContextIsValid(context));
+    AssertNotInCriticalSection(context);
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    var toc = document.querySelector('div#toc-collapse');
-    if (toc) {
-        toc.remove();
-    }
-  });
-</script>
+    context-&gt;isReset = false;
+
+    /*
+     * 효율성을 위해 메모리 할당 실패 처리를 MemoryContextMethods 구현부로 
+     * 의도적으로 위임했다. 이렇게 하면 OS에게 메모리를 더 요청하기 위해 malloc을
+     * 실제로 호출해야 할 때에만 이런 검사를 수행하기 때문이다. 
+     * 또한 이 함수 이후에 어떠한 연산(insturction)도 할 필요가 없다는 점은 
+     * 컴파일러가 sibling call 최적화를 하도록 유도한다.
+     * 이 함수가 반환한 뒤에 실행될 코드를 추가하기 전에 함수를 할당하는 함수(`alloc`) 내부에서
+     * 해당 작업을 실행하도록 수정하는 것을 검토해라.
+     */
+    ret = context-&gt;methods-&gt;alloc(context, size, 0);
+
+    VALGRIND_MEMPOOL_ALLOC(context, ret, size);
+
+    return ret;
+}
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Tail calls</p>
+<p>
+어떤 함수에서 실행하는 마지막 연산이 함수일때 이 호출되는 함수(<code>bar</code>)를 tail call이라고 한다.  <br />
+<code>int foo(int a) { /* some code */ return bar(b); }</code> <br />
+<strong>Tail Recursive Calls</strong>  <br />
+Tail call의 특수한 케이스 중 하나로, callee와 caller가 동일한 함수인 경우이다.  <br />
+<strong>Sibling Calls</strong>  <br />
+Tail call의 특수한 케이스로 중 하나로, callee와 caller가 서로의 스택을 재활용 할 수 있는 경우이다.   <br />
+caller의 스택을 callee가 재사용하여 스택 영역 계산에 필요한 시간을 줄일 수 있다</p>
+</div>
+<h2 id="assertnotincriticalsection">AssertNotInCriticalSection</h2>
+<ul>
+<li>여기에서 말하는 <em>패닉</em>이란 어떤 상황일까...</li>
+</ul>
+<pre><code class="language-c">/*
+ * critical section에서 메모리를 할당하지 못하도록 막는다. critical section 
+ * 내에서의 out-of-memory 에러는 패닉으로 확대될 수 있기 때문이다.
+ */
+#define AssertNotInCriticalSection(context) \
+    Assert(CritSectionCount == 0 || (context)-&gt;allowInCritSection)
+</code></pre>
+<h2 id="references">references</h2>
+<ul>
+<li><a href="https://github.com/postgres/postgres">PostgreSQL github repository</a></li>
+<li>src/include/utils/palloc.h</li>
+<li><a href="https://learn.microsoft.com/ko-kr/cpp/cpp/declspec?view=msvc-170">__declspec</a></li>
+<li><a href="https://learn.microsoft.com/en-us/cpp/build/exporting-from-a-dll-using-declspec-dllexport?view=msvc-170">Exporting from a DLL Using __declspec(dllexport)</a></li>
+<li><a href="https://www.intel.com/content/www/us/en/docs/cpp-compiler/developer-guide-reference/2021-9/foptimize-sibling-calls.html">[Intel C++ Compiler Classic Developer Guide and Reference] foptimize-sibling-calls</a></li>
+<li><a href="https://stackoverflow.com/questions/22037261/what-does-sibling-calls-mean">[stackoverflow] What does "sibling calls" mean?</a></li>
+</ul>
+<!-- <img src="/img/process-relationships-01.png" alt="process-relationship diagram" /> -->
 
 <hr id="utteranc-area-division">
 <div id="utteranc-area">

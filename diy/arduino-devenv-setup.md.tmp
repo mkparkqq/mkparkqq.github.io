@@ -1,0 +1,45 @@
+---
+title: esp32 보드 개발환경
+utteranc: true
+date: 2025-01-22 21:45 +0900
+#last_modified_at: 2024-01-01 00:00 +0900
+#permalink: /mariadb/test-framwork
+#hit_count: false
+categories:
+  - arduino
+---
+
+# esp32 보드 개발환경
+
+Ardiuno IDE 없이 vim과 터미널에서 esp32 개발하는 방법
+
+---
+
+## Arduino IDE 설치
+
+* [Arduino IDE 설치](https://docs.arduino.cc/software/ide-v1/tutorials/Linux/)
+* [vim 플러그인 설치](https://github.com/sudar/vim-arduino-syntax)
+
+## 리눅스용 CH343 드라이버 설치
+
+* [freenove.com/fnk0085](https://freenove.com/fnk0085) 에서 다운받은 파일 압축해제
+* CH343/Linux/ch343ser_linux/README 참고
+
+## reference
+* [Arduino IDE 1 Installation (Linux)](https://docs.arduino.cc/software/ide-v1/tutorials/Linux/)
+* [Arduino and Vim, NO IDE Required!](https://forum.arduino.cc/t/arduino-and-vim-no-ide-required/882004)
+* [Arduino CLI Installation](https://arduino.github.io/arduino-cli/1.1/installation/)
+
+<!-- <img src="/img/process-relationships-01.png" alt="process-relationship diagram" /> -->
+
+<hr id="utteranc-area-division">
+<div id="utteranc-area">
+    <script src="https://utteranc.es/client.js"
+        repo="mkparkqq/qqDocs-comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+    </script>
+</div>
+
