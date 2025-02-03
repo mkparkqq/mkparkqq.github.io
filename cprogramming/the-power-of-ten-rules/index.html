@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Minkeun Park">
+        <link rel="canonical" href="https://mkparkqq.github.io/cprogramming/the-power-of-ten-rules/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>NASA의 코드 작성 방법 - ACDB</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <link href="../../estyle.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">ACDB</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">MariaDB</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../mariadb/test-framework/" class="dropdown-item">테스트 프레임워크</a>
+</li>
+                                    
+<li>
+    <a href="../../mariadb/tap-api/" class="dropdown-item">MyTAP</a>
+</li>
+                                    
+<li>
+    <a href="../../mariadb/likely-unlikely-api/" class="dropdown-item">compiler-level 분기 최적화</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">PostgreSQL</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../postgresql/mmgr/" class="dropdown-item">mmgr</a>
+</li>
+                                    
+<li>
+    <a href="../../postgresql/main-function/" class="dropdown-item">main 함수</a>
+</li>
+                                    
+<li>
+    <a href="../../postgresql/ilist-api/" class="dropdown-item">ilist</a>
+</li>
+                                    
+<li>
+    <a href="../../postgresql/simplehash/" class="dropdown-item">simplehash</a>
+</li>
+                                    
+<li>
+    <a href="../../postgresql/memnode/" class="dropdown-item">memnode</a>
+</li>
+                                    
+<li>
+    <a href="../../postgresql/palloc/" class="dropdown-item">palloc</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Firefox</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../firefox/building-firefox-on-linux/" class="dropdown-item">Linux에서 Firefox 빌드</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">V8</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../v8/build-from-source/" class="dropdown-item">Linux에서 V8 소스코드 빌드</a>
+</li>
+                                    
+<li>
+    <a href="../../v8/shell-class/" class="dropdown-item">v8::Shell</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">UNIX</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../unix/process-relationships/" class="dropdown-item">세션</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">C/C++</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../zombie-process/" class="dropdown-item">zombie process</a>
+</li>
+                                    
+<li>
+    <a href="../how-to-use-openssl-pkcs-api/" class="dropdown-item">OpenSSL PKCS API</a>
+</li>
+                                    
+<li>
+    <a href="../devenv/" class="dropdown-item">개발환경</a>
+</li>
+                                    
+<li>
+    <a href="../memory-layout/" class="dropdown-item">C program memory layout</a>
+</li>
+                                    
+<li>
+    <a href="../chunk-structure/" class="dropdown-item">chunk structure</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">NASA의 코드 작성 방법</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Note</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../note/programming-principle/" class="dropdown-item">프로그래밍 원칙</a>
+</li>
+                                    
+<li>
+    <a href="../../note/memo/" class="dropdown-item">memo</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">DIY</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../diy/raspberrypi-communication/" class="dropdown-item">Raspberry Pi GPIO</a>
+</li>
+                                    
+<li>
+    <a href="../../diy/rpi-camera-module/" class="dropdown-item">Raspberry Pi Camera module</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../chunk-structure/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../note/programming-principle/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#the-power-of-ten-rules" class="nav-link">The Power of Ten Rules</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#introduction" class="nav-link">Introduction</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#rules" class="nav-link">Rules</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">요약</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#references" class="nav-link">references</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="the-power-of-ten-rules">The Power of Ten Rules</h1>
+<p><a href="http://web.eecs.umich.edu/~imarkov/10rules.pdf">The Power of 10: Rules for Developing Safety-Critical Code</a> 번역 및 요약</p>
+<hr />
+<h2 id="introduction">Introduction</h2>
+<p>대부분의 중요한 소프트웨어 개발 프로젝트들은 코딩 가이드라인을 사용한다. 이런 가이드라인들은 코드가 작성되는 가장 기초적인 규칙
+(소프트웨어가 구성되는 방법과 해당 언어의 기능 중 어떤걸 사용해야 하고 어떤걸 피해야 하는지)을 정의한다. 흥미롭게도, 
+좋은 코딩 표준이 무엇인지에 대한 논의는 많지 않았다.</p>
+<p>지금까지의 코딩 가이드라인들을 보면 점점 내용이 길어진다는 것 외에는 눈에 띄는 패턴이 없다. 기존의 가이드라인들은
+100여개 이상의 규칙들을 가지고 있고, 의문스러운(개인의 취향의 영역과 같은) 것이 포함된 경우도 있다.</p>
+<p>기존의 코딩 가이드라인들은 실제로 코드를 작성할 때 개발자가 어떤 행동을 해야 하는지에 대한 영향력이 거의 없다. 
+그런 규칙들에 대해 가장 아쉬운 점은 <strong>도구 기반의 규칙 준수 여부에 대한 정적 분석</strong>을 지원하지 않는다는 점이다. 
+수십만 줄의 대규모 프로젝트를 사람이 직접 확인하는 것은 불가능하다.</p>
+<p>기존의 코딩 가이드라인들은 중요한(critical) 애플리케이션에 대해서도 제공할 수 있는 이점이 제한되어 있다. 반면에 검증 가능한 엄선된 규칙들은
+중요한 애플리케이션에 대해 규칙 준수 이상의 속성을 분석할 수 있도록 보조한다.
+이 규칙이 효과적이기 위해서는 내용이 많지 않고 명확해서 사람들이 쉽게 이해하고 사용할 수 있어야 한다. 또한 기계적으로 이 규칙을 
+검사할 수 있을 만큼 구체적이어야 한다.</p>
+<h2 id="rules">Rules</h2>
+<p>아래의 규칙들을 준수함으로써 중요한 소프트웨어의 구성 요소 (component)들의 분석이 쉬워지고 신뢰성이 향상된다.</p>
+<h4 id="rule-1">Rule 1</h4>
+<p><strong>복잡한 흐름(e.g. <code>goto</code>, <code>setjmp</code>, <code>longjmp</code>, 재귀함수) 지양.</strong>  <br />
+흐름(flow)이 단순하면 분석이 쉬워지고 코드의 가독성을 향상할 수 있다. 재귀 호출을 사용하지 않음으로써 함수 호출
+이 비순환적(acyclic) 구조를 가지게 되어 정적 분석 도구는 스택을 얼마나 사용할 지 계산할 수 있고 실행이 제한(boundedness)을 가진다는 것을 알 수 있다.
+이 규칙은 반드시 함수가 반환문을 하나만 가져야 한다는 의미는 아니다. 상황에 따라 에러 상황을 인지하자 마자 에러를 반환하는 것이 단순할 수도 있고 
+반환문을 하나만 가지는 것이 단순할 수도 있다.</p>
+<div class="admonition note">
+<p class="admonition-title">경험담 &amp; 생각</p>
+<p>
+<code>setjmp</code>, <code>longjmp</code> 를 여러 곳에서 사용하면 특정 위치로 이동했을 경우 어디에서 어떤 상태로 이곳으로 점프했는지 알 수가 없다.
+use after free 문제가 발생하기 정말 쉽고 SIGSEGV가 발생한 경우 디버깅 하기 정말 어렵다. 어디에서 점프했는지 알 수 없기 때문이다.
+꼭 이 점프를 해야 한다면 <strong>점프를 하는 레이어</strong>를 정해두고 그 레이어에서만 제한적으로 사용하고, <strong>점프를 할 수 있느 함수에는 
+명시적인 키워드</strong>를 붙여서 해당 api를 사용하는 다른 사람이 알기 쉽게 구현해야겠다고 생각했다.</p>
+</div>
+<h4 id="rule-2">Rule 2</h4>
+<p><strong>모든 loop는 정적인(런타임 이전에 결정되는) 한계를 가져야 한다.</strong> checking tool이 정적으로(코드만 보고) 반복의 제한(upper bound)
+을 파악 할 수 있어야 한다. 그렇지 못하면 이 규칙은 지키지 못한 것이다.  <br />
+재귀 함수를 사용하지 않는 것과 반복의 횟수를 제한 하는 것은 코드가 제어되지 않는 상황을 예방한다. 물론 이 규칙은 끝이 없는 반복 작업(예를 들면 
+process scheduler)에는 적용되지 않는다. 이 경우에는 규칙을 반대로 적용해야 한다. 즉, 정적 분석을 통해 
+해당 반복문이 끝나지 않음을 보장할 수 있어야 한다.  <br />
+예를 들어 연결 리스트를 순회하는 함수에서 반복 횟수가 upper bound를 넘으면 assertion failure를 통해 에러를 반환하도록 구현해야 한다.</p>
+<h4 id="rule-3">Rule 3</h4>
+<p><strong>초기화 이후 heap 메모리 할당을 지양.</strong>  <br />
+<code>malloc</code>과 같은 Memory allocator와 garbage collection의 예상치 못한 동작으로 performance에 심각한 영향을 미칠 수 있다.  <br />
+많은 오류들이 할당과 해제 함수(routine)에서부터 파생된다. 메모리 사용이 끝난 뒤에 free를 호출하지 않거나 free를 호출한
+메모리 공간에 접근하거나, 사용 가능한 physical memory를 초과했을 때 할당을 시도하거나, 할당한 메모리 이상의 공간에 접근하는 등의
+문제들이다. 모든 애플리케이션이 사전에 할당된 고정된 크기의 메모리를 사용하면 이런 문제점들을 예방할 수 있고 
+메모리 사용을 확인하기 쉽다.</p>
+<h4 id="rule-4">Rule 4</h4>
+<p><strong>함수는 60줄을 넘기면 안되고 statement 하나에 한 줄, 선언 하나에 한 줄을 사용해야 한다.</strong> 각 함수는 이해할 수 있고 검증 가능한  논리적 단위이다. 과하게 긴 함수는 보통 코드의 구조화가 잘못되었음을 나타낸다.</p>
+<h4 id="rule-5">Rule 5</h4>
+<p><strong>각 함수에서 최소 두 개 이상의 runtime assertion 사용.</strong> Assertion은 실제 실행 환경에서는 절대 일어나서는 안되는 조건을 감시한다. 
+Assertion은 boolean을 반환하고 그 외의 side-effect가 없어야 한다. Assertion에 실패하면 그에 대해 명시적으로 대응하는 코드가 있어야 한다.
+예를 들면 호출자(caller function)에게 에러 코드를 반환하는 것이다. 정적 분석을 통해 해당 assertion이 절대 trigger될 수 없다는 것이 증명된다면
+이 규칙을 어긴 것이다.</p>
+<p>통계에 따르면 단위 테스트 10줄에서 100줄 마다 최소 하나의 결함을 찾아낸다. Assertion 밀도가 높을수록 결함을 찾아낼 확률이 커진다. 
+개발자는 assertion을 함수의 precondition과 postcondition, 파라미터 값, 반환 값, loop invariants를 검증하는데 사용할 수 있다. 
+제안한 Assertion은 side-effect가 없기 때문에 함수에 대한 검증(테스트)이 끝나면 비활성화해도 함수의 동작에 영향을 미치지 않는다.</p>
+<div class="admonition note">
+<p class="admonition-title">loop invariant</p>
+<p>
+반복문이 실행되는 동안 변하지 않는 조건</p>
+</div>
+<h4 id="rule-6">Rule 6</h4>
+<p><strong>모든 데이터의 scope는 가능한 작게(필요한 만큼만) 구현.</strong></p>
+<p>이 규칙은 기초적인 원칙(data hiding)을 지지한다. 임의의 객체가 scope 내부에 없다면 다른 모듈은 해당 데이터를 참조하거나 
+조작할 수 없다. 또한, 사용자가 해당 객체의 값이 에러를 나타내는지 진단해야 한다면, 값을 대입하는 구문이 적을수록 문제를
+파악하기 쉽다. 이 규칙은 <em>의도하지 않은(incompatible)</em> 변수의 재사용을 막는다.</p>
+<div class="admonition note">
+<p class="admonition-title">경험담 &amp; 생각</p>
+<p>
+전역변수를 사용하면 구현할 때에는 편하지만 해당 전역변수에 접근하는 함수를 테스트할 수 없다. 그리고
+이 전역변수가 지금 어떤 상태인지(해제되었는지, 할당되었는지, 초기화되었는지)를 알 수 없어서 접근할 때마다 확인해야 한다.
+특히 다른 파일에서 정의한 전역변수를 <code>extern</code>으로 가져오는 코드는 정말 조심해서 작성하거나 절대 작성하지 않는게 좋다.
+api를 제공한다면 반드시 내부 변수는 직접 노출시키지 말고 함수를 통해 안전하게, 의도한 대로만 조작되도록 함수를 통해 접근하도록 구현해야 한다.
+변수를 직접 접근하도록 허용하면 언제 어떤 방식으로 접근할 수 없다.</p>
+</div>
+<h4 id="rule-7">Rule 7</h4>
+<p><strong>반환 타입이 void가 아닌 모든 함수의 반환값을 검사한다.</strong></p>
+<p>이 규칙은 가장 자주 지켜지지 않을 것이다. 그렇기 때문에 일반적인 규칙으로 포함하는 것에 다소 의심의 여지가 있다.
+가장 엄격하게 이 규칙을 적용하면, <code>printf</code>와 <code>close</code>의 반환값까지도 검사해야 한다. 하지만, 에러를 반환하더라도 성공을 반환한 경우와
+차이가 없는 경우에는 이 규칙이 큰 의미가 없다. (<code>printf</code>와 <code>close</code>가 그렇다) 이런 경우에는 함수의 반환값을
+<strong><code>void</code>로 캐스팅하여 프로그래머가 실수로 반환값을 무시한 것이 아님을 명시적으로 표현</strong>해야 한다.
+예시보다 더 애매한 경우에는 왜 반환값이 의미가 없는지 주석으로 설명해야 한다. </p>
+<h4 id="rule-8">Rule 8</h4>
+<p><strong>전처리 구문은 헤더 파일 포함과 간단한 매크로 정의 용도로만 사용해야 한다.</strong> Token pasting, 가변 인수, 매크로 재귀 호출은 허용하지 않는다.
+조건부 컴파일 directive는 최소한으로 사용해야 한다. 모든 매크로는 <em>독립적인 문법 단위(complete syntactic unit)</em>로 변환되어야 한다.</p>
+<div class="admonition note">
+<p class="admonition-title">complete syntactic unit</p>
+<p>
+<code>#define SQUARE(x) x * x</code> 는 독립적인 문법 단위가 아니다. <strong>다른 코드와 결합했을 때 그 결과가 변하기 때문</strong>이다.  <br />
+<code>#define SQUARE(x) ((x) * (x))</code>로 수정해야 한다.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">경험담 &amp; 생각</p>
+<p>
+다형성을 구현한다고 매크로를 남발하면 정적 분석이 정말 어려워진다. 빌드 업무와 개발 업무가 나눠진 경우 개발 담당자는
+실제로 어떤 매크로가 활성화되어 있는지 알기 힘들다. 그리고 정적 분석이 매우 힘들다. 함수 이름이 매크로에 따라 달라지는 코드는 최악이였다...</p>
+</div>
+<h4 id="rule-9">Rule 9</h4>
+<p><strong>포인터에 대한 역참조는 한 번만 허용하고, 함수 포인터는 사용 금지.</strong> <code>typedef</code> 속에 포인터 역참조를 숨기는 것도 금지한다.</p>
+<p>포인터는 경험이 많은 프로그래머라도 잘못 사용하기 쉽다. 함수 포인터는 정당한 이유가 충분한 경우에만 사용한다. 
+함수 포인터 사용은 code checker(코드 정적 분석 도구)의 기능을 심각하게 제한하기 때문이다. </p>
+<h4 id="rule-10">Rule 10</h4>
+<p><strong>컴파일 할 때에는 모든 경고를 활성화하고 모든 코드는 warning 없이 컴파일에 성공해야 한다.</strong>
+모든 코드는 적어도 하나 이상의 강력한 정적 소스 코드 분석기로 매일 점검되어야 하며, 가능한 한 여러 개의 분석기로 점검되어야 하고, 모든 분석을 경고 없이 통과해야 한다.</p>
+<p>시중에는 매우 효과적인 정적 코드 분석 도구들이 있고, 무료로 이용할 수 있는 소프트웨어도 많다. 어떤 소프트웨어 개발이라 할지라도
+이런 기술을 이용하지 않을 핑계는 없다. </p>
+<p>이 규칙(the rule of zero warnings)은 컴파일러나 정적 분석 도구가 에러같은 warning을 출력해도 적용된다. 
+컴파일러나 분석 도구가 헷갈렸다면 그런 혼란을 일으킨 코드는 수정되어야 한다. 실제로 오픈 소스 코드들을 보면 
+컴파일러의 warning을 없애기 위한 코드들도 쉽게 볼 수 있다.</p>
+<h2 id="_1">요약</h2>
+<p>이 보고서에는 static 이라는 키워드가 자주 등장한다. 이 규칙들은 모두 런타임 전과 런타임 동안의 불확실성을 줄이고 
+프로그래머의 의도대로 프로그램이 흘러가게 하는 것이 목적이다. 그러기 위해서 정적 분석의 중요성을 매우 강조하고 있다.</p>
+<!-- 
+## JPL Institutional Coding Standard for the C Programming Language
+
+JPL(캘리포니아 공과대학 제트추진 연구소)에서 NASA와의 계약에 따라 C언어 코딩 방법에 대한 연구를 진행한 뒤 
+[보고서](https://web.archive.org/web/20111015064908/http://lars-lab.jpl.nasa.gov/JPL_Coding_Standard_C.pdf)를 작성했다.
+다음 문단부터는 이 보고서를 요약 및 번역한 내용이다.
+
+
+## 규칙 요약
+
+1. Language Compilance
+    * Do not stray outside the language definition
+    * Compile with all warnings enabled; use static source code analyzers.
+2. Predictable Execution
+    * Use verifiable loop bounds for all loops meant to be terminating.
+    * Do not use direct or indirect recursion.
+    * Do 
+
+-->
+
+<h2 id="references">references</h2>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=GWYhtksrmhE&amp;list=LL&amp;ab_channel=LowLevel">how NASA writes space-proof code</a></li>
+<li><a href="https://en.wikipedia.org/wiki/The_Power_of_10:_Rules_for_Developing_Safety-Critical_Code">[WIKIPEDIA] The Power of 10: Rules for Developing Safety-Critical Code</a></li>
+<li><a href="http://web.eecs.umich.edu/~imarkov/10rules.pdf">The Power of 10 원문</a></li>
+<li><a href="https://web.archive.org/web/20111015064908/http://lars-lab.jpl.nasa.gov/JPL_Coding_Standard_C.pdf">JPL Coding Standard C</a></li>
+</ul>
+<!-- 
+* [NASA Engineering and Safety Center Technical Assessment Report, National Highway Traffic Safety Administration Toyota Unintended Acceleration Investigation, Appendix A](https://web.archive.org/web/20220625035237/https://one.nhtsa.gov/staticfiles/nvs/pdf/NASA_FR_Appendix_A_Software.pdf)
+-->
+
+<!-- <img src="/img/process-relationships-01.png" alt="process-relationship diagram" /> -->
+
+<hr id="utteranc-area-division">
+<div id="utteranc-area">
+    <script src="https://utteranc.es/client.js"
+        repo="mkparkqq/qqDocs-comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+    </script>
+</div></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
