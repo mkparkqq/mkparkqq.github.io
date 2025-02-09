@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Minkeun Park">
+        <link rel="canonical" href="https://mkparkqq.github.io/postgresql/allocsetalloc/">
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>AllocSetAlloc - ACDB</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <link href="../../estyle.css" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">ACDB</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">MariaDB</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../mariadb/test-framework/" class="dropdown-item">테스트 프레임워크</a>
+</li>
+                                    
+<li>
+    <a href="../../mariadb/tap-api/" class="dropdown-item">MyTAP</a>
+</li>
+                                    
+<li>
+    <a href="../../mariadb/likely-unlikely-api/" class="dropdown-item">compiler-level 분기 최적화</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">PostgreSQL</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../mmgr/" class="dropdown-item">mmgr</a>
+</li>
+                                    
+<li>
+    <a href="../main-function/" class="dropdown-item">main 함수</a>
+</li>
+                                    
+<li>
+    <a href="../ilist-api/" class="dropdown-item">ilist</a>
+</li>
+                                    
+<li>
+    <a href="../simplehash/" class="dropdown-item">simplehash</a>
+</li>
+                                    
+<li>
+    <a href="../memnode/" class="dropdown-item">memnode</a>
+</li>
+                                    
+<li>
+    <a href="../palloc/" class="dropdown-item">palloc</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">AllocSetAlloc</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Firefox</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../firefox/building-firefox-on-linux/" class="dropdown-item">Linux에서 Firefox 빌드</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">V8</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../v8/build-from-source/" class="dropdown-item">Linux에서 V8 소스코드 빌드</a>
+</li>
+                                    
+<li>
+    <a href="../../v8/shell-class/" class="dropdown-item">v8::Shell</a>
+</li>
+                                    
+<li>
+    <a href="../../v8/hidden-class/" class="dropdown-item">hidden class</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">UNIX</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../unix/process-relationships/" class="dropdown-item">세션</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">C/C++</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../cprogramming/zombie-process/" class="dropdown-item">zombie process</a>
+</li>
+                                    
+<li>
+    <a href="../../cprogramming/how-to-use-openssl-pkcs-api/" class="dropdown-item">OpenSSL PKCS API</a>
+</li>
+                                    
+<li>
+    <a href="../../cprogramming/devenv/" class="dropdown-item">개발환경</a>
+</li>
+                                    
+<li>
+    <a href="../../cprogramming/memory-layout/" class="dropdown-item">C program memory layout</a>
+</li>
+                                    
+<li>
+    <a href="../../cprogramming/chunk-structure/" class="dropdown-item">chunk structure</a>
+</li>
+                                    
+<li>
+    <a href="../../cprogramming/the-power-of-ten-rules/" class="dropdown-item">NASA의 코드 작성 방법</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Note</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../note/programming-principle/" class="dropdown-item">프로그래밍 원칙</a>
+</li>
+                                    
+<li>
+    <a href="../../note/memo/" class="dropdown-item">memo</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">DIY</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../diy/raspberrypi-communication/" class="dropdown-item">Raspberry Pi GPIO</a>
+</li>
+                                    
+<li>
+    <a href="../../diy/rpi-camera-module/" class="dropdown-item">Raspberry Pi Camera module</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../palloc/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../firefox/building-firefox-on-linux/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#postgresql-allocsetalloc" class="nav-link">[PostgreSQL] AllocSetAlloc</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#commit-413c18401dc" class="nav-link">리팩토링(commit 413c18401dc)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#tail-call-sibling-call" class="nav-link">tail call, sibling call</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#allocsetalloc" class="nav-link">AllocSetAlloc 함수</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#allocsetfreeindex" class="nav-link">AllocSetFreeIndex 함수</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#getfreelistlink" class="nav-link">GetFreeListLink</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#allocsetallocfromnewblock" class="nav-link">AllocSetAllocFromNewBlock</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#references" class="nav-link">references</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="postgresql-allocsetalloc">[PostgreSQL] AllocSetAlloc</h1>
+<p>특정 컨텍스트에서 메모리를 할당하는 함수</p>
+<hr />
+<h2 id="commit-413c18401dc">리팩토링(commit 413c18401dc)</h2>
+<p>hot path와 cold path를 분리한 리팩토링. <strong>이미 free space가 충분한</strong> free list 또는 블록
+에서 할당하는 경우를 일반적인 경우로 간주하고 이 코드 경로를 최적화 하고싶었다.
+반대로 <strong>새로운 블록</strong>(normal block이나 큰 할당을 위한 dedicated block)을 할당해야 하는 경우는 
+일반적이지 않은 경우로 간주하고 "cold"로 분류했다. 이런 cold 경로들은 malloc을 호출해야 하기 때문에
+속도가 느려질 수 밖에 없다.</p>
+<p>이 리팩토링의 주요 목표는 hot path에서 malloc 호출은 없애는 것이다. 덕분에
+컴파일러는 스택 프레임을 조작할 필요가 없어져 AllocSetAlloc의 비용이 낮아진다.</p>
+<h2 id="tail-call-sibling-call">tail call, sibling call</h2>
+<p>AllocSetAlloc 함수에서 적용한 cpu 연산 오버헤드를 줄이는 최적화 방법</p>
+<p>함수(caller)의 마지막 연산이 함수(callee, subroutine) 호출인 경우이다. caller와 callee가 일치하면 tail recursive이라고 한다.
+caller의 stack frame을 callee가 재활용하여 스택 프레임 생성 오버헤드를 제거함으로써 최적화가 가능해진다. 새로운 스택 프레임을
+생성하지 않고 서브루틴으로 바로 jump하는 코드를 생성하는 것을 tail-call elimination 또는 tail-call optimization(TCO)라고 한다.
+그래서 컴파일러는 일반적으로 tail recursive를 쉽게 최적화 할 수 있다.(함수의 스택 구조가 동일하기 때문)    </p>
+<p><strong>Sibling call</strong>은 tail의 제한된 경우이다. <code>tailcallopt</code>를 명시하지 않아도(llvm.org) tail call에 대해 자동으로 적용될 수 있다.
+Sibling call optimization은 x86/x86-64 시스템에서 다음 조건을 만족할 경우 수행된다.    </p>
+<ul>
+<li>caller와 callee가 동일한 calling convention(c 또는 fastcc중 하나)을 가진 경우      </li>
+<li>callee 호출이 tail call인 경우    </li>
+<li>callee에 전달한 인자 중 일부가 stack을 통해 전달되고, 그 값들은 caller가 인자를   <br />
+받은 스택에서 접근 가능해야 하며 callee가 해당 인자에 접근할 때 사용하는 offset과 caller가 
+해당 인자에 접근할 때 사용하는 offset이 동일해야 한다.    </li>
+</ul>
+<p>인자가 스택을 통해 전달될지, 레지스터를 통해 전달될지는 <strong>호출 규약(calling convention)</strong>에 의해 결정된다.</p>
+<h2 id="allocsetalloc">AllocSetAlloc 함수</h2>
+<p>추가적인 함수 호출이 필요한 경우(cold path)와 그렇지 않은 경우(hot path)를 분리하여 
+일반적인 경우에서는 추가적인 스택 프레임 생성을 막고, 추가적인 함수 호출이 필요한 경우에는
+해당 함수를 tail call 형태로 호출하여 최적화 했다.</p>
+<p>메모리 할당에 필요한 스택 프레임은 이 함수가 마지막이다. <strong>메모리 할당 과정에서 callstack은 이 함수 이상으로 쌓이지 않는다.</strong></p>
+<p>메모리를 할당할 컨텍스트를 alloc set 이라고 표현한다.</p>
+<div class="admonition note">
+<p class="admonition-title">sentinel value</p>
+<p>
+flag value, trip value, rogue value, signal value, or dummy data라고도 한다. 
+반복문, 재귀호출 등에서 bound를 알려주기 위해 사용하는 값이다. legal data value와 구별되는 값을 사용해야 한다.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">clobbering</p>
+<p>
+의도하지 않은 공간의 값을 덮어써버리는 현상. 메모리가 깨진다고도 표현한다. </p>
+</div>
+<pre><code class="language-c">/*
+ * AllocSetAlloc
+ *      전달받은 size 만큼 할당한 메모리에 대한 포인터를 반환하거나 할당에 실패할 경우 ERROR를 발생시킨다.
+ *      flag에 MCXT_ALLOC_NO_OOM이 포함되어 있으면 단순히 NULL을 반환한다.
+ *
+ * 요청하는 size는 이 값을 넘을 수 없다:
+ *      MAXALIGN_DOWN(SIZE_MAX) - ALLOC_BLOCKHDRSZ - ALLOC_CHUNKHDRSZ
+ * 모든 caller는 이보다 낮은 limit을 사용해야 한다.
+ *
+ * 주의: valgrind를 사용할 때, 할당받은 메모리가 어떤 mark를 가지냐는 중요하지 않다.
+ * 자동으로 mcxt.c에서 UNDEFINED로 설정한다. 어떤 경우에는 NOACCESS가 표시된 메모리를 반환할 수도 있다.
+ * AllocSetRealloc을 호출할 때에는 이 점에 유의해야 한다.
+ *
+ * 이 함수에는 가장 일반적인 code path만 포함해야 한다. 일반적이지 않은 다른 모든 
+ * path들은 pg_noinline이 표시된 helper 함수에 포함되어야 한다. 그래야 일반적인 상황에서 
+ * 스택 프레임 생성에 의한 overhead를 피할 수 있다. 메모리 할당은 많은 workload에서 병목 지점이 되기 때문에
+ * stack frame 생성을 피하는 것은 중요하다. Helper function들은 새롭게 할당받은 메모리 주소를 
+ * tail call 형태로 반환해야 한다.
+ */
+void *
+AllocSetAlloc(MemoryContext context, Size size, int flags)
+{
+    AllocSet    set = (AllocSet) context;
+    AllocBlock  block;
+    MemoryChunk *chunk;
+    int         fidx;
+    Size        chunk_size;
+    Size        availspace;
+
+    Assert(AllocSetIsValid(set));
+
+    /* keeper block set은 절대 NULL이면 안된다. */
+    Assert(set-&gt;blocks != NULL);
+
+    /*
+     * 요청받은 chunk 크기가 최대치를 초과하면 AllocSetAllocLarge 함수로 해당 
+     * 요청을 넘긴다.
+     * signature가 동일한 함수를 반환문서 호출하여 tail-call optimization 가능
+     */
+    if (size &gt; set-&gt;allocChunkLimit)
+        return AllocSetAllocLarge(context, size, flags);
+
+    /*
+     * chunk 한 개로 처리할 수 있을 만큼 크기가 작은 요청인 경우.
+     * 대응되는 freel list에 재사용할 수 있는 chunk가 있는지 확인한다.
+     * 그런 chunk를 찾으면, free list에서 제거하고 그 chunk를 다시 
+     * alloc set에 포함시키고 주소를 반환한다.
+     *
+     * 주의: 이 함수에서 sentinel byte를 위한 공간을 확보하려고 시도하지 않는다.
+     * 대부분의 할당 요청에서 그 크기가 2의 거듭제곱이라고 예상했다.
+     * MEMROY_CONTEXT_CHECKING 빌드에서 항상 sentinel byte를 위한 공간을
+     * 확보하려고 했으면 그런 할당들에 대해 메모리 사용량이 두 배가 될 것이다.
+     */
+    fidx = AllocSetFreeIndex(size); // free chunk의 인덱스값을 탐색한다.
+    chunk = set-&gt;freelist[fidx];    // freelist에서 chunk의 주소값을 가져온다.
+    if (chunk != NULL)              // 재사용 가능한 chunk가 있었던 경우.
+    {
+        AllocFreeListLink *link = GetFreeListLink(chunk);
+
+        /* Allow access to the chunk header. */
+        VALGRIND_MAKE_MEM_DEFINED(chunk, ALLOC_CHUNKHDRSZ);
+
+        Assert(fidx == MemoryChunkGetValue(chunk));
+
+        /* freelist에서 chunk 제거 */
+        VALGRIND_MAKE_MEM_DEFINED(link, sizeof(AllocFreeListLink));
+        set-&gt;freelist[fidx] = link-&gt;next;
+        VALGRIND_MAKE_MEM_NOACCESS(link, sizeof(AllocFreeListLink));
+
+#ifdef MEMORY_CONTEXT_CHECKING
+        chunk-&gt;requested_size = size;
+        /* 의도하지 않은 공간에 값을 쓰는 현상(clobber)을 잡기 위해
+         * 표식(sentinel value)을 남긴다. 
+         */
+        if (size &lt; GetChunkSizeFromFreeListIdx(fidx))
+            set_sentinel(MemoryChunkGetPointer(chunk), size);
+#endif
+#ifdef RANDOMIZE_ALLOCATED_MEMORY
+        /* 할당된 공간을 쓰레기 값으로 채운다. */
+        randomize_mem((char *) MemoryChunkGetPointer(chunk), size);
+#endif
+
+        /* 모든 패딩 바이트에 NOACCESS를 표시한다. */
+        VALGRIND_MAKE_MEM_NOACCESS((char *) MemoryChunkGetPointer(chunk) + size,
+                                   GetChunkSizeFromFreeListIdx(fidx) - size);
+
+        /* chunk header 접근을 차단한다. */
+        VALGRIND_MAKE_MEM_NOACCESS(chunk, ALLOC_CHUNKHDRSZ);
+
+        /* 사용자가 접근할 수 있는 chunk의 시작 주소 반환 */
+        return MemoryChunkGetPointer(chunk); // 오프셋을 계산하는 매크로
+    }
+
+    /* 
+     * Free list에서 할당할 수 있는 chunk를 찾지 못해서 block에서 chunk를
+     * 할당해야 하는 상황.
+     *
+     * 실제로 할당해야 할 chunk 크기를 계산한다.
+     */
+    chunk_size = GetChunkSizeFromFreeListIdx(fidx);
+    /* chunk크기는 요청받은 크기가보다 반드시 크거나 같아야 한다. */
+    Assert(chunk_size &gt;= size);
+
+    block = set-&gt;blocks;
+    availspace = block-&gt;endptr - block-&gt;freeptr;
+
+    /*
+     * active allocation block(top block)에 남은 공간이
+     * 새로운 할당을 진행하기에 충분하지 않은 경우, 새로운 블록 사용을 시작한다.
+     * AllocSetAllocFromNewBlock은 cold path를 모아놓은 함수로, 
+     *
+     * 이 AllocsetAlloc의 스택 프레임을 그대로 사용하기 때문에 추가적인
+     * 스택 프레임이 필요하지 않다.
+     * 
+     */
+    if (unlikely(availspace &lt; (chunk_size + ALLOC_CHUNKHDRSZ)))
+        return AllocSetAllocFromNewBlock(context, size, flags, fidx);
+
+    /* 
+     * current block에 충분한 공간이 있는 경우, 해당 block에서 할당한다. 
+     * inline helper 함수.
+     */
+    return AllocSetAllocChunkFromBlock(context, block, size, chunk_size, fidx);
+}
+</code></pre>
+<h2 id="allocsetfreeindex">AllocSetFreeIndex 함수</h2>
+<p>AllocSet에서 size만큼의 메모리 할당이 가능한 free list의 인덱스값을 반환한다.
+요청받은 메모리 크기를 어떤 free list에서 할당할지 계산하는 부분은 hot-spot(성능상 중요한 부분)
+이라 최적화할 필요가 있다고 한다.</p>
+<div class="admonition note">
+<p class="admonition-title">StaticAssertDecl</p>
+<p>
+컴파일 시점 assertion check를 지원하는 매크로 중 하나이다.
+C11에는 _Static_assert()가 있고 C99 컴파일러들도 이를 지원한다. 이식성을 위해 이를 
+StaticAssertDecl로 감쌌다. _Static_assert는 "선언"이기 때문에, 변수 선언이 유효한 곳에 위치해야 한다.
+-Wno-declaration-after-statement로 컴파일 하는 한, 이 매크로는 함수 내에서 실행문(statement) 뒤에 위치할 수 없다.
+StaticAssertStmt()와 StaticAssertExpr()은 각각 실행문 또는 표현식에서 안전하게 사용하게 해준다.</p>
+</div>
+<pre><code class="language-c">/* ----------
+ * AllocSetFreeIndex -
+ *
+ *      할당 크기에 대해 어떤 freechunk list에서 할당하는 것이 적절할지
+ *      계산한다. Caller는 반드시 요청하는 크기가 ALLOC_CHUNK_LIMIT보다 작거나
+ *      같음을 보장해야 한다.
+ * ----------
+ */
+static inline int
+AllocSetFreeIndex(Size size)
+{
+    int         idx;
+
+    /* 요청한 크기가 최소 chunk 크기보다 큰 경우. */
+    if (size &gt; (1 &lt;&lt; ALLOC_MINBITS))
+    {
+        /*----------
+         * ceil(log2(size &gt;&gt; ALLOC_MINBITS)) 값을 계산해야 한다.
+         * (size를 최소 할당 크기로 나눈 값이 2의 몇제곱인지 계산)
+         * 이 값은 다음과 같다.
+         *      pg_leftmost_one_pos32((size - 1) &gt;&gt; ALLOC_MINBITS) + 1
+         * 또는 아래와 같이 계산할 수 있다.
+         *      pg_leftmost_one_pos32(size - 1) - ALLOC_MINBITS + 1
+         *
+         * 플랫폼 고유의 지원(구현)이 없는 경우, 해당 로직을 여기에 
+         * 여기에 구현했고 추가적인 최적화를 수행한다. ALLOC_CHUNK_LIMIT이
+         * 16비트에 저장된다고 가정하는 것은 합리적이기 때문에,
+         * pg_leftmost_one_pos32에서 바이트 단위로 반복문을 수행하며 
+         * 마지막 두 바이트를 처리할 수 있다.
+         *
+         * 이 부분은 성능상 중요한 부분(hot-spot)이기 때문에 이 정도의
+         * 최적화를 할 필요가 있다.
+         *----------
+         */
+#ifdef HAVE_BITSCAN_REVERSE
+        idx = pg_leftmost_one_pos32((uint32) size - 1) - ALLOC_MINBITS + 1;
+#else
+        uint32      t,
+                    tsize;
+
+        /* Statically assert that we only have a 16-bit input value. */
+        StaticAssertDecl(ALLOC_CHUNK_LIMIT &lt; (1 &lt;&lt; 16),
+                         &quot;ALLOC_CHUNK_LIMIT must be less than 64kB&quot;);
+
+        tsize = size - 1;
+        t = tsize &gt;&gt; 8;
+        idx = t ? pg_leftmost_one_pos[t] + 8 : pg_leftmost_one_pos[tsize];
+        idx -= ALLOC_MINBITS - 1;
+#endif
+
+        Assert(idx &lt; ALLOCSET_NUM_FREELISTS);
+    }
+    else
+        /* 최소 할당 크기보다 작은 값을 요청한 경우 */
+        idx = 0;
+
+    return idx;
+}
+</code></pre>
+<h2 id="getfreelistlink">GetFreeListLink</h2>
+<p>free chunk인 경우 사용자가 데이터를 저장하는 공간에 freelist의 주소를 저장한다.</p>
+<pre><code class="language-c">/*
+ * 전달받은 chunk의 AllocFreeListLink 주소를 반환한다. 할당 크기는 항상
+ * sizeof(AllocfreeListLink)보다 크기 때문에 chunk에 freelist link의 주소를 저장한다.
+ */
+#define GetFreeListLink(chkptr) \
+    (AllocFreeListLink *) ((char *) (chkptr) + ALLOC_CHUNKHDRSZ)
+</code></pre>
+<!-- ## VALGRIND_MAKE_MEM_DEFINED -->
+
+<!-- ## VALGRIND_MAKE_MEM_NOACCESS -->
+
+<h2 id="allocsetallocfromnewblock">AllocSetAllocFromNewBlock</h2>
+<blockquote>
+<p><em>inline vs tail-call optmization</em></p>
+</blockquote>
+<pre><code class="language-c">/*
+ * AllocSetAlloc을 위한 helper function. 새로운 블록을 할당하고 해당 블록에서
+ * 할당한 chunk를 반환한다.
+ *
+ * cold path로 간주하여 최적화를 위해 AllocSetAlloc에서 분리했다.
+ */
+pg_noinline
+static void *
+AllocSetAllocFromNewBlock(MemoryContext context, Size size, int flags,
+                          int fidx)
+{
+    AllocSet    set = (AllocSet) context;
+    AllocBlock  block;
+    Size        availspace;
+    Size        blksize;
+    Size        required_size;
+    Size        chunk_size;
+
+    /* keeper block set은 항상 유효한 값을 가져야 한다. */
+    Assert(set-&gt;blocks != NULL);
+    block = set-&gt;blocks;
+    availspace = block-&gt;endptr - block-&gt;freeptr;
+
+    /*
+     * active(top) block에 당장 할당에 필요한 만큼의 공간이 없을 수 있지만,
+     * 이후 할당에 대해서는 쓸만한 만큼의 공간을 가지고 있을 수 있다. 
+     * block list에서 한 번 아래로 내리고 나면 해당 block에서 더 이상 할당을 
+     * 시도해볼 수 없기 때문에, list의 아래로 내리기 전에 해당 블록의 사용 
+     * 가능한 공간을 chunk로 만들어서 set의 freelist들에 넣을 수 있는 형태로 
+     * 만든다.
+     *
+     * ALLOC_CHUNK_LIMIT보다 적은 양의 메모리가 block에 남았을 때 이 코드가
+     * 실행되기 때문에, 아래의 loop는 ALLOCSET_NUM_FREELISTS-1번보다 많이 
+     * 실행될 수 없다.
+     * 
+     * ALLOC_CHUNK_LIMIT은 할당 가능한 chunk의 최대 크기를 나타내는 상수이다.
+     * (1&lt;&lt;ALLOC_MINBITS)+ALLOC_CHUNKHDRSZ 는 할당 가능한 chunk 한개의 
+     * 최소 크기를 나타낸다.
+     */
+    while (availspace &gt;= ((1 &lt;&lt; ALLOC_MINBITS) + ALLOC_CHUNKHDRSZ))
+    {
+        AllocFreeListLink *link;
+        MemoryChunk *chunk;
+        Size        availchunk = availspace - ALLOC_CHUNKHDRSZ;
+        /* availchunk가 들어갈 수 있는 가장 작은 freelist의 인덱스값을 구한다.  */
+        int         a_fidx = AllocSetFreeIndex(availchunk);
+
+        /*
+         * 대부분의 상황에서, chunk 크기보다 한 단계 큰 freelist에 해당 
+         * chunk를 넣는다. availchunk가 2의 거듭제곱인 경우는 예외로
+         * 크기가 일치하는 freelist에 저장한다.
+         *
+         * 예를 들어 chunk의 크기가 9바이트이고 8, 10, 12, 14 바이트 chunk를
+         * 저장할 수 있는 freelist가 있을때, 9바이트 chunk를 10-byte freelist가
+         * 아닌 12-byte freelist에 저장한다.
+         * 작은 크기의 chunk를 많이 가지고 있으면 단편화가 발생하기 쉽기 때문이다.
+         * 최악의 경우 아래와 같이 메모리를 사용하고 있을 때(빈 칸이 사용중),
+         * 1-byte freelist: |# # # # # # # # # #|
+         * 4-byte freelist: |####   ####    ####|
+         * 3-byte 메모리 할당 요청이 오면 4-byte freelist에서는 할당이 가능하지만
+         * 1-byte freelist에서는 할당이 불가능하다.
+         */
+        if (availchunk != GetChunkSizeFromFreeListIdx(a_fidx))
+        {
+            a_fidx--;
+            Assert(a_fidx &gt;= 0);
+            availchunk = GetChunkSizeFromFreeListIdx(a_fidx);
+        }
+
+        chunk = (MemoryChunk *) (block-&gt;freeptr);
+
+        /* chunk header 초기화 준비 */
+        VALGRIND_MAKE_MEM_UNDEFINED(chunk, ALLOC_CHUNKHDRSZ);
+        block-&gt;freeptr += (availchunk + ALLOC_CHUNKHDRSZ);
+        availspace -= (availchunk + ALLOC_CHUNKHDRSZ);
+
+        /* chunk에 freelist index값을 저장한다. */
+        MemoryChunkSetHdrMask(chunk, block, a_fidx, MCTX_ASET_ID);
+#ifdef MEMORY_CONTEXT_CHECKING
+        chunk-&gt;requested_size = InvalidAllocSize;   /* mark it free */
+#endif
+        /* chunk를 free list에 삽입한다. */
+        link = GetFreeListLink(chunk);
+
+        VALGRIND_MAKE_MEM_DEFINED(link, sizeof(AllocFreeListLink));
+        link-&gt;next = set-&gt;freelist[a_fidx];
+        VALGRIND_MAKE_MEM_NOACCESS(link, sizeof(AllocFreeListLink));
+
+        /* freelist의 맨 앞에 chunk를 삽입한다. */
+        set-&gt;freelist[a_fidx] = chunk;
+    }
+    /* 여기까지는 기존의 block에 남은 공간들을 freelist에 넣는 작업이였다. */
+
+    /*
+     * 첫 번째 블록의 크기는 initBlockSize이고 다음부터는 크기를 두 배로 설정한다.
+     * 단, 그 크기는 maxBlockSize를 넘길 수 없다.
+     */
+    blksize = set-&gt;nextBlockSize;
+    set-&gt;nextBlockSize &lt;&lt;= 1;
+    if (set-&gt;nextBlockSize &gt; set-&gt;maxBlockSize)
+        set-&gt;nextBlockSize = set-&gt;maxBlockSize;
+
+    /* 실제로 할당할 chunk의 크기를 선택한다. */
+    chunk_size = GetChunkSizeFromFreeListIdx(fidx);
+    Assert(chunk_size &gt;= size);
+
+    /*
+     * initBlockSize가 ALLOC_CHUNK_LIMIT보다 작은 경우, 더 많은 공간이 
+     * 필요할 수 있다. 그래도 2의 거듭제곱은 유지하도록 하자.
+     */
+    required_size = chunk_size + ALLOC_BLOCKHDRSZ + ALLOC_CHUNKHDRSZ;
+    while (blksize &lt; required_size)
+        blksize &lt;&lt;= 1;
+
+    /* 새로운 블록 할당 시도 */
+    block = (AllocBlock) malloc(blksize);
+
+    /*
+     * 여기에서 꽤 큰 블록을 요청할 수 있기 때문에 malloc이 실패하면 새로
+     * 할당할 블록의 크기를 절반으로 줄이면서 계속 시도한다.
+     * 블록 크기가 1MB 이하이거나 필요한 크기보다 작으면 그만둔다.
+     * But give up if there's less than 1 MB or so available...
+     */
+    while (block == NULL &amp;&amp; blksize &gt; 1024 * 1024)
+    {
+        blksize &gt;&gt;= 1;
+        if (blksize &lt; required_size)
+            break;
+        block = (AllocBlock) malloc(blksize);
+    }
+
+    /* 시스템에 더 이상 메모리가 없는 상황 */
+    if (block == NULL)
+        return MemoryContextAllocationFailure(context, size, flags);
+
+    context-&gt;mem_allocated += blksize;
+
+    block-&gt;aset = set;
+    /* 블록의 사용 가능한 주소를 가리킨다. */
+    block-&gt;freeptr = ((char *) block) + ALLOC_BLOCKHDRSZ;
+    block-&gt;endptr = ((char *) block) + blksize;
+
+    /* Mark unallocated space NOACCESS. */
+    /* 아직 할당되지 않은 공간을 NOACCESSf로 표시한다. */
+    VALGRIND_MAKE_MEM_NOACCESS(block-&gt;freeptr,
+                               blksize - ALLOC_BLOCKHDRSZ);
+
+    /* 새로운 블록이 set의 블록 리스트의 맨 앞 원소가 된다. */
+    block-&gt;prev = NULL;
+    block-&gt;next = set-&gt;blocks;
+    if (block-&gt;next)
+        block-&gt;next-&gt;prev = block;
+    set-&gt;blocks = block;
+
+    return AllocSetAllocChunkFromBlock(context, block, size, chunk_size, fidx);
+}
+</code></pre>
+<h2 id="references">references</h2>
+<ul>
+<li><a href="https://github.com/postgres/postgres">PostgreSQL github repository</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Tail_call">[WIKIPEDIA] Tail call</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Sentinel_value#:~:text=A%20set%20most%20significant%20bit%20in%20a,indicating%20the%20end%20of%20a%20sequence%20of">[WIKIPEDIA] Sentinel value</a></li>
+<li><a href="https://llvm.org/docs/CodeGenerator.html#sibling-call-optimization">[llvm.org] Sibling call optimization</a></li>
+<li><a href="https://dev.to/yugabyte/postgres-memory-allocation-and-os-memory-allocation-30f1">Postgres memory allocation and OS memory allocation</a></li>
+<li><a href="https://www.google.com/search?client=firefox-b-d&amp;q=valgrind_make_mem_defined">[valgrind.org/docs] Memcheck: a memory error detector</a></li>
+</ul>
+<!-- <img src="/img/process-relationships-01.png" alt="process-relationship diagram" /> -->
+
+<hr id="utteranc-area-division">
+<div id="utteranc-area">
+    <script src="https://utteranc.es/client.js"
+        repo="mkparkqq/qqDocs-comment"
+        issue-term="pathname"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+    </script>
+</div></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
