@@ -6,9 +6,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Minkeun Park">
-        <link rel="canonical" href="https://mkparkqq.github.io/mariadb/test-framework/">
+        <link rel="canonical" href="https://mkparkqq.github.io/cprogramming/valgrind-memcheck/">
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>테스트 프레임워크 - ACDB</title>
+        <title>Valgrind Memcheck - ACDB</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -36,19 +36,19 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">MariaDB</a>
+                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">MariaDB</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">테스트 프레임워크</a>
+    <a href="../../mariadb/test-framework/" class="dropdown-item">테스트 프레임워크</a>
 </li>
                                     
 <li>
-    <a href="../tap-api/" class="dropdown-item">MyTAP</a>
+    <a href="../../mariadb/tap-api/" class="dropdown-item">MyTAP</a>
 </li>
                                     
 <li>
-    <a href="../likely-unlikely-api/" class="dropdown-item">compiler-level 분기 최적화</a>
+    <a href="../../mariadb/likely-unlikely-api/" class="dropdown-item">compiler-level 분기 최적화</a>
 </li>
                                 </ul>
                             </li>
@@ -121,35 +121,35 @@
                                 </ul>
                             </li>
                             <li class="nav-item dropdown">
-                                <a href="#" class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"  aria-expanded="false">C/C++</a>
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">C/C++</a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../../cprogramming/zombie-process/" class="dropdown-item">zombie process</a>
+    <a href="../zombie-process/" class="dropdown-item">zombie process</a>
 </li>
                                     
 <li>
-    <a href="../../cprogramming/how-to-use-openssl-pkcs-api/" class="dropdown-item">OpenSSL PKCS API</a>
+    <a href="../how-to-use-openssl-pkcs-api/" class="dropdown-item">OpenSSL PKCS API</a>
 </li>
                                     
 <li>
-    <a href="../../cprogramming/devenv/" class="dropdown-item">개발환경</a>
+    <a href="../devenv/" class="dropdown-item">개발환경</a>
 </li>
                                     
 <li>
-    <a href="../../cprogramming/memory-layout/" class="dropdown-item">C program memory layout</a>
+    <a href="../memory-layout/" class="dropdown-item">C program memory layout</a>
 </li>
                                     
 <li>
-    <a href="../../cprogramming/chunk-structure/" class="dropdown-item">chunk structure</a>
+    <a href="../chunk-structure/" class="dropdown-item">chunk structure</a>
 </li>
                                     
 <li>
-    <a href="../../cprogramming/the-power-of-ten-rules/" class="dropdown-item">NASA의 코드 작성 방법</a>
+    <a href="../the-power-of-ten-rules/" class="dropdown-item">NASA의 코드 작성 방법</a>
 </li>
                                     
 <li>
-    <a href="../../cprogramming/valgrind-memcheck/" class="dropdown-item">Valgrind Memcheck</a>
+    <a href="./" class="dropdown-item active" aria-current="page">Valgrind Memcheck</a>
 </li>
                                 </ul>
                             </li>
@@ -188,12 +188,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" class="nav-link disabled">
+                                <a rel="prev" href="../the-power-of-ten-rules/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../tap-api/" class="nav-link">
+                                <a rel="next" href="../../note/programming-principle/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -215,25 +215,21 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#mariadb" class="nav-link">[MariaDB] 테스트 프레임워크</a>
+            <li class="nav-item" data-bs-level="1"><a href="#valgrind-details-of-memcheck" class="nav-link">[Valgrind] Details of Memcheck</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#_1" class="nav-link">빌드</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_2" class="nav-link">테스트 실행</a>
+            <li class="nav-item" data-bs-level="2"><a href="#451-valid-value-v-bits" class="nav-link">4.5.1. Valid-value (V) bits</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_3" class="nav-link">테스트 프레임워크</a>
+            <li class="nav-item" data-bs-level="2"><a href="#452-valid-address-a-bits" class="nav-link">4.5.2. Valid-address (A) bits</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_4" class="nav-link">실습</a>
+            <li class="nav-item" data-bs-level="2"><a href="#457-client-requests" class="nav-link">4.5.7. Client Requests</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#_5" class="nav-link">출처</a>
+            <li class="nav-item" data-bs-level="2"><a href="#references" class="nav-link">references</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -244,128 +240,100 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="mariadb">[MariaDB] 테스트 프레임워크</h1>
-<p>mariadb 프로젝트의 테스트 코드가 실행되는 과정 분석</p>
+<h1 id="valgrind-details-of-memcheck">[Valgrind] Details of Memcheck</h1>
+<p>valgrind Memcheck 기능의 원리</p>
 <hr />
-<h2 id="_1">빌드</h2>
-<ul>
-<li><code>mkdir build &amp;&amp; cd build &amp;&amp; cmake .. &amp;&amp; cmake --build . --parallel 5</code><ul>
-<li>빌드 결과가 저장될 디렉토리 <code>build</code> 생성&amp;이동</li>
-<li>따로 옵션을 명시하지 않아도 단위 테스트들이 기본적으로 빌드된다</li>
-</ul>
-</li>
-</ul>
-<h2 id="_2">테스트 실행</h2>
-<ul>
-<li>모든 테스트 실행<ul>
-<li><code>build</code> 디렉토리에서 <code>ctest</code> 명령어 실행</li>
-</ul>
-</li>
-<li>특정 테스트 실행 <ul>
-<li><code>build/unittest/mysys/my_malloc-t</code> 실행</li>
-</ul>
-</li>
-</ul>
-<h2 id="_3">테스트 프레임워크</h2>
-<ul>
-<li>MariaDB의 테스트 프레임워크는 ctest, cmake를 감싸는 cmake 매크로와 함수로 구현되어 있다</li>
-<li><code>MY_ADD_TESTS(dynarray LINK_LIBRARYS mysys)</code><ul>
-<li><code>cmake/ctest.cmake</code>에 정의된 cmake 매크로</li>
-<li><code>dynarray-t.c</code>파일에 mytap 라이브러리를 링크하여 <code>dynarray-t</code> 실행파일을 만드는 규칙을 생성한다</li>
-</ul>
-</li>
-<li>mytap : MariaDB에서 사용하는 테스트 라이브러리<ul>
-<li>테스트 작성에 반복적으로 사용되는 함수들을 제공</li>
-<li><code>unittest/examples/simple-t.c</code>에서 사용법을 익힐 수 있다</li>
-<li><code>plan</code>함수 : 이 파일에서 몇 개의 테스트를 진행할지 미리 선언한다</li>
-<li><code>ok</code>함수 : 첫 번째 인자로 0이 전달되면 테스트 실패를 의미한다</li>
-</ul>
-</li>
-</ul>
-<h2 id="_4">실습</h2>
-<ul>
-<li>cmake에게 테스트 빌드 방법 전달<ul>
-<li><code>unittest/mysys/CMakeLists.txt</code> 파일 편집</li>
-<li><code>MY_ADD_TESTS</code> 매크로에 <code>dynarray</code> 추가</li>
-</ul>
-</li>
-<li><code>unittest/mysys/dynarray-t.c</code> 파일 생성</li>
-</ul>
-<pre><code class="language-c">#include &lt;tap.h&gt;
-#include &lt;my_global.h&gt;
-#include &lt;my_sys.h&gt;
-#include &lt;stdio.h&gt;
-
-struct _foo {
-  int num;
-  char str[64];
-};
-
-static unsigned int test_dynamic_increase(int size)
-{
-  /* @given
-   * 초기 크기가 size이고 element32개만큼의 공간이 늘어나는 동적 배열 생성
-   */
-  unsigned int inc = 32;
-  DYNAMIC_ARRAY array;
-  // my_init_dynamic_array 함수는 항상 FALSE를 반환한다
-  my_init_dynamic_array(PSI_NOT_INSTRUMENTED, &amp;array, sizeof(struct _foo), 
-      size, inc, MYF(0));
-  /* @when
-   * size + 1개의 원소를 배열에 추가
-   */
-  unsigned int i;
-  struct _foo foo;
-  for (i = 0; i &lt;= size; ++i)
-  {
-    foo.num = i;
-    snprintf(foo.str, 64, &quot;sample string-%u&quot;, i);
-    /* @then
-     * 원소 추가에 성공
-     */
-    if (insert_dynamic(&amp;array, (const void *)&amp;foo)) {
-      diag(&quot;insert_dynamic failed&quot;);
-      return TRUE;
-    }
-  }
-  /* @then
-   * capacity가 size에서 inc만큼 증가함
-   */
-  if (size + array.alloc_increment != array.max_element) {
-    diag(&quot;actual: %u expected: %u&quot;, array.max_element, 
-        size+array.alloc_increment);
-    return TRUE;
-  }
-
-  /*
-   * C/C++ 프로그래밍에서 함수가 성공할 경우 0을 반환하는 관례를 따름
-   */
-  return FALSE;
-}
-
-int main() {
-  unsigned int a,b;
-  unsigned int failed;
-  plan(1);
-  diag(&quot;Testing DYNAMIC_ARRAY&quot;);
-  failed = 0;
-  for (a = 1 ; a &lt; 200 ; ++a)
-    if (test_dynamic_increase(a)) {
-      ++failed;
-      diag(&quot;Failed for test_dynamic_increase(%3u)&quot;, a);
-    }
-  ok(failed == 0, &quot;test_dynamic_increase&quot;);
-  return exit_status();
+<h2 id="451-valid-value-v-bits">4.5.1. Valid-value (V) bits</h2>
+<p>Memcheck는 실제 CPU와 동일한 synthetic CPU를 구현한 것이라고 생각할 수 있다. 단, synthetic CPU는 실제 CPU와 다른 점이 하나 있다.
+실제 CPU에 의해 처리되는 모든 bit들은 synthetic CPU에서 연관된 "valid-value" bit를 가진다. 이 비트들은 실제 CPU에 존재하는 연관된
+비트가 유효한(legitimate) 값을 가지는지를 나타낸다. 이런 synthetic CPU의 비트를 V(valid-value) bit라고 한다.</p>
+<p>valgrind memcheck의 대상이 되는 시스템의 모든 바이트는 항상 8개의 V bit를 가진다. 예를 들어 CPU가 32바이트를 메모리에서
+로드하면, 32 V bits도 로드한다. CPU가 값의 일부 또는 전체를 나중에 메모리의 다른 위치에 기록해야 할 경우, 대응되는 V 비트들이
+V-bit 비트맵(메모리 공간 전체에 대응되는 V 비트들을 저장하는 공간)에 저장된다. </p>
+<p>요약하면, 프로그램의(the system) 모든 비트는 개념적으로 연관된 V 비트를 가진다. 이 V 비트는 항상 실제 CPU의 비트를 따라다닌다.
+모든 CPU의 레지스터도 대응되는 V bit vector를 가진다. Memcheck은 V 비트 정보를 매우 압축된 형태로 저장하여 관리한다.</p>
+<p>Memcheck는 단순한 값의 복사를 잡는 것이 아니다. 값이 프로그램의 <strong>외부적으로 보이는 동작에 영향을 미칠 가능성이 있는 방식</strong>으로 사용될 경우,
+Memcheck는 관련 V비트를 즉시 확인한다. 이때, 만약 값이 일부라도 정의되지 않은 상태라면 오류가 보고된다.</p>
+<pre><code class="language-c">int i, j;
+int a[10], b[10];
+for ( i = 0; i &lt; 10; i++ ) {
+  j = a[i];
+  b[i] = j;
 }
 </code></pre>
+<p>예를 들어 위와 같이 명백히 의미가 없는 코드에 대해서는 그냥 넘어간다. a의 초기화되지 않은 값들을 b로 복사하는 작업은
+프로그램의 동작에 영향을 미치지 않기 때문이다. 하지만 반복문이 아래와 같이 변한다면</p>
+<pre><code class="language-c">for ( i = 0; i &lt; 10; i++ ) {
+  j += a[i];
+}
+if ( j == 77 ) 
+  printf(&quot;hello there\n&quot;);
+</code></pre>
+<p>Memcheck는 초기화되지 않은 변수에 의존하는 조건문 <code>if</code> 에서 지적할 것이다. <code>j += a[i];</code> 에서는 그냥 넘어간다. 왜냐하면 그 시점에는
+정의되지 않은 값이 "눈에 띄지(observable)" 않기 때문이다. Memcheck가 지적하는 시점은 프로그램의 오직 <em>눈에 띄는 action</em>이 결정되는 경우이다.</p>
+<p>값이 정의되었는지 아닌지에 대한 검사(Checks on definedness)는 오직 세 부분에서 실행된다. 
+    * 값이 메모리 접근에 사용된 경우
+    * control flow 결정(<code>if</code>, <code>case</code>같은 분기)에 사용된 경우
+    * system call의 인자로 전달된 경우</p>
+<p>만약 검사 과정에서 값이 정의되지 않았음을 감지하면, 오류 메세지가 출력된다. 이후 해당 값은 정의된 것으로 간주한다. 
+그렇지 않으면 동일한 오류가 계속 보고될 수 있기 때문이다. 즉, Memcheck가 한 번 에러를 보고하지 않은 값에 의해 파생되는 다른 문제는 보고하지 않으려고 한다.</p>
+<p>왜 메모리에서 값을 읽는 모든 연산을 검사해서 정의되지 않은 값이 CPU에 로드될 때 경고를 출력하지 않고 굳이 이렇게 복잡한 검사를 하는걸까? 
+그 이유는 그렇게 하면 제대로 동작하지 않기 때문이다.(완전히 정상적인 C 프로그램에서도 초기화되지 않은 값을 메모리에서 가져오는 경우가 많다) 
+예를 들어 다음과 같은 구조체를 생각해보자.</p>
+<pre><code class="language-c">struct S { int x; char c; };
+struct S s1, s2;
+s1.x = 42;
+s1.c = 'z';
+s2 = s1;
+</code></pre>
+<p><code>struct S</code>의 크기는 몇 바이트일까? <code>int</code>가 4바이트, <code>char</code>가 1바이트니까 5바이트일까? 틀렸다. 장난감 수준이 아닌 알만한 컴파일러들은 구조체 S의 크기를
+word 크기로 올림한다. 이렇게 하지 않으면 일부 CPU에서 <code>struct S</code> 배열을 접근할때 매우 비효율적인 코드를 생성해야 하기 때문이다.</p>
+<div class="admonition note">
+<p class="admonition-title">CPU word</p>
+<p>
+특정 컴퓨터 구조(CPU)에서 사용하는 고정된 최소 데이터 단위의 크기. CPU는 메모리에서 word보다 작은 크기의 데이터를 가져오거나 쓸 수 없다.
+또한 machine instruction들의 크기는 일반적으로 architecture의 word 크기와 동일하다.</p>
+</div>
+<p>그래서 <code>s1</code>은 메모리 공간 8바이트를 사용하지만 실제로 초기화되는 공간은 5바이트이다. <code>s2 = s1</code> 에서 GCC는 그 의미에 상관없이
+8바이트를 복사한다. </p>
+<p>Memcheck는 shared memory에 대해서도 V 비트를 관리한다. 다만 shared memory의 경우 하나의 shared memory에 대해 여러 벌의 V 비트들이 존재할 수 있다.
+여러 벌의 V 비트들은 프로세스마다 하나씩 가질 수도 있고 프로세스 하나가 여러 벌의 V 비트를 가질 수도 있다. (예컨데 하나의 프로세스에서 하나의 page에 대한
+read-only 맵핑과 read-write 맵핑을 따로 가지고 있을 수 있기 때문) 이렇게 여러 벌의 맵핑을 가진 상황에서 Memcheck는 각 맵핑에 대한
+V 비트를 각각 관리한다. 이는 false positive 에러를 일으킬 수 있다. 첫 번째 맵핑에서 초기화하고 두 번째 맵핑에서 그 값에 접근하는 경우가 그렇다. 두 번째 맵핑
+에 대한 V 비트들은 첫 번째 맵핑에서 공유 메모리의 값을 바꾼 것을 모르기 때문이다. 이런 false positive 에러를 우회하는 방법은
+<code>VALGRIND_MAKE_MEM_DEFINED</code>와 <code>VALGRIND_MAKE_MEM_UNDEFINED</code>를 사용하는 것이다. (이 매크로를 client request라고 한다)</p>
+<h2 id="452-valid-address-a-bits">4.5.2. Valid-address (A) bits</h2>
+<p>4.5.1절의 내용은 값들의 유효성이 어떻게 설정되고 유지되는지에 대한 설명이다. 프로그램이 특정 메모리 주소에 접근할 수 있는 권한이 있는지 없는지에 대해서는 
+묻지 않았다. 이번 절에서는 후자에 대해 설명한다.</p>
+<p>CPU가 아닌 메모리에 존재하는 모든 byte들에 대해서는 연관된 valid-address (A) bit가 존재한다. 이 비트들은 프로그램이 해당 위치의 값을 읽거나 쓸 수 있는지에 대해 표현한다.
+이 A 비트는 값의 유효성에 대해서는 아무 것도 표현하지 않는다. 그것은 V 비트의 역할이다. (V 비트는 메모리 뿐만 아니라 CPU에 저장된 값들에 대해서도 유효성을 표현한다)</p>
+<p>검사 대상 프로그램이 메모리에 접근(read/write)할 때마다, Memcheck는 해당 주소의 A bit를 확인한다. 만약 유효하지 않은 주소를 가리키는 비트가 발견되면,
+에러가 발생한다. 읽기와 쓰기는 A 비트를 바꾸지 않고 참조하기만 한다.</p>
+<p>A 비트들이 설정되고 0으로 설정되는 과정은 다음과 같다.
+    * 프로그램이 실행될때, 모든 전역 변수 영역이 accessible로 표시된다.
+    * <code>malloc</code> 또는 <code>new</code>를 호출할 때, 새로 할당된 영역에 대한 A 비트들이 accessible로 표시된다. 해제될 때에는 A 비트가 inaccessible로 표시된다.
+    * 스택 포인터 레지스터(<code>sp</code>) 값이 증가하거나 감소할 때, A 비트가 설정된다. <code>sp</code>부터 스택의 base 까지 모두 accessible로 표시되고 <code>sp</code> 아래는 
+    inaccessible로 표시된다. 
+    * 시스템 콜이 실행되는 동안, A 비트들의 값이 적절히 변한다. 예를 들어 <code>mmap</code>이 성공하면 A 비트들의 값이 변경된다.
+    * client request를 사용해서 A 비트의 값을 명시적으로 변경할 수도 있다.</p>
+<!-- ## VALGRIND_MAKE_MEM_DEFINED -->
+
+<!-- ## VALGRIND_MAKE_MEM_NOACCESS -->
+
+<h2 id="457-client-requests">4.5.7. Client Requests</h2>
+<p>client request들은 <code>memcheck.h</code>에 정의되어 있다.</p>
 <ul>
-<li>빌드한 뒤 전체 실행 또는 <code>build/unittest/mysys/dynarray-t</code> 실행</li>
+<li><code>VALGRIND_MAKE_MEM_NOACCESS</code> - 일정 범위의 주소에 inaccessable 표시한다.</li>
+<li><code>VALGRIND_MAKE_MEM_UNDEFINED</code> - 일정 범위의 주소를 accessible하지만 undefined 값이 저장됐다고 표시한다.</li>
+<li><code>VALGRIND_MAKE_MEM_DEFINED</code> - 일정 범위의 주소를 accessible하고 defined 값이 저장됐다고 표시한다.</li>
 </ul>
-<h2 id="_5">출처</h2>
+<p>위의 client request들은 Valgrind와 함께 실행될때 -1, 그렇지 않은 경우에는 0을 반환한다.</p>
+<h2 id="references">references</h2>
 <ul>
-<li><a href="https://mariadb.org/get-involved/getting-started-for-developers/get-code-build-test/#testing-the-server">Get the code, build it, test it</a></li>
-<li><a href="https://mariadb.org/get-involved/getting-started-for-developers/writing-good-test-cases-mariadb-server/">Writing Good Test Cases for MariaDB Server</a></li>
+<li><a href="https://valgrind.org/docs/manual/mc-manual.html">[valgrind.org/docs] 4.5. Details of Memcheck's checking machinery</a></li>
 </ul>
+<!-- <img src="/img/process-relationships-01.png" alt="process-relationship diagram" /> -->
+
 <hr id="utteranc-area-division">
 <div id="utteranc-area">
     <script src="https://utteranc.es/client.js"
